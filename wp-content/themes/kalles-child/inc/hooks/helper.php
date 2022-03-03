@@ -2320,7 +2320,7 @@ if(!function_exists( 'kalles_load_common_mini_cart' ))
                 <div class="the4-mini-cart the4-push-menu <?php echo esc_attr( $the4_kalles_cart_mode ); ?>">
                     <div class="the4-mini-cart-content flex column h__100">
                         <div class="mini_cart_header flex fl_between al_center">
-                            <h3 class="mg__0 tc cb tu ls__2"><?php esc_html_e( 'Shoping Cart', 'kalles' );?> <i class="close-cart pe-7s-close pa cb ts__03"></i></h3>
+                            <h3 class="mg__0 tc cb tu ls__2"><?php esc_html_e( 'Shopping Cart', 'kalles' );?> <i class="close-cart pe-7s-close pa cb ts__03"></i></h3>
                         </div>
                         <div class="mini_cart_wrap">
                             <div class="widget_shopping_cart_content"></div>

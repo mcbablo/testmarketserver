@@ -120,13 +120,9 @@ add_action( 'woocommerce_edit_account_form', 'add_phone_to_edit_account_form' );
 function add_phone_to_edit_account_form() {
     $user = wp_get_current_user();
     ?>
-        <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
+        <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-last">
             <label for="user_phone">Номер телефона <span class="required">*</span></label>
-            <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="user_phone" id="user_phone" value="<?php echo esc_attr( $user->user_login ); ?>" />
-        </p>
-        <p class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
-        <label for="account_email"><?php esc_html_e( 'Email address', 'kalles' ); ?>&nbsp;<span class="required">*</span></label>
-		<input type="email" class="woocommerce-Input woocommerce-Input--email input-text" name="account_email" id="account_email" autocomplete="email" value="<?php echo esc_attr( $user->user_email ); ?>" />
+            <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="user_phone" id="user_phone" value="<?php echo esc_attr( $user->user_login ); ?>" readonly />
         </p>
     <?php
 }
@@ -145,5 +141,39 @@ add_filter('woocommerce_save_account_details_required_fields', 'wc_save_account_
 function wc_save_account_details_required_fields( $required_fields ){
     unset( $required_fields['account_first_name'] );
     unset( $required_fields['account_last_name'] );    
+    unset( $required_fields['account_email'] );    
     return $required_fields;
+}
+
+add_filter( 'woocommerce_new_customer_data', 'customer_username_based_on_firstname', 20, 1 );
+function customer_username_based_on_firstname( $new_customer_data ){
+    $wrong_user_names = array( 'info', 'contact' );
+    if(isset($_POST['billing_first_name'])) $first_name = $_POST['billing_first_name'];
+    if( ! empty($first_name) && ! in_array( $_POST['billing_first_name'], $wrong_user_names ) ){
+        $new_customer_data['user_login'] = sanitize_user( $first_name );
+    }
+    return $new_customer_data;
+}
+
+add_filter('woocommerce_checkout_fields', 'njengah_edit_checkout_placeholders_labels');
+function njengah_edit_checkout_placeholders_labels($fields){
+    $fields['billing']['billing_first_name']['placeholder'] = 'Введите имя и фамилию';
+    $fields['billing']['billing_first_name']['label'] = 'Имя и фамилия';
+    return $fields;
+}
+
+add_filter ( 'woocommerce_account_menu_items', 'misha_remove_my_account_links' );
+function misha_remove_my_account_links( $menu_links ){
+	
+	unset( $menu_links['edit-address'] ); // Addresses
+	
+	//unset( $menu_links['dashboard'] ); // Remove Dashboard
+	unset( $menu_links['payment-methods'] ); // Remove Payment Methods
+	//unset( $menu_links['orders'] ); // Remove Orders
+	unset( $menu_links['downloads'] ); // Disable Downloads
+	//unset( $menu_links['edit-account'] ); // Remove Account details tab
+	//unset( $menu_links['customer-logout'] ); // Remove Logout link
+	
+	return $menu_links;
+	
 }

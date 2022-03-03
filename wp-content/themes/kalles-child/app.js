@@ -13,5 +13,6 @@
             }
         });
         $('.the4-banner a').removeAttr('target');
+        $('#user_phone').inputmask('\\9\\9\\8 (99) 999-99-99');
     });
 })(jQuery);

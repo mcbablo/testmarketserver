@@ -7509,3 +7509,8 @@ msgstr ""
 #: inc/plugins/codestar-framework/config/theme-config/woocommerce-cart-checkout.php:775
 msgid "{first_name} show First name, {last_name} show Last name"
 msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:168
+#: includes/classes/woocommerce/The4Wishlist.php:212
+msgid "Add to Wishlist"
+msgstr ""

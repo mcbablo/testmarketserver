@@ -27,10 +27,6 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 		<label for="account_display_name"><?php esc_html_e( 'First name', 'kalles' ); ?>	</label>
 		<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="account_display_name" id="account_display_name" autocomplete="given-name" value="<?php echo esc_attr( $user->display_name ); ?>" />
 	</p>
-	<p class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
-		<label for="account_last_name"><?php esc_html_e( 'Last name', 'kalles' ); ?></label>
-		<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="account_last_name" id="account_last_name" autocomplete="family-name" value="<?php echo esc_attr( $user->last_name ); ?>" />
-	</p>
 
 	<?php do_action( 'woocommerce_edit_account_form' ); ?>
 

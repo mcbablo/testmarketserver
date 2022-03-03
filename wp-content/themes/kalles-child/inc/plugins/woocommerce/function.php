@@ -124,7 +124,7 @@ if ( ! function_exists( 'the4_kalles_wc_my_account' ) ) {
             if ( is_user_logged_in() ) {
                 $output .= '<li><a class="db cg chp" href="' . esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ) . '">' . esc_html__( 'Dashboard', 'kalles' ) . '</a></li>';
                 $output .= '<li><a class="db cg chp" href="' . esc_url( wc_get_account_endpoint_url( 'orders' ) ) . '">' . esc_html__( 'My Orders', 'kalles' ) . '</a></li>';
-                $output .= '<li><a class="db cg chp" href="' . esc_url( wp_logout_url() ) . '">' . esc_html__( 'Logout', 'kalles' ) . '</a></li>';
+                $output .= '<li><a class="db cg chp" href="' . echo esc_url( wc_logout_url()) . '">' . esc_html__( 'Logout', 'kalles' ) . '</a></li>';
             }
 
             $output .= '</ul>';

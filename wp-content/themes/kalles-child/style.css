@@ -109,3 +109,9 @@ body::-webkit-scrollbar-thumb {
 .filter-sidebar .widget-title{
     color: #111;
 }
+
+#user_phone{
+    cursor: not-allowed;
+    opacity: 0.9;
+    background: #e5e5e5;
+}
