@@ -7510,6 +7510,26 @@ msgstr ""
 msgid "{first_name} show First name, {last_name} show Last name"
 msgstr ""
 
+#: includes/classes/woocommerce/The4Wishlist.php:65
+msgid "Wishlist is empty."
+msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:68
+#: includes/classes/woocommerce/The4Compare.php:96
+msgid "Return To Shop"
+msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:128
+#: includes/classes/woocommerce/The4Wishlist.php:214
+msgid "Browse Wishlist"
+msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:130
+#: includes/classes/woocommerce/The4Wishlist.php:214
+#: includes/classes/woocommerce/The4Wishlist.php:230
+msgid "Remove Wishlist"
+msgstr ""
+
 #: includes/classes/woocommerce/The4Wishlist.php:168
 #: includes/classes/woocommerce/The4Wishlist.php:212
 msgid "Add to Wishlist"

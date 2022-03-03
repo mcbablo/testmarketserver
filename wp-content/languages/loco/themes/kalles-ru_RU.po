@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Kalles\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-10 08:16+0700\n"
-"PO-Revision-Date: 2022-03-01 20:18+0000\n"
+"PO-Revision-Date: 2022-03-03 23:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: Русский\n"
 "Language: ru_RU\n"
@@ -7524,6 +7524,26 @@ msgstr ""
 
 #: inc/plugins/codestar-framework/config/theme-config/woocommerce-cart-checkout.php:775
 msgid "{first_name} show First name, {last_name} show Last name"
+msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:65
+msgid "Wishlist is empty."
+msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:68
+#: includes/classes/woocommerce/The4Compare.php:96
+msgid "Return To Shop"
+msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:128
+#: includes/classes/woocommerce/The4Wishlist.php:214
+msgid "Browse Wishlist"
+msgstr ""
+
+#: includes/classes/woocommerce/The4Wishlist.php:130
+#: includes/classes/woocommerce/The4Wishlist.php:214
+#: includes/classes/woocommerce/The4Wishlist.php:230
+msgid "Remove Wishlist"
 msgstr ""
 
 #: includes/classes/woocommerce/The4Wishlist.php:168
