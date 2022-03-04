@@ -9,6 +9,41 @@
         var url_send_cell = '/merchant/booking/delivery-to-cell';
         var myMap, myPlacemark;
         var postomatSelected;
+
+        let selectLoadCity = $( "#billing_state option:selected" ).val();
+        let selectShipAll = $('.shipping_method').length > 1 ? $('.shipping_method:checked').val() : $('.shipping_method').val();
+        if(selectLoadCity === 01){
+            if(selectShipAll === 'local_pickup:8'){
+                $('.selectBox').hide();
+                $('#create-order').hide();
+            } else{
+                $('.selectBox').show();
+                $('#create-order').show();
+            }
+        } else {
+            $('.selectBox').hide();
+            $('#create-order').hide();
+        }
+
+        $("#billing_state").change(function() {
+            let selectShip = $('.shipping_method').length > 1 ? $('.shipping_method:checked').val() : $('.shipping_method').val();
+            let selectLoad;
+            $( "#billing_state option:selected").each(function() {
+                selectLoad = $(this).val();
+            });
+            if(selectLoad === 01){
+                if( selectShip === 'local_pickup:8' ){
+                    $('.selectBox').hide();
+                    $('#create-order').hide();
+                } else {
+                    $('.selectBox').show();
+                    $('#create-order').show();
+                }
+            } else {
+                $('.selectBox').hide();
+                $('#create-order').hide();
+            }
+        }).trigger( "change" );
     
         $('#billing_phone').inputmask('\\9\\9\\8 (99) 999-99-99');
     
@@ -62,40 +97,6 @@
             clickboxModal.close();
             $('.header-sticky').css('z-index', '1001');
         });
-
-        let selectLoadCity = $( "#billing_state option:selected" ).val();
-        let selectPickup = !$('#shipping_method_0_local_pickup-8').val();
-        let selectShipAll = $('input[name="shipping_method[0]"]:checked').val();
-        if(selectLoadCity === '01' && selectPickup && selectShipAll == 'clickbox'){
-            $('.selectBox').show();
-            $('#create-order').show();
-        } else if (selectLoadCity === '01' && !selectPickup && selectShipAll == 'clickbox'){
-            $('.selectBox').show();
-            $('#create-order').show();
-        } else {
-            $('.selectBox').hide();
-            $('#create-order').hide();
-        }
-
-        $( "#billing_state" ).change(function() {
-            let selectChangeCity = '';
-            let selectPickupChange = !$('#shipping_method_0_local_pickup-8').val();
-            let selectShip = $('input[name="shipping_method[0]"]:checked').val();
-            $( "#billing_state option:selected").each(function() {
-                selectChangeCity = $(this).val();
-            });
-            if(selectChangeCity === '01' && selectPickupChange && selectShip == 'clickbox'){
-                console.log('Ташкент, не сотрудник, почтомат')
-                $('#create-order').show();
-            } else if(selectChangeCity === '01' && !selectPickupChange && selectShip == 'clickbox'){
-                $('.selectBox').show();
-                $('#create-order').show();
-            } else {
-                $('.selectBox').hide();
-                $('#create-order').hide();
-            }
-        }).trigger( "change" );
-
     
         function init(pochtamats = null) {
             $('#pochtamat-map').html('');
@@ -110,7 +111,7 @@
                 pochtamats.map((pochtamat, index) => {
                     var marker = new ymaps.Placemark(
                         [pochtamat.loc_latitude, pochtamat.loc_longitude], {
-                            balloonContentBody: '<h4 class="pchtName">'+pochtamat.name+'</h4>'+'<p class="pchtDes">Адрес: <span class="ymaps-geolink" data-bounds="[[55.63333783240489,37.486741441564136],[55.75433517114847,37.69017466910319]]" data-type="geo">'+pochtamat.address+'</span></p>',
+                            balloonContentBody: '<span>'+pochtamat.name+'</span>',
                         }, {
                             preset: 'islands#blueDotIcon',
                             iconColor: '#0095b6'
