@@ -161,7 +161,7 @@ class Enqueue {
 
     public function set_script()
     {
-        $version = $this->get_theme_version();
+        $version = '1.2.1.2.1';
 
         $this->scripts = array (
             array(
@@ -363,6 +363,7 @@ class Enqueue {
         }
 
         if ( kalles_is_woocommerce() ) {
+        wp_enqueue_script( 'wc-add-to-cart-variation' );
             //Product page
             if ( function_exists( 'is_product' ) && is_product() ) {
                 foreach ( $this->scripts as $script ) {
@@ -375,7 +376,7 @@ class Enqueue {
                     wp_enqueue_script('elevatezoom');
                 }
                 wp_enqueue_script('the4-kalles-script-product');
-                wp_enqueue_script( 'wc-add-to-cart-variation' );
+                
                 wp_enqueue_script( 'jquery-ui-autocomplete' );
             }
 
