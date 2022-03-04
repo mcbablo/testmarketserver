@@ -18,6 +18,17 @@ if ( ! defined( 'WPINC' ) ) {
 // Путь к плагину
 define( 'WC_CLICKBOX_PLUGIN_URL', plugin_dir_url(__FILE__) );
 
+// Логирование - Глобальное
+function log_me($message) {
+	if (WP_DEBUG === true) {
+		if (is_array($message) || is_object($message)) {
+			error_log(print_r($message, true));
+		} else {
+			error_log($message);
+		}
+	}
+}
+
 // Проверка что Woocommerce активирован
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
     //Регистрация метода доставки
@@ -121,9 +132,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
             wp_enqueue_script('inputmask_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/jquery.inputmask.bundle.js', [], 0.1, true);
             wp_enqueue_script('googlemaps_js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAFTWLzPcF1hRcc4X5q0fqG_w-FAgCZlrk&libraries=geometry', [], 0.1, true);
             wp_enqueue_script('yandexmap_js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', [], 0.1, true);
-            wp_enqueue_script('tingle_js', 'https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.js', [], 0.1, true);
+            wp_enqueue_script('tingle_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/tingle.min.js', [], 0.1, true);
             wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js', [], 0.1, true);
-            wp_enqueue_style('tingle__css', 'https://cdnjs.cloudflare.com/ajax/libs/tingle/0.8.4/tingle.min.css', [], 0.1);
+            wp_enqueue_style('tingle__css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/tingle.min.css', [], 0.1);
             wp_enqueue_style('clickbox_css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/style.css', [], 0.1);
         }
     }
@@ -184,7 +195,23 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     }
     add_action( 'woocommerce_review_order_before_cart_contents', 'clickbox_validate_order' , 10 );
 
-    // Для городов
+    // При входе фильтрация по городу и ролю
+    function blm_action_after_shipping_rate($method, $index ) {
+        if( is_cart() ) {
+            return;
+        }
+        $shipping_state = WC()->customer->get_shipping_state();
+        $user_role = WC()->customer->get_role();
+        $current_shipping_method = WC()->session->get( 'chosen_shipping_methods' );
+        if($shipping_state == '01' && $user_role !== 'staffer'){
+            add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
+        } else if($shipping_state == '01' && $user_role == 'staffer' && $current_shipping_method[0] == 'clickbox'){
+            add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
+        }
+    }
+    add_action( 'woocommerce_after_shipping_rate', 'blm_action_after_shipping_rate', 20, 2 );
+
+    // При смене фильтрация по городу и ролю
 	function shipping_rates_for_specific_states( $rates, $package ) {
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) )
 			return;
@@ -192,9 +219,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			'01'
 		);
 		$destination_state = $package['destination']['state'];
+        $user_role = WC()->customer->get_role();
 		if( ! in_array( $destination_state, $excluded_states ) ) {
-			unset( $rates['clickbox'] );
-		} else {
+            unset( $rates['clickbox'] );
+		} else if($user_role !== 'staffer') {
             add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
         }
 		return $rates;
@@ -216,24 +244,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
         return $button;
     }
 
-    // Для городов 2
-    function blm_action_after_shipping_rate($method, $index ) {
-        if( is_cart() ) {
-            return;
-        }
-        $shipping_state = WC()->customer->get_shipping_state();
-        if($shipping_state == '01'){
-            add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
-        }
-    }
-    add_action( 'woocommerce_after_shipping_rate', 'blm_action_after_shipping_rate', 20, 2 );
-
     // Вывод выбора почтоматов
     add_action( 'woocommerce_review_order_before_payment', function() {        
         echo '<div class="selectBox" style="display: none;"><h5 id="clickbox-edit">' . esc_html__( 'Выберите почтомат' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать' ) . '</button></div>';
     });
 
-    // Вывод кнопк
+    // Вывод кнопки
     add_action( 'woocommerce_review_order_after_payment', function() {        
         echo '<button type="button" id="create-order" style="display: none;">Оплатить</button>';
     });

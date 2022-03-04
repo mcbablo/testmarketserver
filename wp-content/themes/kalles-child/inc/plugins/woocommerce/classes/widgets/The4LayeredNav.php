@@ -10,17 +10,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Логирование - Глобальное
-function log_me($message) {
-	if (WP_DEBUG === true) {
-		if (is_array($message) || is_object($message)) {
-			error_log(print_r($message, true));
-		} else {
-			error_log($message);
-		}
-	}
-}
-
 use Automattic\Jetpack\Constants;
 use WC_Query as WC_Query;
 /**
@@ -750,7 +739,6 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 							if(!$link['count'] == 0){
 								$html .= '<span class="count">(' . $link['count'] . ')</span>';
 							}
-							log_me($link);
 	            		}
 	            		$html .= '</li>';
 	            	}
