@@ -698,4 +698,3 @@ if ( ! function_exists('kalles_get_compare_fields') ) {
 
 
 }
-

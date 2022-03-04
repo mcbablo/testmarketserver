@@ -50,7 +50,7 @@ $order_items = $order->get_items(apply_filters('woocommerce_purchase_order_item_
 						</div>
 						<div class="kalles-thankyou__message">
 							<h3 class="message-number">
-								<?php esc_html_e('Order', 'kalles'); ?> №<?php echo esc_html( $order_details['order_number'] ); ?>
+								<?php esc_html_e('Order', 'kalles'); ?> #<?php echo esc_html( $order_details['order_number'] ); ?>
 							</h3>
 							<p class="message-thankyou">
 								<?php

@@ -72,10 +72,11 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 
 											<div class="mini_cart_meta">
 												<?php if (!empty($item_variants)) : ?>
-												<p class="cart_meta_variant">
-													<?php echo esc_html( $item_variants ); ?>
-												</p>
+													<p class="cart_meta_variant">
+														<?php echo esc_html( $item_variants ); ?>
+													</p>
 												<?php endif; ?>
+												<?php echo wc_get_formatted_cart_item_data( $cart_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 												<div class="cart_meta_price">
 												<?php
 													$bundles       = get_post_meta( $product_id, 'wpa_wcpb', true );
@@ -250,6 +251,3 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 		<?php do_action( 'woocommerce_after_mini_cart' ); ?>
 
 	</div><!-- mini_cart_footer js_cart_footer -->
-
-
-

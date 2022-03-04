@@ -364,8 +364,13 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
             </div> <!-- #the4-customer-register -->
         <?php else : ?>
             <div class="customer_form_<?php echo esc_attr($account_layout);?>" id="customer_login">
+                <div class="the4-account-ajax__header flex fl_center al_center">
+                    <h3 class="mg__0 tc cb tu ls__2"> <i class="close-cart pe-7s-close pa cb ts__03"></i></h3>
+                </div>
                 <div class="form-login">
+
                     <div class="login-w-social lazyload pr_lazy_img pr_lazy_img_bg" <?php if (!empty($bg_form['url'])) echo 'data-bgset="' . $bg_form['url'] .'" data-parent-fit="width" data-sizes="auto"'; ?>>
+
                         <div class="login-w-social-inner">
                             <div class="login-s-head the4-form-show mb__30">
                                 <h2 class="mt__0"><?php esc_html_e( 'Login', 'kalles' ); ?></h2>
@@ -580,7 +585,7 @@ if ( ! function_exists('t4_woo_subcategories_title') ) {
             $args = array(
                 'taxonomy'         => 'product_cat',
                 'hide_empty'       => false,
-                'depth'            => 1,
+                'depth'            => 5,
                 'hierarchical'     => 1,
                 'title_li'         => '',
                 'child_of'         => 0,
@@ -589,7 +594,7 @@ if ( ! function_exists('t4_woo_subcategories_title') ) {
             );
         }
 
-
+        
         if ( cs_get_option( 'wc-subcustom-product_count') ) {
             $args['show_count'] = true;
         }

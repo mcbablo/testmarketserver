@@ -20,7 +20,7 @@ function the4_kalles_register_required_plugins() {
 		array(
 			'name'     => esc_html__( 'Kalles Addons', 'kalles' ),
 			'slug'     => 'kalles-addons',
-			'source'   => 'https://wp.the4.co/plugin/kalles-addons.zip',
+			'source'   => 'https://wp.the4.co/plugin/kalles-addons-v1.0.3.zip',
 			'version' => '1.0.4',
 			'required' => true,
 		),
@@ -46,7 +46,7 @@ function the4_kalles_register_required_plugins() {
 			'slug'      => 'revslider',
 			'source'	=> 'https://wp.the4.co/plugin/revslider.zip',
 			'required'  => true,
-			'version'  => '6.5.16',
+			'version'  => '6.5.14',
 		),
 		array(
 			'name'     => esc_html__( 'Pin Maker', 'kalles' ),
@@ -54,7 +54,7 @@ function the4_kalles_register_required_plugins() {
 			'source'   => 'https://wp.the4.co/plugin/pin-maker.zip',
 			'version'  => '1.0.9',
 		),
-
+		
 		array(
 			'name'     => esc_html__( 'WPA WooCommerce Product Bundle', 'kalles' ),
 			'slug'     => 'wpa-woocommerce-product-bundle',

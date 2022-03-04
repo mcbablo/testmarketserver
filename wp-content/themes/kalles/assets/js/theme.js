@@ -790,6 +790,7 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
 
             setTimeout(function() {
                 if ( $( '.product-quickview form' ).hasClass( 'variations_form' ) ) {
+                    $( '.product-quickview form.variations_form' ).wc_variation_form();
                     $( '.product-quickview select' ).trigger( 'change' );
                 }
             }, 100);
@@ -799,6 +800,7 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
                     $.PLT.main_product_variation_load_default();
                     $.PLT.product_bundle_variation_select();
                     wpa_wcpb_onchange_input_check_total_discount();
+
                 }, 1000);
             }
 
@@ -1254,10 +1256,8 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
     // Trigger add to cart button
     var initAddToCart = function() {
         var _input = $( '.quantity input' ), _quantity = _input.attr( 'max' );
-
-
         // Single add to cart button
-        $( 'body' ).on( 'click', '.atc-slide .single_add_to_cart_button, .atc-do_nothing .single_add_to_cart_button', function(e) {
+        $( 'body' ).on( 'click', '.atc-slide .single_add_to_cart_button, .atc-do_nothing .single_add_to_cart_button, .atc-popup .single_add_to_cart_button', function(e) {
             var _this = $( this ), _form = _this.parents( 'form' );
 
             if ( _this.hasClass( 'disabled' ) || $( '.btn-atc' ).hasClass( 'no-ajax' ) ) return;
@@ -1719,146 +1719,31 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
         });
     }
 
-    // Add to cart popup
-    function wcPopupAddtocart() {
-        $( 'body' ).on( 'click', '.atc-popup .single_add_to_cart_button', function( e ) {
-            var _btn  = $( this ),
-                _form = $( 'form.cart' ),
-                product_data = {},
-                ajaxs = [],
-                ajaxCall = function(data, step) { // step: next call ajax
-                    if (typeof step != 'undefined' ) {
-                        var url = THE4_AjaxURL;
-                    } else {
-                        var url = THE4_AjaxURL+'?claucartf5=1';
-                    }
+    function ATCPopup() {
+        if( ! body.hasClass('kalles-atc-behavior-popup') ) return;
 
-                    $ld.trigger( "ld_bar_star" );
-
-                    $.ajax({
-                        url: url,
-                        type: 'POST',
-                        data: {
-                            action: 'the4_kalles_popup_update_cart',
-                            product_data: data
-                        },
-                        beforeSend: function() {
-                            _btn.addClass('the4-loading');
-                        },
-                        success: function( response, status, jqXHR ) {
-                            _btn.removeClass('the4-loading');
-                            $ld.trigger( "ld_bar_end" );
-
-                            var sticky_addtocart_btn = $('.sticky_add_to_cart_btn');
-                            if (sticky_addtocart_btn.length > 0 && sticky_addtocart_btn.hasClass('the4-loading'))
-                                sticky_addtocart_btn.removeClass('the4-loading');
-
-                            if (typeof step != 'undefined' ) {
-                                var next = step + 1;
-                                if (typeof ajaxs[next] != 'undefined') {
-                                    if (next == ajaxs.length - 1) {
-                                        ajaxCall(ajaxs[next]);
-                                    } else {
-                                        ajaxCall(ajaxs[next], next);
-                                    }
-                                }
-                            } else {
-                                if ( typeof response == 'object' ) {
-                                    $.magnificPopup.open({
-                                        items: {
-                                            src: '<div class="mfp-with-anim product-quickview cart__popup pr">' + response.output + '</div>',
-                                            type: 'inline'
-                                        },
-                                        mainClass: 'mfp-fade',
-                                        removalDelay: 500,
-                                        callbacks: {
-                                             beforeOpen: function() {
-                                                 this.st.mainClass = 'mfp-move-horizontal';
-                                             },
-                                            open: function() {
-                                                initCarousel();
-                                            },
-                                            close: function() {
-                                            }
-                                         },
-                                    });
-                                } else { // error label
-                                    $('body').append( response );
-                                }
-
-                                $( 'body' ).addClass( 'popup-opened' );
-                                setTimeout( function() {
-                                    $( '.mask-overlay' ).remove();
-                                    $( 'body' ).removeClass( 'cart-opened' );
-                                }, 1000)
-                            }
-                        }
-                    });
-                };
-
-            if ( _btn.hasClass( 'disabled' ) || $( '.btn-atc' ).hasClass( 'no-ajax' ) ) return;
-
-                var quantity = _btn.parents( 'form' ).find('input[name=quantity]').val();
-
-            if (  _btn.parents( 'form' ).hasClass( 'variations_form' ) ) {
-                var variation_id = parseInt( _form.find( '[name=variation_id]' ).val() ),
-                    product_id   = parseInt( _form.find('[name=add-to-cart]' ).val() );
-
-
-                if ( variation_id ) {
-                    var attributes_select = _form.find( '.variations select' ),
-                        attributes = {};
-
-                    attributes_select.each( function() {
-                        attributes[ $( this ).data( 'attribute_name' ) ] = $( this ).val();
-                    });
-
-                    attributes = JSON.stringify( attributes );
-                    product_data['attributes']   = attributes;
-                    product_data['variation_id'] = variation_id;
-                }
-
-                product_data['product_id'] = product_id;
-
-            } else if (_btn.parents( 'form' ).hasClass( 'grouped_form' )) {
-                var formGroupData = jQuery('.grouped_form').serializeArray();
-                jQuery.each(formGroupData, function(index, el){
-                    if (el.name.indexOf('quantity[') == 0 && el.value > 0) {
-                        var pid = el.name.replace('quantity[', '').replace(']', ''),
-                            product_data = {};
-                        product_data['product_id']   = pid;
-                        product_data['variation_id'] = 0;
-                        product_data['quantity']     = el.value || 1;
-                        product_data = JSON.stringify( product_data );
-                        ajaxs.push(product_data);
-                    }
-                });
-                if (ajaxs.length > 0) {
-                    if (ajaxs.length > 1) {
-                        ajaxCall(ajaxs[0], 0);
-                    } else {
-                        ajaxCall(ajaxs[0]);
-                    }
-                }
-                e.preventDefault();
-                return;
-            } else {
-                var product_id   = _btn.data( 'product_id' ),
-                    product_data = {};
-
-                product_data['product_id']   = product_id;
-                product_data['variation_id'] = 0;
-
-            }
-
-            product_data['quantity']     = quantity || 1;
-            product_data['type'] = 'popup';
-            product_data = JSON.stringify( product_data );
-
-            ajaxCall(product_data);
-
-            e.preventDefault();
+        $(document.body).on('added_to_cart', function () {
+            openPopup();
         });
+
+        var openPopup = function() {
+            $.ajax({
+                url: THE4_AjaxURL,
+                type: 'POST',
+                data: {
+                    action: 'the4_kalles_popup_content_ajax'
+                },
+                beforeSend: function() {
+
+                },
+                success: function( response ) {
+                    console.log(response);
+                }
+            });
+        }
+    }
+    // handleMiniCart
+    function handleMiniCart() {
 
         $( 'body' ).on( 'click', '.modal_btn_add_to_cart', function( e ) {
             e.preventDefault();
@@ -3423,45 +3308,7 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
 
     };
 
-    //Display variant selected
-    var StickyLabelVariant = function() {
-
-        var swatch_label = '',
-            swatch_list = $('li.swatch__list--item').toArray();
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-        if (swatch_list) {
-            swatch_list.forEach( function(item, index) {
-                if ($(item).hasClass('is-selected')) {
-
-                    var label = $(item).find('.swatch__tooltip').text();
-
-                    if ( !label ) {
-                        label = capitalizeFirstLetter( $(item).data('variation') );
-                    }
-                    if (swatch_label == '') {
-                        swatch_label += label;
-                    } else {
-                        swatch_label += ' / ' + label;
-                    }
-                }
-
-            });
-        }
-
-        $('.sticky_atc_a').text(swatch_label);
-
-        //Product price
-        $.fn.wc_variations_image_update = function( variation ) {
-
-            if (variation.price_html) {
-                $('.sticky_atc_price').html(variation.price_html);
-            }
-        }
-
-    }
+    
 
     //Kalles product Swatches
     var The4KallesProductSwatches = function() {
@@ -3628,19 +3475,6 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
                                 }
                             });
                         });
-                    });
-
-                    $.each( attributes_info, function( attr_name, attr_val ) {
-                        // disable if that attr is not active
-                        if( !attr_val ) {
-
-                            $('.variations_form li[data-variation="' + attr_name + '"]').addClass( 'disabled' );
-
-                        } else {
-
-                            $('.variations_form li[data-variation="' + attr_name + '"]').removeClass( 'disabled' );
-                        }
-
                     });
                 }, 50 );
             });
@@ -5071,7 +4905,8 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
         wcExtraContent();
         wcTopSidebarMenu();
         wcAccordion();
-        wcPopupAddtocart();
+        handleMiniCart();
+        ATCPopup();
         The4KallesBrandsFilter();
         customThirdParties();
         initAccount();

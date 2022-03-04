@@ -63,7 +63,7 @@ if ( ! function_exists( 'kalles_google_font_url' ) ) {
         $body_font    = cs_get_option( 'body-font' );
         $heading_font = cs_get_option( 'heading-font' );
 
-        if ( $body_font && $body_font['type'] == 'google' ) {
+        if ( $body_font && isset($body_font['type']) && $body_font['type'] == 'google' ) {
             $font_family = esc_attr( $body_font['font-family'] );
 
             $font_weight = array( esc_attr( $body_font['font-weight'] ) );
@@ -73,7 +73,7 @@ if ( ! function_exists( 'kalles_google_font_url' ) ) {
 
         }
 
-        if ( $heading_font && $heading_font['type'] == 'google' ) {
+        if ( $heading_font && isset($body_font['type']) && $heading_font['type'] == 'google' ) {
             $font_family = esc_attr( $heading_font['font-family'] );
             $font_weight = array( esc_attr( $heading_font['font-weight'] ) );
 
@@ -1467,6 +1467,9 @@ if ( ! function_exists( 'the4_kalles_custom_css' ) ) {
                 #the4-footer .signup-newsletter-form,
                 #the4-footer .signup-newsletter-form .submit-btn {
                      border-radius: 0;
+                }
+                #the4-footer .signup-newsletter-form{
+                   padding:0;
                 }
             ';
         }

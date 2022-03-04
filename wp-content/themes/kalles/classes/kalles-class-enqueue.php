@@ -16,7 +16,7 @@ class Enqueue {
 
     protected $styles = array();
     protected $scripts = array();
-    protected $minfile = '';
+    protected $minfile = '.min';
 
     /**
      * Instance
@@ -52,7 +52,7 @@ class Enqueue {
 
     public function __construct()
     {
-        $this->minfile = '.min';
+        $this->minfile = '';
 
         $this->set_style();
         $this->set_script();
@@ -161,7 +161,7 @@ class Enqueue {
 
     public function set_script()
     {
-        $version = '1.2.1.2.1';
+        $version = $this->get_theme_version();
 
         $this->scripts = array (
             array(
@@ -363,7 +363,7 @@ class Enqueue {
         }
 
         if ( kalles_is_woocommerce() ) {
-        wp_enqueue_script( 'wc-add-to-cart-variation' );
+            wp_enqueue_script( 'wc-add-to-cart-variation' );
             //Product page
             if ( function_exists( 'is_product' ) && is_product() ) {
                 foreach ( $this->scripts as $script ) {
@@ -376,7 +376,6 @@ class Enqueue {
                     wp_enqueue_script('elevatezoom');
                 }
                 wp_enqueue_script('the4-kalles-script-product');
-                
                 wp_enqueue_script( 'jquery-ui-autocomplete' );
             }
 
@@ -439,6 +438,13 @@ class Enqueue {
             array(
                 'handle' => 'mapbox-gl',
                 'src'    => THE4_KALLES_URL . '/assets/vendors/mapbox/mapbox-gl.min.js',
+                'deps'   => array(),
+                'ver'    => $version,
+                'bottom'  => true,
+            ),
+            array(
+                'handle' => 'klaviyo',
+                'src'    => THE4_KALLES_URL . '/assets/vendors/klaviyo/klaviyo_subscribe.js',
                 'deps'   => array(),
                 'ver'    => $version,
                 'bottom'  => true,

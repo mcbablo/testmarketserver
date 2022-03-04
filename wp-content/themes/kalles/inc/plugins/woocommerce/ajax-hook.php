@@ -581,14 +581,14 @@ function the4_search_product() {
                             if (!empty($price_sale)) {
                                 $output .= '<del>';
                             }
-                            $output .= '<span class="woocommerce-Price-amount amount"><bdi>'.$price_regular.'</bdi></span>';
                             $output .= '<span class="woocommerce-Price-currencySymbol">' .$currency .'</span>';
+                            $output .= '<span class="woocommerce-Price-amount amount"><bdi>'.$price_regular.'</bdi></span>';
                             if (!empty($price_sale)) {
                                 $output .= '</del>';
                             }
                             if (!empty($price_sale)) {
-                                $output .= '<ins><span class="woocommerce-Price-amount amount"><bdi>'.$price_sale.'</bdi></span></ins>';
                                 $output .= '<span class="woocommerce-Price-currencySymbol">' .$currency .'</span>';
+                                $output .= '<ins><span class="woocommerce-Price-amount amount"><bdi>'.$price_sale.'</bdi></span></ins>';
                             }
 
                             $output .= '</p>';
@@ -611,14 +611,14 @@ function the4_search_product() {
                             if (!empty($price_sale)) {
                                 $output .= '<del>';
                             }
-                            $output .= '<span class="woocommerce-Price-amount amount"><bdi>'.$price_regular.'</bdi></span>';
                             $output .= '<span class="woocommerce-Price-currencySymbol">' .$currency .'</span>';
+                            $output .= '<span class="woocommerce-Price-amount amount"><bdi>'.$price_regular.'</bdi></span>';
                             if (!empty($price_sale)) {
                                 $output .= '</del>';
                             }
                             if (!empty($price_sale)) {
-                                $output .= '<ins><span class="woocommerce-Price-amount amount"><bdi>'.$price_sale.'</bdi></span></ins>';
                                 $output .= '<span class="woocommerce-Price-currencySymbol">' .$currency .'</span>';
+                                $output .= '<ins><span class="woocommerce-Price-amount amount"><bdi>'.$price_sale.'</bdi></span></ins>';
                             }
 
                             $output .= '</p>';

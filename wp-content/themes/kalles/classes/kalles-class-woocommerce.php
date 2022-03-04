@@ -50,7 +50,7 @@ class Woocommerce {
         //Shipping caculate
         
         $this->loadObject( 'quickview' );
-
+        
         //Shipping caculate
         
         $this->loadObject( 'shipping' );
