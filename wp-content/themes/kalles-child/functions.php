@@ -53,12 +53,18 @@ add_filter( 'woocommerce_package_rates', 'hide_specific_shipping_method_based_on
 function hide_specific_shipping_method_based_on_user_role( $rates, $package ) {
     $excluded_role = "staffer"; // User role to be excluded
     $shipping_id = 'local_pickup'; // Shipping rate to be removed
+    $shipping_id2 = 'clickbox'; // Shipping rate to be removed
     foreach( $rates as $rate_key => $rate ){
         if( $rate->method_id === $shipping_id ){
           if(!current_user_can( $excluded_role )){
               unset($rates[$rate_key]);
               break;
           }
+        } else if($rate->method_id === $shipping_id2){
+            if(current_user_can( $excluded_role )){
+                unset($rates[$rate_key]);
+                break;
+            }
         }
     }
     return $rates;

@@ -143,3 +143,21 @@
   display: flex;
   justify-content: center;
 }
+
+#pochtamat-map{
+  height: 500px;
+  width: 100%;
+}
+
+@media screen and (max-width:991px) {
+  #pochtamat-place{
+    height: 300px;
+  }
+  .tingle-modal-box{
+    width: 90% !important;
+  }
+  #pochtamat-map{
+    height: 300px;
+    width: 100%;
+  }
+}

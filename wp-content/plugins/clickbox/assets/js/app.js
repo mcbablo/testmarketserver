@@ -9,41 +9,6 @@
         var url_send_cell = '/merchant/booking/delivery-to-cell';
         var myMap, myPlacemark;
         var postomatSelected;
-
-        let selectLoadCity = $( "#billing_state option:selected" ).val();
-        let selectShipAll = $('.shipping_method').length > 1 ? $('.shipping_method:checked').val() : $('.shipping_method').val();
-        if(selectLoadCity === 01){
-            if(selectShipAll === 'local_pickup:8'){
-                $('.selectBox').hide();
-                $('#create-order').hide();
-            } else{
-                $('.selectBox').show();
-                $('#create-order').show();
-            }
-        } else {
-            $('.selectBox').hide();
-            $('#create-order').hide();
-        }
-
-        $("#billing_state").change(function() {
-            let selectShip = $('.shipping_method').length > 1 ? $('.shipping_method:checked').val() : $('.shipping_method').val();
-            let selectLoad;
-            $( "#billing_state option:selected").each(function() {
-                selectLoad = $(this).val();
-            });
-            if(selectLoad === 01){
-                if( selectShip === 'local_pickup:8' ){
-                    $('.selectBox').hide();
-                    $('#create-order').hide();
-                } else {
-                    $('.selectBox').show();
-                    $('#create-order').show();
-                }
-            } else {
-                $('.selectBox').hide();
-                $('#create-order').hide();
-            }
-        }).trigger( "change" );
     
         $('#billing_phone').inputmask('\\9\\9\\8 (99) 999-99-99');
     
@@ -151,7 +116,6 @@
                         if (json.data.length > 0) {
                             loadingBtnFalse('#clickbox-btn');
                             $('.header-sticky').css('z-index', '-1');
-                            $('#pochtamat-map').css('height', '500px').css('width', '100%');
                             $('#pochtamat-map').show();
                             ymaps.ready(init(json.data));
                         } else {
