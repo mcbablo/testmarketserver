@@ -122,8 +122,8 @@ class Category_Walker extends Walker_Category {
         // get the image URL
         if ( $thumbnail_id ) {
 
-            $image_url = wp_get_attachment_image_src( $thumbnail_id, 'thumbnail' ); 
-            
+            $image_url = wp_get_attachment_image_src( $thumbnail_id, 'woocommerce_single' ); 
+
             $max_width = cs_get_option('wc-subcustom_image_size') ? cs_get_option('wc-subcustom_image_size') : 180;
 
             if ( ! empty( $image_url[0]) ) {

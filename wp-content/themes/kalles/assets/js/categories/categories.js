@@ -123,7 +123,7 @@
             _sizer.removeClass( 'size-2 size-3 size-4 size-6 size-12' ).addClass( 'size-' + _col )
 
             if ( $( '.container_cat .products' ).hasClass( 'the4-masonry' ) || $( '#products-wrapper .products' ).hasClass( 'the4-masonry' ) ) {
-                initMasonry();
+                The4Kalles.initMasonry();
             }
 
             //Set default view for this customer

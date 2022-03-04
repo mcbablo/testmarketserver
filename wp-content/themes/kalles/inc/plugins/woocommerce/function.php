@@ -124,7 +124,7 @@ if ( ! function_exists( 'the4_kalles_wc_my_account' ) ) {
             if ( is_user_logged_in() ) {
                 $output .= '<li><a class="db cg chp" href="' . esc_url( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) ) . '">' . esc_html__( 'Dashboard', 'kalles' ) . '</a></li>';
                 $output .= '<li><a class="db cg chp" href="' . esc_url( wc_get_account_endpoint_url( 'orders' ) ) . '">' . esc_html__( 'My Orders', 'kalles' ) . '</a></li>';
-                $output .= '<li><a class="db cg chp" href="' . esc_url( wc_logout_url() ) . '">' . esc_html__( 'Logout', 'kalles' ) . '</a></li>';
+                $output .= '<li><a class="db cg chp" href="' . esc_url( wp_logout_url() ) . '">' . esc_html__( 'Logout', 'kalles' ) . '</a></li>';
             }
 
             $output .= '</ul>';
@@ -1011,9 +1011,7 @@ if ( ! function_exists( 'the4_woo_get_variable_gallery' ) ) {
             $variable_all_images = the4_woo_get_all_variant_image();
 
             if ( is_array( $variable_all_images) ) {
-                if($variable_all_images){
-                    $variable_images = array_unique( array_merge( $attachment_ids, $variable_all_images['image_id'] ), SORT_REGULAR );
-                }
+                 $variable_images = array_unique( array_merge( $attachment_ids, $variable_all_images['image_id'] ), SORT_REGULAR );
             }
 
             return $variable_images;

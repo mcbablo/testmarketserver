@@ -66,14 +66,12 @@
         });
 
 
-
-        //StickyLabelVariant();
         $('body').on('click', '.swatch__list--item', function( e ) {
             StickyLabelVariant();
 
             //Display selected variant on product page
             var _this        = $(this),
-                variant_name = _this.data( 'variation' ),
+                variant_name = _this.data( 'variation-name' ),
                 swatch_title = _this.parent().prev();
 
             if ( variant_name  && swatch_title) {
@@ -82,6 +80,46 @@
                 swatch_title.html( name.toUpperCase() + ': ' + variant_name.toUpperCase() );
             }
         });
+
+        //Display variant selected
+        var StickyLabelVariant = function() {
+
+            var swatch_label = '',
+                swatch_list = $('li.swatch__list--item').toArray();
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+            if (swatch_list) {
+                swatch_list.forEach( function(item, index) {
+                    if ($(item).hasClass('is-selected')) {
+
+                        var label = $(item).find('.swatch__tooltip').text();
+
+                        if ( !label ) {
+                            label = capitalizeFirstLetter( $(item).data('variation-name') );
+                        }
+                        if (swatch_label == '') {
+                            swatch_label += label;
+                        } else {
+                            swatch_label += ' / ' + label;
+                        }
+                    }
+
+                });
+            }
+
+            $('.sticky_atc_a').text(swatch_label);
+
+            //Product price
+            $.fn.wc_variations_image_update = function( variation ) {
+
+                if (variation.price_html) {
+                    $('.sticky_atc_price').html(variation.price_html);
+                }
+            }
+
+        }
         //Price
         var product_price = $('.summary .price').html();
         if ( product_price ) {

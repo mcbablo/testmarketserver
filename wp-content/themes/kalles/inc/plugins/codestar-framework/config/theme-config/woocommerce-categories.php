@@ -18,7 +18,7 @@ CSF::createSection( $prefix, array(
       'type'    => 'heading',
       'content' => esc_html__( 'General Settings', 'kalles' ),
     ),
-
+   
     array(
       'id'         => 'wc-pagination',
       'type'       => 'select',
@@ -224,7 +224,7 @@ CSF::createSection( $prefix, array(
           'default'    => 'left',
           'dependency' => array( 'wc-sidebar-filter', '==', true ),
         ),
-
+        
       )
 ) );
 

@@ -58,6 +58,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 
 				if ( $price_filter_type == 'slider' ) {
 					$step =  isset( $instance['w_filter-price_slider_step'] ) && $instance['w_filter-price_slider_step'] != 0  ? $instance['w_filter-price_slider_step'] : 1;
+
 					$this->filter_price_slider( $step, $display_type );
 
 				} else {
@@ -74,7 +75,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 					$found = true;
 				}
 			}
-
+			
 			if ( ! $found ) {
 				ob_end_clean();
 			} else {
@@ -87,7 +88,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 
 			$suffix       = Constants::is_true( 'SCRIPT_DEBUG' ) ? '' : '.min';
 			$version      = Constants::get_constant( 'WC_VERSION' );
-
+			
 			wp_register_script( 'accounting', WC()->plugin_url() . '/assets/js/accounting/accounting' . $suffix . '.js', array( 'jquery' ), '0.4.2', true );
 			wp_register_script( 'wc-jquery-ui-touchpunch', WC()->plugin_url() . '/assets/js/jquery-ui-touch-punch/jquery-ui-touch-punch' . $suffix . '.js', array( 'jquery-ui-slider' ), $version, true );
 			wp_register_script( 'wc-price-slider', WC()->plugin_url() . '/assets/js/frontend/price-slider' . $suffix . '.js', array( 'jquery-ui-slider', 'wc-jquery-ui-touchpunch', 'accounting' ), $version, true );
@@ -273,7 +274,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 					}
 
 					$classes = $swatch_attr_image = '';
-
+					
 					$meta_swatches = get_term_meta( $term->term_id, '_custom_product_attr_options', true );
 
                     $swatch_attr_color   = isset( $meta_swatches['color-color'] ) ? $meta_swatches['color-color'] : '';
@@ -418,7 +419,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 					}
 
 					$classes = $swatch_attr_image = '';
-
+					
 					$meta_swatches = get_term_meta( $term->term_id, '_custom_product_attr_options', true );
 
                     $swatch_attr_color   = isset( $meta_swatches['color-color'] ) ? $meta_swatches['color-color'] : '';
@@ -733,14 +734,12 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 	            $html .= '<h5 class="widget-title"><span>' . translate( 'By ', 'kalles' ) . '</span>' . translate( 'Price', 'kalles' ) . '</h5>';
 	            $html .= '<ul class="nt_filter_block css_ntbar list filter-top">';
 	            	foreach ($links as $link) {
-						if(!$link['count'] == 0){
-							$html .= '<li class="wc-layered-nav-term">';
-							$html .= '<a href="' . $link['href'] . '" rel="nofollow" class="' . $link['class'] . '">' . $link['title'] . '</a>';
-							if ( $is_count ) {
-									$html .= '<span class="count">(' . $link['count'] . ')</span>';								
-							}
-							$html .= '</li>';
-						}
+	            		$html .= '<li class="wc-layered-nav-term">';
+	            		$html .= '<a href="' . $link['href'] . '" rel="nofollow" class="' . $link['class'] . '">' . $link['title'] . '</a>';
+	            		if ( $is_count ) {
+	            			$html .= '<span class="count">(' . $link['count'] . ')</span>';
+	            		}
+	            		$html .= '</li>';
 	            	}
 
 	            $html .= '</ul>';
@@ -877,7 +876,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 		 * Price slider.
 		 *
 		 * @see WC_Widget_Price_Filter
-		 *
+		 * 
 		 */
 		public function filter_price_slider( $step, $filter_type ) {
 			global $wp;
@@ -977,7 +976,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 		  'title'      => translate('Select Attributes' , 'kalles'),
 		  'options'    => kalles_w_filter_get_attributes(),
 		  'default'    => kalles_w_filter_get_attributes()
-		),
+		),		
 		array(
 		  'id'          => 'w_filter-type',
 		  'type'        => 'button_set',
@@ -1047,7 +1046,7 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 	  	$kalles_w_filter = new The4_Woocommerce_Layered_Nav_Widget();
 
 	  	$filter_type = isset( $instance['w_filter-price_type'] ) ? $instance['w_filter-price_type'] : 'slider';
-
+	  	
 	  	if ( $filter_type == 'slider' ) {
 	  		$kalles_w_filter->woo_slider_script();
 	  		wp_enqueue_script( 'wc-price-slider' );

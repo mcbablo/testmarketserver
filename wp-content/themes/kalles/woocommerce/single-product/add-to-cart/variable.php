@@ -91,8 +91,8 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 								// Get terms if this is a taxonomy - ordered. We need the names too.
 								$terms = wc_get_product_terms( $product->get_id(), $attribute_name, array( 'fields' => 'all' ) );
 
-
 								foreach ( $terms as $term ) {
+
 									$meta_swatches = get_term_meta( $term->term_id, '_custom_product_attr_options', true );
 
 									if ( $attr->attribute_type == 'radio' ) {
@@ -104,11 +104,10 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 
 										$data_variantion_id = $variantion_id ? 'data-variation_id="' . esc_attr ( $variantion_id ) . '"' : '';
 										//Check Enable variant image
-
-
+										
 										if ( in_array( $term->slug, $options ) ) {
 
-											echo '<li '. $data_variantion_id .' data-variation="' . esc_attr( $term->slug ) . '" data-image-id="" class="swatch__list--item is-relative' . ( $term->slug == $selected ? ' is-selected' : '' ) . '">';
+											echo '<li '. $data_variantion_id .' data-variation="' . esc_attr( $term->slug ) . '" data-variation-name="' . esc_attr( $term->name ) . '" data-image-id="" class="swatch__list--item is-relative' . ( $term->slug == $selected ? ' is-selected' : '' ) . '">';
 
 											    echo '<span class="mr__5 pr dib radio_styled"></span>';
 												echo '<span class="swatch__value">';
@@ -160,7 +159,7 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 
 										if ( in_array( $term->slug, $options ) ) {
 
-											echo '<li '. $data_variantion_id .' data-variation="' . esc_attr( $term->slug ) . '" data-image-id="" class="swatch__list--item is-relative' . ( $term->slug == $selected ? ' is-selected' : '' ) . '">';
+											echo '<li '. $data_variantion_id .' data-variation="' . esc_attr( $term->slug ) . '" data-variation-name="' . esc_attr( $term->name ) . '" data-image-id="" class="swatch__list--item is-relative' . ( $term->slug == $selected ? ' is-selected' : '' ) . '">';
 											if ( $attr->attribute_type == 'color' ) {
 												echo '<span class="swatch__value" ' . $style .'></span>';
 											} elseif ( $attr->attribute_type == 'label' ) {

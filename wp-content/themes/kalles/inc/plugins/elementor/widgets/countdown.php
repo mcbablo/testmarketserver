@@ -6,6 +6,9 @@
  * @package Kalles
  */
 use Elementor\Controls_Manager;
+use Elementor\Repeater;
+use Elementor\Group_Control_Typography;
+use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 
 class Kalles_Elementor_Countdown_Widget extends \Elementor\Widget_Base {
 
@@ -226,3 +229,5 @@ class Kalles_Elementor_Countdown_Widget extends \Elementor\Widget_Base {
 
 
 }
+
+/////////////////////

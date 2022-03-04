@@ -125,9 +125,9 @@
                                                                         <?php if ($price_sale) : ?>
                                                                             <span class="woocommerce-Price-currencySymbol"><?php echo esc_html( $currency ); ?></span>
                                                                             <ins>
-                                                                                <span class="woocommerce-Price-amount amount">
-                                                                                    <bdi><?php echo esc_html( $price_sale ) ?></bdi>
-                                                                                </span>
+                                                                <span class="woocommerce-Price-amount amount">
+                                                                    <bdi><?php echo esc_html( $price_sale ) ?></bdi>
+                                                                </span>
                                                                             </ins>
                                                                         <?php endif; ?>
                                                                     </p>

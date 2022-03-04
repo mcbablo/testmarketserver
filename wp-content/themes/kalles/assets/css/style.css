@@ -359,7 +359,7 @@ form .quantity,
     left: 0;
     height: 3px;
     width: 0;
-    background: #00badb;
+    background: var(--primary-color);
     transition: width 0.25s ease-in-out;
     z-index: 100000;
     pointer-events: none;
@@ -4228,7 +4228,7 @@ input:not([type="checkbox"]):not([type="radio"]) {
     top: 100%;
     right: 15px;
     left: 15px;
-    z-index: 199;
+    z-index: 1004;
     visibility: hidden;
     opacity: 0;
     transition: all .2s ease;
@@ -4329,6 +4329,9 @@ input:not([type="checkbox"]):not([type="radio"]) {
 }
 /* 3.4 MY ACCOUNT
    ========================================================================== */
+.login-form .u-column1 {
+    margin-bottom: 30px;
+}
 .the4-my-account ul {
     width: 170px;
     left: calc(50% - 85px);
@@ -13073,6 +13076,17 @@ ul.account-list-action li span {
     width: 100%;
     box-shadow: 0 0 0;
 }
+.the4-account-popup.popup-layout_2 .the4-account-ajax__header {
+    padding-top: 0;
+    position: relative;
+    z-index: 51;
+}
+.popup-layout_2 .the4-account-ajax__header {
+    justify-content: flex-start;
+}
+.popup-layout_2.the4-account-popup .the4-account-popup h3 i {
+    z-index: 111;
+}
 .customer_form_layout_2 .form-login {
     flex-direction: row;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 4px;
@@ -13097,7 +13111,6 @@ ul.account-list-action li span {
 }
 .login-w-social .login-w-social-inner {
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
     position: relative;
     z-index: 50;
@@ -20038,13 +20051,6 @@ span.cp {
     color: #ffffff;
 }
 
-.signup-newsletter-form .submit-btn {
-    border-radius: 0;
-}
-.signup-newsletter-form {
-    border-radius: 0;
-    padding: 0;
-}
 .footer-4 #media_image-6 {
     display: block;
 }
@@ -20073,10 +20079,6 @@ span.cp {
     width: 100%;
     cursor: pointer;
 }
-.signup-newsletter-form .submit-btn {
-    border-radius: 0;
-    background: #586bb4;
-}
 .footer-8 .cp {
     color: #d9a181;
 }
@@ -20089,10 +20091,6 @@ span.cp {
 }
 .footer-9 #media_image-2{
     display: none;
-}
-.signup-newsletter-form .submit-btn {
-    border-radius: 0;
-    background: #bb9230;
 }
 
 .footer-9 span.cp{
@@ -25468,7 +25466,14 @@ button.btn-t4s:focus, button.btn-t4s:hover {
         padding: 20px 5px;
     }
 }
-
+/*Countdown*/
+.page-template-offline {
+    overflow: hidden;
+}
+.wrap_countdown_sc {
+    max-width: 600px;
+    margin: auto;
+}
 /* Store localtion */
 .kalles-map {
     max-width: 1170px;
@@ -25482,7 +25487,10 @@ button.btn-t4s:focus, button.btn-t4s:hover {
     height: 100%;
     overflow-y: scroll;
     background: #fff;
-    padding-left: 10px;
+}
+h3.kalles-map__name {
+    font-weight: 500;
+    margin-top: 0;
 }
 .kalles-map.kalles-map__search {
     margin-top: 150px;
@@ -25506,7 +25514,20 @@ button.btn-t4s:focus, button.btn-t4s:hover {
 }
 .kalles-map__list--item {
     border-bottom: 1px solid #ccc;
-    padding-bottom: 15px;
+    padding: 15px 15px 15px 20px;
+}
+.kalles-map__details {
+    margin-top: 20px;
+    display: block;
+}
+.kalles-map__details h1,
+.kalles-map__details h2,
+.kalles-map__details h3,
+.kalles-map__details h4,
+.kalles-map__details h5,
+.kalles-map__details h6 {
+    font-weight: 500;
+    margin-bottom: 0;
 }
 .kalles-map__list--item:last-child {
     border-bottom: none;
@@ -25526,6 +25547,13 @@ button.btn-t4s:focus, button.btn-t4s:hover {
 }
 .mapboxgl-popup-content button {
     display: none;
+}
+.mapboxgl-ctrl-geocoder input[type=text] {
+    font-size: 17px;
+}
+.mapboxgl-ctrl-geocoder .geocoder-icon-search {
+    width: 17px;
+    height: 17px;
 }
 @media ( max-width: 767px) {
     .kalles-map-body .col-lg-3 {

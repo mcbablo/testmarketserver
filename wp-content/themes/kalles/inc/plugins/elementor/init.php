@@ -92,6 +92,7 @@ if (! function_exists('the4_kalles_el_init')) {
         include_once KALLES_THEME_EL_PATH . '/widgets/product-tabs.php';
         include_once KALLES_THEME_EL_PATH . '/widgets/bannerPackery.php';
         include_once KALLES_THEME_EL_PATH . '/widgets/map.php';
+        include_once KALLES_THEME_EL_PATH . '/widgets/newsletter-form.php';
 
         return;
     }
@@ -195,6 +196,7 @@ if (! function_exists('the4_kalles_el_register_widgets')) {
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Kalles_Elementor_Tabs_Elements());
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Kalles_Elementor_Product_Tabs_Widget());
             \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Kalles_Elementor_Map_Widget());
+            \Elementor\Plugin::instance()->widgets_manager->register_widget_type(new Kalles_Elementor_Newsletter_Form_Widget());
         }
     }
 }

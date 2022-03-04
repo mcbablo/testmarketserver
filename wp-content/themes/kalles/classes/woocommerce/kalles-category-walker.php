@@ -5,14 +5,14 @@
  *
  * @since   1.1.2
  * @package Kalles
- *
+ * 
  */
 
 namespace Kalles\Woocommerce;
 
 use Walker_Category;
 
-if ( ! defined( 'ABSPATH' )  ) { die; } // Cannot access directly.
+if ( ! defined( 'ABSPATH' )  ) { die; } // Cannot access directly. 
 
 class Category_Walker extends Walker_Category {
 
@@ -30,7 +30,7 @@ class Category_Walker extends Walker_Category {
      * @since 1.1.2
      * @return object
      */
-
+    
 
     public static function instance() {
         if ( is_null( self::$instance ) ) {
@@ -39,7 +39,7 @@ class Category_Walker extends Walker_Category {
 
         return self::$instance;
     }
-
+    
     /**
      * Starts the list before the elements are added.
      *
@@ -60,7 +60,7 @@ class Category_Walker extends Walker_Category {
         $indent  = str_repeat( "\t", $depth );
         $output .= "$indent<ul class='children kalles-subcategories'>\n";
     }
-
+    
     /**
      * Ends the list of after the elements are added.
      *
@@ -110,26 +110,26 @@ class Category_Walker extends Walker_Category {
             return;
         }
 
-
+        
         $link = '<a class="category-nav-link" href="' . esc_url( get_term_link( $category ) ) . '" ';
 
         $link .= '>';
 
         $image = '';
 
-        $thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
+        $thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true ); 
 
         // get the image URL
         if ( $thumbnail_id ) {
 
-            $image_url = wp_get_attachment_image_src( $thumbnail_id, 'shop_thumbnail' );
-
+            $image_url = wp_get_attachment_image_src( $thumbnail_id, 'thumbnail' ); 
+            
             $max_width = cs_get_option('wc-subcustom_image_size') ? cs_get_option('wc-subcustom_image_size') : 180;
 
             if ( ! empty( $image_url[0]) ) {
                 $image = '<img src="' . esc_url( $image_url[0] ) . '" alt="' . esc_attr( $category->cat_name ) . '" class="kalles-nav-img" style="max-width: ' . $max_width .'px" />';
             }
-
+            
         }
 
 
@@ -202,5 +202,5 @@ class Category_Walker extends Walker_Category {
             $output .= "\t$link<br />\n";
         }
     }
-
+    
 }
