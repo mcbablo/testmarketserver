@@ -115,3 +115,12 @@ body::-webkit-scrollbar-thumb {
     opacity: 0.9;
     background: #e5e5e5;
 }
+
+.swatch.is-label.rounded .swatch__list--item{
+    border-radius: 0 !important;
+}
+
+.title_3::after{
+    background-color: #7188a2 !important;
+}
+

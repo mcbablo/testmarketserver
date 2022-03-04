@@ -178,7 +178,7 @@ class WC_Gateway_Clickuz extends WC_Payment_Gateway {
                             amount: <?php echo $transAmount; ?>
                         }, function (data) {
                             if (data && (data.status === 2 || data.status === 0)) {
-
+                                
                                 window.location.href = '<?php echo $returnURL; ?>';
                             }
                         });

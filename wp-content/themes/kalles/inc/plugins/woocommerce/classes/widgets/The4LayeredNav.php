@@ -12,16 +12,6 @@ defined( 'ABSPATH' ) || exit;
 
 use Automattic\Jetpack\Constants;
 use WC_Query as WC_Query;
-
-function log_me($message) {
-	if (WP_DEBUG === true) {
-		if (is_array($message) || is_object($message)) {
-			error_log(print_r($message, true));
-		} else {
-			error_log($message);
-		}
-	}
-}
 /**
  * Widget layered nav class.
  */

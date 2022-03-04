@@ -15,7 +15,7 @@
         var cell_input = Number($('#clickbox-box').val());
         var cells = [];
         var lists = [];
-        var receivername = $('#billing_first_name').val() + ' ' + $('#billing_last_name').val();
+        var receivername = $('#billing_first_name').val();
     
         function getProductNames() {
             var lists = [];
@@ -44,6 +44,11 @@
     
         var clickboxModal = new tingle.modal({
             footer: true,
+            cssClass: ['clickbox-modal'],
+        });
+
+        var clickboxModalPlace = new tingle.modal({
+            footer: false,
             onClose: function() {
                 $('.header-sticky').css('z-index', '1001');
             },
@@ -51,17 +56,20 @@
         });
     
         clickboxModal.setContent('<div id="pochtamat-map"></div>');
-    
-        clickboxModal.addFooterBtn('Подтвердить', 'clickbox-btn-save tingle-btn--pull-right', function () {
-            clickboxModal.close();
-        });
+        clickboxModalPlace.setContent('<div id="pochtamat-place"></div>');
     
         clickboxModal.addFooterBtn('Закрыть', 'clickbox-btn-close tingle-btn--pull-right', function () {
             clickboxModal.close();
+            $('.header-sticky').css('z-index', '1001');
         });
 
         let selectLoadCity = $( "#billing_state option:selected" ).val();
-        if(selectLoadCity === '01'){
+        let selectPickup = !$('#shipping_method_0_local_pickup-8').val();
+        let selectShipAll = $('input[name="shipping_method[0]"]:checked').val();
+        if(selectLoadCity === '01' && selectPickup && selectShipAll == 'clickbox'){
+            $('.selectBox').show();
+            $('#create-order').show();
+        } else if (selectLoadCity === '01' && !selectPickup && selectShipAll == 'clickbox'){
             $('.selectBox').show();
             $('#create-order').show();
         } else {
@@ -71,10 +79,15 @@
 
         $( "#billing_state" ).change(function() {
             let selectChangeCity = '';
+            let selectPickupChange = !$('#shipping_method_0_local_pickup-8').val();
+            let selectShip = $('input[name="shipping_method[0]"]:checked').val();
             $( "#billing_state option:selected").each(function() {
                 selectChangeCity = $(this).val();
             });
-            if(selectChangeCity === '01'){
+            if(selectChangeCity === '01' && selectPickupChange && selectShip == 'clickbox'){
+                console.log('Ташкент, не сотрудник, почтомат')
+                $('#create-order').show();
+            } else if(selectChangeCity === '01' && !selectPickupChange && selectShip == 'clickbox'){
                 $('.selectBox').show();
                 $('#create-order').show();
             } else {
@@ -82,9 +95,11 @@
                 $('#create-order').hide();
             }
         }).trigger( "change" );
+
     
         function init(pochtamats = null) {
             $('#pochtamat-map').html('');
+            $('#pochtamat-place').html('');
             var myMap = new ymaps.Map("pochtamat-map", {
                 center: [41.31688073, 69.24690049],
                 zoom: 12
@@ -95,27 +110,31 @@
                 pochtamats.map((pochtamat, index) => {
                     var marker = new ymaps.Placemark(
                         [pochtamat.loc_latitude, pochtamat.loc_longitude], {
-                            balloonContent: '<strong>'+pochtamat.name+'</strong><br/><button type="button" class="btn-pochtamat btn-success" data-id="'+pochtamat.id+'" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-state="0">Выбрать</button>'
+                            balloonContentBody: '<h4 class="pchtName">'+pochtamat.name+'</h4>'+'<p class="pchtDes">Адрес: <span class="ymaps-geolink" data-bounds="[[55.63333783240489,37.486741441564136],[55.75433517114847,37.69017466910319]]" data-type="geo">'+pochtamat.address+'</span></p>',
                         }, {
-                            preset: 'islands#icon',
+                            preset: 'islands#blueDotIcon',
                             iconColor: '#0095b6'
                         });
                     marker.events.add('balloonopen', function(e) {
-                        marker.properties.set('balloonContent', (pochtamat.id == $('#clickbox_address').val()) ? '<strong>'+pochtamat.address+'</strong><p>'+pochtamat.description+'</p><button type="button" class="btn-pochtamat btn-danger" data-id="'+pochtamat.id+'" data-state="1">Отменить</button>' : '<strong>'+pochtamat.address+'</strong><p>'+pochtamat.description+'</p><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="0">Выбрать</button>');
+                        $('.header-sticky').css('z-index', '-1');
+                        let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
+                        let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться:</span> На изи, заходишь в макро она возле банкоматов.</p>'+pochtamat.description+'</div></div>';
+                        let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
+                        clickboxModalPlace.open();
+                        clickboxModal.close();
+                        $('#pochtamat-place').html(pcht1+pcht2+pcht3);
                     });
                     myMap.geoObjects.add(marker);
                 });
             }
         }
     
-        let btn1 = document.getElementById('clickbox-btn');
-    
         $('#clickbox-btn').click(function(){
             if(cell_input > 0){
                 loadingBtn('#clickbox-btn');
                 clickboxModal.open();
                 fetch(
-                    api_host+url_cells_pochtomat+cell_input,
+                    api_host+url_pochtamats,
                     {
                         method: 'GET',
                         headers: {
@@ -131,10 +150,9 @@
                         if (json.data.length > 0) {
                             loadingBtnFalse('#clickbox-btn');
                             $('.header-sticky').css('z-index', '-1');
-                            $('#pochtamat-map').css('height', '400px').css('width', '100%');
+                            $('#pochtamat-map').css('height', '500px').css('width', '100%');
                             $('#pochtamat-map').show();
                             ymaps.ready(init(json.data));
-                            console.log(json.data);
                         } else {
                             loadingBtnFalse('#clickbox-btn');
                             $('.header-sticky').css('z-index', '-1');
@@ -157,7 +175,8 @@
         $(document).on('click', '.btn-pochtamat', function() {
             $('#clickbox-btn').text('Выбрать');
             $('#clickbox-edit').text('Выберите почтомат');
-            if ($(this).data('state') == 0) {
+            clickboxModalPlace.close();
+            if ($(this).data('state') == 1) {
                 fetch(
                     api_host+url_cells + '?postomat_id=' + $(this).data('id'),
                     {
@@ -275,7 +294,7 @@
                 $('#clickbox-edit').text($(this).data('address'));
                 $('#clickbox-btn').text('Изменить');
             } else {
-                $(this).addClass('btn-success').removeClass('btn-danger').data('state', 0).text('Выбрать');
+                $(this).data('state', 0).text('Выбрать');
                 $('#clickbox_address').val('');
             }
             return false;
@@ -319,13 +338,6 @@
             if ($('#billing_first_name').val().toString().trim() == '') {
                 alert('Заполните имя');
                 $('#billing_first_name').focus();
-                loadingBtnFalse('#create-order');
-                return false;
-            }
-    
-            if ($('#billing_last_name').val().toString().trim() == '') {
-                alert('Заполните фамилию');
-                $('#billing_last_name').focus();
                 loadingBtnFalse('#create-order');
                 return false;
             }

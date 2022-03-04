@@ -42,8 +42,9 @@
 }
 
 .btn-pochtamat{
-  height: 35px;
-  line-height: 35px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
 }
 
 .btn-pochtamat{
@@ -60,6 +61,14 @@
 
 .clickbox-btn-close{
   background: #34495e !important;
+}
+
+.clickbox-btn-edit{
+  background: #575757 !important;
+}
+
+.clickbox-btn-save{
+  background: #0c9043 !important;
 }
 
 .tingle-modal-box{
@@ -86,4 +95,51 @@
     margin: 0;
     font-size: 15px;
     font-weight: 700;
+}
+
+.tingle-modal-box__content{
+  font-family: 'Fira Sans';
+}
+
+.pchtName{
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  margin-top: 0;
+}
+
+.pchtDes{
+  font-size: 15px;
+}
+
+.pchtDes>span{
+  font-weight: 700;
+}
+
+#pochtamat-place{
+  height: 380px;
+  width: 100%;
+}
+
+.pchtBox{
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.pchtImage{
+  padding: 0 20px 0 0;
+  width: 50%;
+}
+
+.pchtText{
+  width: 50%;
+}
+
+.pchtMarsh>span{
+  font-weight: 700;
+}
+
+.pchtBtns{
+  display: flex;
+  justify-content: center;
 }
