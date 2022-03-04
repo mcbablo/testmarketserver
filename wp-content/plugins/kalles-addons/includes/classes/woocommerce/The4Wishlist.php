@@ -52,10 +52,9 @@ class The4_Woocommerce_Wishlist {
 	 */
 	public function viewWishlistPage()
 	{
-		if ( !empty($_COOKIE['kalles_wishlist']) ) {
-			$w_id_list = unserialize( wp_unslash( $_COOKIE['kalles_wishlist'] ) );
-			ob_start();
-		}
+		$w_id_list = unserialize( wp_unslash( $_COOKIE['kalles_wishlist'] ) );
+		ob_start();
+
 		?>
 		<div class="kalles-wishlist-content">
 			<?php if ( !empty($w_id_list) ) : ?>

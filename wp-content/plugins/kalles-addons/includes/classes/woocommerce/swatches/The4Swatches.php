@@ -25,6 +25,8 @@ class The4_Woocommerce_Swatches {
      */
     protected static $types;
 
+    protected static $all_attr = array();
+
     protected $_prefix = '_custom_product_attr_options';
     /**
      * The4_Woocommerce_Swatches instance.
@@ -48,12 +50,16 @@ class The4_Woocommerce_Swatches {
                 'color' => esc_html__( 'Color', 'kalles' ),
                 'label' => esc_html__( 'Label'  , 'kalles' ),
                 'radio' => esc_html__( 'Radio'  , 'kalles' ),
+                'brand' => esc_html__( 'Brand'  , 'kalles' ),
             );
 
         //Admin
         if ( is_admin() ) {
             // Register filter to add custom types for WooCommerce product attributes.
             add_filter( 'product_attributes_type_selector', array( __CLASS__, 'add_custom_type' ) );
+
+            //add preview collunm to product attr table
+            add_filter( 'admin_init', array( __CLASS__, 'product_attr_preview_collunm') );
 
             // Register action to print values for custom attribute types in add/edit product screen.
             add_action( 'woocommerce_product_option_terms', array( __CLASS__, 'print_values' ), 10, 2 );
@@ -69,13 +75,6 @@ class The4_Woocommerce_Swatches {
             $show       = cs_get_option( 'wc_product_swatches-list' );
             $position   = cs_get_option( 'wc_product_swatches-list_position' );
 
-            if ( $show  ) {
-                if ( $position == 'before' ) {
-                    add_action( 'woocommerce_shop_loop_item_title', array( __CLASS__, 'add_swatch_on_product_list' ) );
-                } else {
-                    add_action( 'woocommerce_after_shop_loop_item_title', array( __CLASS__, 'add_swatch_on_product_list' ) );
-                }
-            }
 
         } else {
             //FrontEnd
@@ -85,6 +84,9 @@ class The4_Woocommerce_Swatches {
             $position   = cs_get_option( 'wc_product_swatches-list_position' );
 
             if ( $show  ) {
+
+                self::$all_attr = $this->get_attributes_value();
+
                 if ( $position == 'before' ) {
                     add_action( 'woocommerce_shop_loop_item_title', array( __CLASS__, 'add_swatch_on_product_list' ) );
                 } else {
@@ -112,13 +114,14 @@ class The4_Woocommerce_Swatches {
     public static function get_img_variant( $term, $available_variations )
     {
         $img = '';
-        foreach ($available_variations as $variation) {
-           foreach ($variation['attributes'] as $key => $value) {
-           // echo   . '<br>';
-               if ( strpos($key, $term->taxonomy) && strtolower($term->name) == $value ) {
-                $img = $variation['image_id'];
+        if ( ! empty( $available_variations) ) {
+            foreach ($available_variations as $variation) {
+               foreach ($variation['attributes'] as $key => $value) {
+                   if ( strpos($key, $term->taxonomy) && strtolower($term->name) == $value ) {
+                    $img = $variation['image_id'];
+                   }
                }
-           }
+            }
         }
 
         return wp_get_attachment_image_src( $img, 'shop_thumbnail' );
@@ -172,25 +175,23 @@ class The4_Woocommerce_Swatches {
         $images = array();
         foreach ( $galleries as $meta_key => $gallery ) {
             $attachment_ids = array_filter( explode( ',', $gallery ) );
-            if($images){
-				foreach ( $attachment_ids as $key => $attachment_id ) {
-					$full_size_image             = wp_get_attachment_image_src( $attachment_id, 'full' );
-					$single                      = wp_get_attachment_image_src( $attachment_id, 'shop_single' );
-					$thumbnail                   = wp_get_attachment_image_src( $attachment_id, 'woocommerce_thumbnail' );
-					$catalog                     = wp_get_attachment_image_src( $attachment_id, 'shop_catalog' );
-					$images[ $meta_key ][ $key ] = array(
-						'single'                  => $single[0],
-						'single_w'                => $single[1],
-						'single_h'                => $single[2],
-						'thumbnail'               => $thumbnail[0],
-						'catalog'                 => $catalog[0],
-						'data-src'                => $full_size_image[0],
-						'data-large_image'        => $full_size_image[0],
-						'data-large_image_width'  => $full_size_image[1],
-						'data-large_image_height' => $full_size_image[2],
-					);
-				}
-			}
+            foreach ( $attachment_ids as $key => $attachment_id ) {
+                $full_size_image             = wp_get_attachment_image_src( $attachment_id, 'full' );
+                $single                      = wp_get_attachment_image_src( $attachment_id, 'shop_single' );
+                $thumbnail                   = wp_get_attachment_image_src( $attachment_id, 'woocommerce_thumbnail' );
+                $catalog                     = wp_get_attachment_image_src( $attachment_id, 'shop_catalog' );
+                $images[ $meta_key ][ $key ] = array(
+                    'single'                  => $single[0],
+                    'single_w'                => $single[1],
+                    'single_h'                => $single[2],
+                    'thumbnail'               => $thumbnail[0],
+                    'catalog'                 => $catalog[0],
+                    'data-src'                => $full_size_image[0],
+                    'data-large_image'        => $full_size_image[0],
+                    'data-large_image_width'  => $full_size_image[1],
+                    'data-large_image_height' => $full_size_image[2],
+                );
+            }
         }
 
         // Get default gallery
@@ -228,6 +229,35 @@ class The4_Woocommerce_Swatches {
         return $images;
     }
 
+    public function get_attributes_value()
+    {
+        global $wpdb;
+
+        $all_attr = wc_get_attribute_taxonomies();
+        $attr_names = array();
+        $data = array();
+
+        if ( ! empty( $all_attr ) && is_array( $all_attr ) ) {
+            foreach ( $all_attr as $id => $attr ) {
+
+                $attr_names[] = $attr->attribute_name;
+            }
+
+            if ( ! empty( $attr_names ) ) {
+                foreach ($attr_names as $name ) {
+                    $data[ $name ] = $wpdb->get_results(
+                        "SELECT attribute_type FROM {$wpdb->prefix}woocommerce_attribute_taxonomies " .
+                        "WHERE attribute_name = '" . $name . "' LIMIT 0, 1;"
+                    );
+                }
+            }
+        }
+
+        return $data;
+
+
+    }
+
     /**
      * Show color swatch on product list.
      *
@@ -235,6 +265,8 @@ class The4_Woocommerce_Swatches {
      */
     public static function add_swatch_on_product_list() {
         global $wpdb, $product, $jassc;
+
+        $all_attr = self::$all_attr;
 
         $attributes = $product->get_attributes();
 
@@ -250,13 +282,10 @@ class The4_Woocommerce_Swatches {
 
             foreach ( $attributes as $attribute_name => $options ) {
                 $attribute_name = sanitize_title($attribute_name);
-                $attr = current(
-                    $wpdb->get_results(
-                        "SELECT attribute_type FROM {$wpdb->prefix}woocommerce_attribute_taxonomies " .
-                        "WHERE attribute_name = '" . substr( $attribute_name, 3 ) . "' LIMIT 0, 1;"
-                    )
-                );
-
+                
+                $attr = $all_attr[substr( $attribute_name, 3 )];
+                $attr = $attr[0];
+                
                 // Get selected attribute value.
                 $default_attribute_value = $product->get_variation_default_attribute( $attribute_name );
 
@@ -284,9 +313,7 @@ class The4_Woocommerce_Swatches {
                         if ( cs_get_option( 'wc_product_swatches-att_img' ) ) {
                             //Get Variant img
                             $variant_img = self::get_img_variant( $term, $variations );
-                            if($variant_img){
-								$image = $variant_img[0];
-							}
+                            $image = $variant_img[0];
                         }
                         //Swaches image
                         if ( $image ) {
@@ -433,7 +460,119 @@ class The4_Woocommerce_Swatches {
      *
      * ******************************/
 
+    /**
+     * Add preview to product attr table
+     *
+     * @since 1.0.3
+     */
+    public static function product_attr_preview_collunm( )
+    {
+        if ( function_exists( 'wc_get_attribute_taxonomies') ) {
+            $attrs = wc_get_attribute_taxonomies();
 
+            if( is_array( $attrs ) ) {
+                foreach ( $attrs as $attr ) {
+                    if ( $attr->attribute_name == 'color' ) {
+                        add_filter( 'manage_edit-pa_' . $attr->attribute_name . '_columns', array( __CLASS__, 'custom_product_attr_collunm_color') );
+                        add_filter( 'manage_pa_' . $attr->attribute_name . '_custom_column', array( __CLASS__, 'product_attr_preview_data_color'), 20, 3 );
+                    }
+
+                    if ( $attr->attribute_name == 'brand' ) {
+                        add_filter( 'manage_edit-pa_' . $attr->attribute_name . '_columns', array( __CLASS__, 'custom_product_attr_collunm_brand') );
+                        add_filter( 'manage_pa_' . $attr->attribute_name . '_custom_column', array( __CLASS__, 'product_attr_preview_data_brand'), 20, 3 );
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Custom collunm product attribute
+     *
+     * @since 1.0.3
+     */
+    public static function custom_product_attr_collunm_brand( $types )
+    {
+        $col = array(
+            'cb'          => '<input type="checkbox" />',
+            'name'        => esc_html__( 'Name', 'kalles' ),
+            'preview'   => esc_html__( 'Logo', 'kalles' ),
+            'description' => esc_html__( 'Description', 'kalles' ),
+            'slug'        => esc_html__( 'Slug', 'kalles' ),
+            'posts'       => esc_html__( 'Count', 'kalles' ),
+        );
+
+        return $col;
+    }
+
+    /**
+     * Add preview to product attr table
+     *
+     * @since 1.0.3
+     */
+    public static function product_attr_preview_data_brand( $data, $col, $term_id )
+    {
+        if ( $col == 'preview' ) {
+
+            $meta_swatches = get_term_meta( $term_id, '_custom_product_attr_options', true );
+            $image   = isset( $meta_swatches['brand-image']['thumbnail'] ) ? $meta_swatches['brand-image']['thumbnail'] : '' ;
+
+            if ( $image ) {
+                ?>
+                    <div class="kalles-attr-preview">
+                        <img src="<?php echo esc_attr( $image); ?>" >
+                    </div>
+                <?php
+            }
+        }
+    }
+
+    /**
+     * Custom collunm product attribute
+     *
+     * @since 1.0.3
+     */
+    public static function custom_product_attr_collunm_color( $types )
+    {
+        $col = array(
+            'cb'          => '<input type="checkbox" />',
+            'name'        => esc_html__( 'Name', 'kalles' ),
+            'preview'   => esc_html__( 'Swatch', 'kalles' ),
+            'description' => esc_html__( 'Description', 'kalles' ),
+            'slug'        => esc_html__( 'Slug', 'kalles' ),
+            'posts'       => esc_html__( 'Count', 'kalles' ),
+        );
+
+        return $col;
+    }
+
+    /**
+     * Add preview to product attr table
+     *
+     * @since 1.0.3
+     */
+    public static function product_attr_preview_data_color( $data, $col, $term_id )
+    {
+        if ( $col == 'preview' ) {
+
+            $meta_swatches = get_term_meta( $term_id, '_custom_product_attr_options', true );
+
+            $color   = isset( $meta_swatches['color-color'] ) ? $meta_swatches['color-color'] : '';
+            $image   = isset( $meta_swatches['color-image']['thumbnail'] ) ? $meta_swatches['color-image']['thumbnail'] : '' ;
+
+            if ( $image ) {
+                ?>
+                    <div class="kalles-attr-preview">
+                        <img src="<?php echo esc_attr( $image); ?>" >
+                    </div>
+                <?php
+            } elseif ( $color ) {
+                ?>
+                    <div class="kalles-attr-preview" style="background-color: <?php echo esc_attr( $color ); ?>"></div>
+                <?php
+            }
+        }
+    }
 
     /**
      * // Register filter to add custom types for WooCommerce product attributes.
@@ -521,6 +660,25 @@ class The4_Woocommerce_Swatches {
                         ),
                         array(
                           'id'    => 'color-tooltip',
+                          'type'  => 'text',
+                          'title'   => esc_html__( 'Tooltip', 'kalles' ),
+                        ),
+                      )
+                    ) );
+                }
+
+                if ( $attribute->attribute_type == 'brand' ) {
+                    CSF::createSection( $this->_prefix, array(
+                      'fields' => array(
+                        array(
+                          'id'    => 'brand-image',
+                          'type'    => 'media',
+                          'title'   => esc_html__( 'Brand logo', 'kalles' ),
+                          'library' => 'image',
+                          'url' => false,
+                        ),
+                        array(
+                          'id'    => 'brand-tooltip',
                           'type'  => 'text',
                           'title'   => esc_html__( 'Tooltip', 'kalles' ),
                         ),
