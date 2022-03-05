@@ -23,10 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $post, $woocommerce, $product, $kalles_featured_product;
 
 $is_kalles_lazyload = kalles_image_lazyload_class(false);
-
 $attachment_ids   = the4_woo_get_variable_gallery();
 $all_variant_image = the4_woo_get_all_variant_image();
-$attachment_count = count( $product->get_gallery_image_ids() );
+$attachment_count = count( $product->get_gallery_image_ids() ) > 0 || count( $attachment_ids ) > 0 ? 1 : 0;
 
 // Get page options
 $options = get_post_meta( get_the_ID(), '_custom_wc_options', true );

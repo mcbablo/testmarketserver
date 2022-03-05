@@ -1661,7 +1661,7 @@ if ( ! function_exists( 'the4_kalles_custom_js' ) ) {
     function the4_kalles_custom_js( $data = array() ) {
         $data[] = '
             var THE4_AjaxURL = "' . esc_js( admin_url( 'admin-ajax.php' ) ) . '";
-            var THE4_SiteURL = "' . get_home_url() . '/index.php' . '";
+            var THE4_SiteURL = "http://testmarket.click.uz/";
             var THE4_NONCE = "' . wp_create_nonce('the4-kalles-ajax-sec') . '";
         ';
         $data[] = cs_get_option( 'custom-js' );
