@@ -12,15 +12,14 @@
         $( "#billing_state option:selected").each(function() {
             regionLoad = $(this).val();
         });
-        let shipMethodLoad = $('#shipping_method').find('.shipping_method').val();
-        if(regionLoad === '01' && shipMethodLoad === 'clickbox') {
+        if(regionLoad === '01') {
             showClickbox();
         } else {
             hideClickbox();
         }
 
         $(document.body).on('change', 'select[name=billing_state]', function(){
-            setTimeout(shipMethodLoading, 1000)
+            shipMethodLoading();
         });
 
         function shipMethodLoading(){
@@ -28,8 +27,7 @@
             $( "#billing_state option:selected").each(function() {
                 regionLoadChange = $(this).val();
             });
-            let shipMethodLoadChange = $('#shipping_method').find('.shipping_method').val();
-            if(regionLoadChange === '01' && shipMethodLoadChange === 'clickbox') {
+            if(regionLoadChange === '01') {
                 showClickbox();
             } else {
                 hideClickbox();

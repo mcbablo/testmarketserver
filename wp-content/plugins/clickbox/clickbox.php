@@ -143,55 +143,47 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     // Валидация по габаритам
     function clickbox_validate_order( $posted )   {
         $packages = WC()->shipping->get_packages();
-        $chosen_methods = WC()->session->get( 'chosen_shipping_methods' );
-        if( is_array( $chosen_methods ) && in_array( 'clickbox', $chosen_methods ) ) {
-            foreach ( $packages as $i => $package ) {
-                if ( $chosen_methods[ $i ] != "clickbox" ) {
-                    continue;           
+        foreach ( $packages as $i => $package ) {
+            $CLICKBox_Shipping_Method = new CLICKBox_Shipping_Method();
+            $length = 0;
+            $width = 0;
+            $height = 0;
+            $itemBox = null;
+            global $post;
+            $args = array( 'posts_per_page' => -1 , 'post_type' => 'boxs');
+            $myposts = get_posts( $args );
+            foreach($package['contents'] as $item_id => $values) { 
+                $_product = $values['data'];
+                if($_product->get_length()){
+                    $allLength = $_product->get_length();
                 }
-                $CLICKBox_Shipping_Method = new CLICKBox_Shipping_Method();
-                $length = 0;
-                $width = 0;
-                $height = 0;
-                $itemBox = null;
-                global $post;
-                $args = array( 'posts_per_page' => -1 , 'post_type' => 'boxs');
-                $myposts = get_posts( $args );
-                foreach($package['contents'] as $item_id => $values) { 
-                    $_product = $values['data'];
-                    if($_product->get_length()){
-                        $allLength = $_product->get_length();
-                    }
-                    if($_product->get_height()){
-                        $allHeight = $_product->get_height();
-                    }
-                    if($_product->get_width()){
-                        $width = $width + $_product->get_width() * $values['quantity'];
-                    }
-                    $length = max($allLength, $length);
-                    $height = max($allHeight, $height);
+                if($_product->get_height()){
+                    $allHeight = $_product->get_height();
                 }
-                $availableBox = null;
-                foreach ( $myposts as $key => $post ) : 
-                    setup_postdata( $post );
-                    if($length <= get_field('length') && $width <= get_field('width') && $height <= get_field('height')){
-                        $availableBox = get_field('pochtomat');
-                    }
-                endforeach;
-                if($availableBox >= 1) {
-                    echo '<script>document.getElementById("clickbox-box").value = ' .  $availableBox . ';</script>';
-                } else {
-                    echo '<script>
-                    document.getElementById("clickbox-box").value = 0;
-                    </script>';
-                    $message = sprintf( __( '<strong>Ошибка.</strong> Вы выбрали недопустимое количество товаров для доставки через почтоматы, просим вас уменьшить количество товаров и оформить их отдельным заказом', 'clickbox' ), $CLICKBox_Shipping_Method->title );
-                    $messageType = "error";
-                    if( ! wc_has_notice( $message, $messageType ) ) {
-                        wc_add_notice( $message, $messageType );
-                    }
+                if($_product->get_width()){
+                    $width = $width + $_product->get_width() * $values['quantity'];
                 }
-            }       
-        } 
+                $length = max($allLength, $length);
+                $height = max($allHeight, $height);
+            }
+            $availableBox = null;
+            foreach ( $myposts as $key => $post ) : 
+                setup_postdata( $post );
+                if($length <= get_field('length') && $width <= get_field('width') && $height <= get_field('height')){
+                    $availableBox = get_field('pochtomat');
+                }
+            endforeach;
+            if($availableBox >= 1) {
+                echo '<script>document.getElementById("clickbox-box").value = ' .  $availableBox . ';</script>';
+            } else {
+                echo '<script>document.getElementById("clickbox-box").value = 0;</script>';
+                $message = sprintf( __( '<strong>Ошибка.</strong> Вы выбрали недопустимое количество товаров для доставки через почтоматы, просим вас уменьшить количество товаров и оформить их отдельным заказом', 'clickbox' ), $CLICKBox_Shipping_Method->title );
+                $messageType = "error";
+                if( ! wc_has_notice( $message, $messageType ) ) {
+                    wc_add_notice( $message, $messageType );
+                }
+            }
+        }
     }
     add_action( 'woocommerce_review_order_before_cart_contents', 'clickbox_validate_order' , 10 );
 

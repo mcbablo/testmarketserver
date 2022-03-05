@@ -94,8 +94,9 @@
                 });
             }
         }
-    
-        $('#clickbox-btn').click(function(){
+        let clickboxBtn = document.getElementById('clickbox-btn');
+        clickboxBtn.addEventListener('click', function(){
+            console.log(cell_input);
             if(cell_input > 0){
                 loadingBtn('#clickbox-btn');
                 clickboxModal.open();
@@ -136,7 +137,6 @@
                 });
             }
         });
-    
         $(document).on('click', '.btn-pochtamat', function() {
             $('#clickbox-btn').text('Выбрать');
             $('#clickbox-edit').text('Выберите почтомат');
@@ -349,5 +349,6 @@
                 alert('Не выбран почтомат');
             }
         });
+        
     });
 })(jQuery);
