@@ -18,17 +18,6 @@ if ( ! defined( 'WPINC' ) ) {
 // Путь к плагину
 define( 'WC_CLICKBOX_PLUGIN_URL', plugin_dir_url(__FILE__) );
 
-// Логирование - Глобальное
-function log_me($message) {
-	if (WP_DEBUG === true) {
-		if (is_array($message) || is_object($message)) {
-			error_log(print_r($message, true));
-		} else {
-			error_log($message);
-		}
-	}
-}
-
 // Проверка что Woocommerce активирован
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
     //Регистрация метода доставки

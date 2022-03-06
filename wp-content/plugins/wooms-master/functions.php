@@ -225,17 +225,6 @@ function wooms_id_check_if_unique($post_ID, $post = '', $update = '') {
         $ids[] = $variation->ID;
     }
 
-    foreach ($ids as $id) {
-
-        $meta_values = get_post_meta( $id );
-
-        foreach ($meta_values as $key => $values) {
-            if (preg_match('/^wooms_/',  $key)) {
-                delete_post_meta($id, $key);
-            }
-        }
-    }
-
     do_action(
         'wooms_logger',
         $type = 'WooMS-Request',

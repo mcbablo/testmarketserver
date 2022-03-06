@@ -43,10 +43,18 @@ add_action( 'wp_enqueue_scripts', 'my_scripts_method_child' );
 
 add_filter('woocommerce_currency_symbol', 'change_existing_currency_symbol', 10, 2);
 function change_existing_currency_symbol( $currency_symbol, $currency ) {
-     switch( $currency ) {
-          case 'UZS': $currency_symbol = 'сум'; break;
-     }
-     return $currency_symbol;
+    switch( $currency ) {
+        case 'UZS':           
+            if(ICL_LANGUAGE_CODE=='ru'){
+                $currency_symbol = 'сум'; 
+            } else if(ICL_LANGUAGE_CODE=='uz'){
+                $currency_symbol = 'so\'m';  
+            } else{
+                $currency_symbol = 'uzs';  
+            }
+        break;            
+    }
+    return $currency_symbol;
 }
 
 add_filter( 'woocommerce_package_rates', 'hide_specific_shipping_method_based_on_user_role', 30, 2 );

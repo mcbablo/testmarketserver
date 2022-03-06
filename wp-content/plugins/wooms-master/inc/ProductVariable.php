@@ -90,7 +90,7 @@ class ProductVariable
 
             $query_arg_default = [
                 'offset' => 0,
-                'limit'  => apply_filters('wooms_variant_iteration_size', 30),
+                'limit'  => 40,
             ];
 
             self::set_state('query_arg', $query_arg_default);
@@ -251,7 +251,7 @@ class ProductVariable
                 $values[] = $characteristic['value'];
             }
 
-            $values                                    = apply_filters(
+            $values = apply_filters(
                 'wooms_product_attribute_save_values',
                 $values,
                 $product,

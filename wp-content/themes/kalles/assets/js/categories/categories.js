@@ -224,44 +224,6 @@
      * See woo/js/frontend/price-slider.js
      * @since 1.0.3
      */
-    
-    The4Kalles.init_price_filter = function() {
-        $( 'input#min_price, input#max_price' ).hide();
-        $( '.price_slider, .price_label' ).show();
-
-        var min_price         = $( '.price_slider_amount #min_price' ).data( 'min' ),
-            max_price         = $( '.price_slider_amount #max_price' ).data( 'max' ),
-            step              = $( '.price_slider_amount' ).data( 'step' ) || 1,
-            current_min_price = $( '.price_slider_amount #min_price' ).val(),
-            current_max_price = $( '.price_slider_amount #max_price' ).val();
-
-        $( '.price_slider:not(.ui-slider)' ).slider({
-            range: true,
-            animate: true,
-            min: min_price,
-            max: max_price,
-            step: step,
-            values: [ current_min_price, current_max_price ],
-            create: function() {
-
-                $( '.price_slider_amount #min_price' ).val( current_min_price );
-                $( '.price_slider_amount #max_price' ).val( current_max_price );
-
-                $( document.body ).trigger( 'price_slider_create', [ current_min_price, current_max_price ] );
-            },
-            slide: function( event, ui ) {
-
-                $( 'input#min_price' ).val( ui.values[0] );
-                $( 'input#max_price' ).val( ui.values[1] );
-
-                $( document.body ).trigger( 'price_slider_slide', [ ui.values[0], ui.values[1] ] );
-            },
-            change: function( event, ui ) {
-
-                $( document.body ).trigger( 'price_slider_change', [ ui.values[0], ui.values[1] ] );
-            }
-        });
-    }
 
     //Sort by Product list
     The4Kalles.The4KallesSortbyPicker = function () {
@@ -311,7 +273,6 @@
         The4Kalles.wcInitSidebarFilter();
         The4Kalles.wcInitSwitchLayout();
         The4Kalles.The4KallesShopAjaxFilter();
-        The4Kalles.init_price_filter();
         The4Kalles.The4KallesSortbyPicker();
         The4Kalles.kalles_filter_color();
     })

@@ -162,26 +162,28 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 
 										if ( in_array( $term->slug, $options ) ) {
 
-											echo '<li '. $data_variantion_id .' data-variation="' . esc_attr( $term->slug ) . '" data-image-id="" class="swatch__list--item is-relative' . ( $term->slug == $selected ? ' is-selected' : '' ) . '">';
-											if ( $attr->attribute_type == 'color' ) {
-												echo '<span class="swatch__value" ' . $style .'></span>';
-											} elseif ( $attr->attribute_type == 'label' ) {
-												echo '<span class="swatch__value">';
-													if ( $label ) {
-														echo esc_attr( $label );
-													} else {
-														echo esc_attr( $term->name );
-													}
-												echo '</span>';
-											}
-											if ( $enable_tooltip ) {
-												if ( $tooltip ) {
-													echo '<span class="swatch__tooltip is-absolute is-block">' . esc_attr( $tooltip ) . '</span>';
-												} else {
-													echo '<span class="swatch__tooltip is-absolute is-block">' . esc_attr( $term->name ) . '</span>';
+											if($data_variantion_id){
+												echo '<li '. $data_variantion_id .' data-variation="' . esc_attr( $term->slug ) . '" data-image-id="" class="swatch__list--item is-relative' . ( $term->slug == $selected ? ' is-selected' : '' ) . '">';
+												if ( $attr->attribute_type == 'color' ) {
+													echo '<span class="swatch__value" ' . $style .'></span>';
+												} elseif ( $attr->attribute_type == 'label' ) {
+													echo '<span class="swatch__value">';
+														if ( $label ) {
+															echo esc_attr( $label );
+														} else {
+															echo esc_attr( $term->name );
+														}
+													echo '</span>';
 												}
+												if ( $enable_tooltip ) {
+													if ( $tooltip ) {
+														echo '<span class="swatch__tooltip is-absolute is-block">' . esc_attr( $tooltip ) . '</span>';
+													} else {
+														echo '<span class="swatch__tooltip is-absolute is-block">' . esc_attr( $term->name ) . '</span>';
+													}
+												}
+												echo '</li>';
 											}
-											echo '</li>';
 										}
 									} // End if
 								} // End foreach
