@@ -83,7 +83,10 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
 
 		ob_start();
 		?>
-		<link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />
+		<?php if( is_page( 'my-account' ) ){
+		 //код
+		} else {?>
+			<link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />
             <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.device.detector.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.9/jquery.inputmask.bundle.min.js"></script>
             <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.js"></script>
@@ -125,7 +128,7 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
                 </form>
             </div>
 		<?php
-
+		}
 		echo ob_get_clean();
 	}
 }

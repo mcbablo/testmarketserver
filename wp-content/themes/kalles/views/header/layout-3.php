@@ -43,7 +43,7 @@
 	<div class="header__mid pl__15 pr__15<?php echo esc_attr( ( cs_get_option( 'header-transparent' ) ? ' header__transparent pa w__100' : '' ) ); ?>">
         <div class="container">
 			<div class="row middle-xs al_center">
-				<div class="col-md-5 col-4 dn_lg">
+				<div class="col-md-5 col-3 dn_lg">
 					<a href="javascript:void(0);" class="the4-push-menu-btn hide-md visible-sm visible-xs">
 						<?php
 							if ( ! empty( $mobile_icon['url'] ) ) :
@@ -55,7 +55,7 @@
 						?>
 					</a>
 				</div>
-				<div class="col-lg-2 col-md-2 col-4 tc tl_lg">
+				<div class="col-lg-2 col-md-2 col-6 tc tl_lg">
 					<?php the4_kalles_logo(); ?>
 				</div>
 				<div class="col-lg-8 col-md-6 col-12 dn db_lg">
@@ -78,7 +78,7 @@
 						?>
 					</nav><!-- .the4-navigation -->
 				</div>
-				<div class="col-lg-auto col-lg-2 col-md-5 col-4 tr col_group_btns">
+				<div class="col-lg-auto col-lg-2 col-md-5 col-3 tr col_group_btns">
 					<?php get_template_part('views/common/header-action'); ?>
 				</div>
 			</div><!-- .row -->

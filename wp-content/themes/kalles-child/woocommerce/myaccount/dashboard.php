@@ -44,7 +44,7 @@ $allowed_html = array(
         </div>
     </div>
     <ul class="account-list-action row w__100">
-        <li class="col-lg-4 col-md-6 col-12 mt__15">
+        <li class="col-md-6 col-12 mt__15">
             <div>
             <a href="<?php echo esc_url( wc_get_endpoint_url( 'orders' ) ); ?>" class="acc-order">
                 <i class="pe-7s-box2"></i><br>
@@ -54,17 +54,7 @@ $allowed_html = array(
 
             </div>
         </li>
-        <li class="col-lg-4 col-md-6 col-12 mt__15">
-            <div>
-            <a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address' ) ); ?>" class="acc-address">
-                <i class="pe-7s-credit"></i><br>
-                <?php esc_html_e( 'Address', 'kalles' ); ?><br>
-                <span><?php esc_html_e( 'Edit Address', 'kalles' ); ?></span>
-            </a>
-
-            </div>
-            </li>
-        <li class="col-lg-4 col-md-6 col-12 mt__15">
+        <li class="col-md-6 col-12 mt__15">
             <div>
             <a href="<?php echo esc_url( wc_get_endpoint_url( 'edit-account' ) ); ?>" class="acc-detail">
                 <i class="pe-7s-user"></i><br>
