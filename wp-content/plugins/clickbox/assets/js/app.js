@@ -43,7 +43,10 @@
         }
     
         var clickboxModal = new tingle.modal({
-            footer: true,
+            footer: false,
+            onClose: function() {
+                $('.header-sticky').css('z-index', '1001');
+            },
             cssClass: ['clickbox-modal'],
         });
 
@@ -57,11 +60,6 @@
     
         clickboxModal.setContent('<div id="pochtamat-map"></div>');
         clickboxModalPlace.setContent('<div id="pochtamat-place"></div>');
-    
-        clickboxModal.addFooterBtn('Закрыть', 'clickbox-btn-close tingle-btn--pull-right', function () {
-            clickboxModal.close();
-            $('.header-sticky').css('z-index', '1001');
-        });
     
         function init(pochtamats = null) {
             $('#pochtamat-map').html('');
