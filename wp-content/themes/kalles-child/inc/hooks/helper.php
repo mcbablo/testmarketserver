@@ -225,7 +225,7 @@ if ( ! function_exists( 'the4_kalles_post_meta' ) ) {
             );
         }
 
-        echo apply_filters( 'the4_kalles_post_meta', '<div class="post-meta fs__12">' . $output . '</div>' );
+        echo apply_filters( 'the4_kalles_post_meta', '<div></div>' );
     }
 }
 

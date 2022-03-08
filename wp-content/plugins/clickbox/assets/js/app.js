@@ -1,6 +1,5 @@
 (function($) {
     $(window).on('load', function(){
-        $('#banner1').find('a[target="_blank"]').removeAttr('target');
         var api_host = 'https://dev.clickbox.uz/api';
         var url_cells = '/merchant/handbooks/cell-types';
         var url_pochtamats = '/merchant/handbooks/postomats';
@@ -94,7 +93,7 @@
         }
         let clickboxBtn = document.getElementById('clickbox-btn');
         clickboxBtn.addEventListener('click', function(){
-            console.log(cell_input);
+            console.log($('#clickbox-box').val());
             if(cell_input > 0){
                 loadingBtn('#clickbox-btn');
                 clickboxModal.open();

@@ -153,40 +153,6 @@ function scfw_size_chart_get_chart_table( $chart_table, $chart_id )
 }
 
 /**
- * Get the default size chart post ids.
- *
- * @return mixed|void a post ids array.
- */
-function scfw_size_chart_get_default_post_ids()
-{
-    $default_size_chart_posts_ids = get_option( 'default_size_chart_posts_ids' );
-    // If old plugin in serialize data.
-    if ( is_serialized( $default_size_chart_posts_ids, true ) ) {
-        return maybe_unserialize( $default_size_chart_posts_ids );
-    }
-    // If only array.
-    if ( is_array( $default_size_chart_posts_ids ) ) {
-        return $default_size_chart_posts_ids;
-    }
-    // If the data is json format.
-    if ( scfw_size_chart_is_json( $default_size_chart_posts_ids ) ) {
-        return json_decode( $default_size_chart_posts_ids, true );
-    }
-    return $default_size_chart_posts_ids;
-}
-
-/**
- * Update the default size chart post ids.
- *
- * @param array $default_size_chart_ids default size chart array.
- */
-function scfw_size_chart_update_default_post_ids( $default_size_chart_ids )
-{
-    $default_size_chart_ids = wp_json_encode( $default_size_chart_ids );
-    update_option( 'default_size_chart_posts_ids', $default_size_chart_ids );
-}
-
-/**
  * This function check weather data is in json format or not.
  *
  * @param string $string json string.

@@ -161,14 +161,6 @@ class SCFW_Size_Chart_For_Woocommerce_Admin
         // Add inline style.
         wp_add_inline_style( $this->get_plugin_dash_name(), 'body{}' );
         
-        if ( isset( $post ) ) {
-            $post_status = get_post_meta( $post->ID, 'post_status', true );
-            if ( $this->get_plugin_post_type_name() === $post->post_type && isset( $post_status ) && 'default' === $post_status ) {
-                // Add inline style.
-                wp_add_inline_style( 'wp-jquery-ui-dialog', "#delete-action, .bulkactions, #duplicate-action, #misc-publishing-actions, #minor-publishing-actions{display:none;}" );
-            }
-        }
-        
         /**
          * Register, Enqueue and Add inline JavaScripts.
          */
@@ -226,30 +218,7 @@ class SCFW_Size_Chart_For_Woocommerce_Admin
                 'button' => __( 'Use this image', 'size-chart-for-woocommerce' ),
             ) );
             wp_enqueue_script( $this->get_plugin_dash_name() . '-meta-box-image' );
-        }
-        
-        // Disable the publish button on size chart.
-        
-        if ( 'post.php' === $hook_suffix ) {
-            $post_status = get_post_meta( $post->ID, 'post_status', true );
-            if ( $this->get_plugin_post_type_name() === $post->post_type && isset( $post_status ) && 'default' === $post_status ) {
-                // Add inline script.
-                wp_add_inline_script( $this->get_plugin_dash_name(), "window.onload = function() {jQuery('#title').prop('disabled', true);};" );
-            }
-        }
-        
-        
-        if ( $this->get_plugin_post_type_name() === $typenow && 'edit.php' === $hook_suffix ) {
-            $default_size_chart_ids = scfw_size_chart_get_default_post_ids();
-            
-            if ( isset( $default_size_chart_ids ) && !empty($default_size_chart_ids) && array_filter( $default_size_chart_ids ) ) {
-                $default_size_chart_ids_jquery = implode( ',', $default_size_chart_ids );
-                // Add inline script.
-                wp_add_inline_script( $this->get_plugin_dash_name(), 'window.onload = function() {jQuery.each([ ' . $default_size_chart_ids_jquery . ' ], function( index, value ) {jQuery("input#cb-select-"+value).remove();});};' );
-            }
-        
-        }
-    
+        }    
     }
     
     /**
@@ -292,73 +261,6 @@ class SCFW_Size_Chart_For_Woocommerce_Admin
             'supports'           => array( 'title', 'editor' ),
         );
         register_post_type( $this->get_plugin_post_type_name(), $args );
-    }
-    
-    /**
-     * This function call for welcome screen in size chart plugin and Default size chart create hook.
-     */
-    public function scfw_size_chart_pro_welcome_screen_and_default_posts_callback()
-    {
-        /**
-         * Default Template.
-         * Created default size chart posts.
-         * Add option for check default size chart.
-         */
-        $default_size_chart_option = get_option( 'default_size_chart' );
-        
-        if ( empty($default_size_chart_option) ) {
-            $default_size_chart_posts = array(
-                'tshirt-shirt'    => __( "Men's T-Shirts & Polo Shirts Size Chart" ),
-                'womens-tshirt'   => __( "Women's T-shirt / Tops size chart" ),
-                'mens-shirts'     => __( "Men's Shirts Size Chart" ),
-                'womens-dress'    => __( "Women's Dress Size Chart " ),
-                'jeans-trouser'   => __( "Men's Jeans & Trousers Size Chart" ),
-                'womens-jeans'    => __( "Women's Jeans And Jeggings Size Chart" ),
-                'mens-waistcoats' => __( "Men's Waistcoats Size Chart" ),
-                'women-cloth'     => __( "Women's Cloth size chart" ),
-                'men-shoes'       => __( "Men's Shoes Size Chart" ),
-                'women-shoes'     => __( "Women's Shoes Size Chart" ),
-            );
-            // Get current user to assign a post.
-            $user_id = get_current_user_id();
-            $default_size_chart_posts_ids = array();
-            foreach ( $default_size_chart_posts as $default_post_size_chart_key => $default_post_size_chart_value ) {
-                $size_chart_content_html = $this->scfw_size_chart_cloth_template_html_content( $default_post_size_chart_key );
-                $size_chart_post_arg = array(
-                    'post_author'  => $user_id,
-                    'post_content' => $size_chart_content_html,
-                    'post_type'    => $this->get_plugin_post_type_name(),
-                    'post_status'  => 'publish',
-                    'post_title'   => $default_post_size_chart_value,
-                );
-                $post_id = wp_insert_post( $size_chart_post_arg );
-                $default_size_chart_posts_ids[] = $post_id;
-                if ( 0 !== $post_id ) {
-                    $this->scfw_size_chart_add_post_meta( $post_id, $default_post_size_chart_key );
-                }
-            }
-            update_option( 'default_size_chart', 'default_size_chart_set' );
-            scfw_size_chart_update_default_post_ids( $default_size_chart_posts_ids );
-        }
-        
-        /**
-         * Size chart welcome page.
-         */
-        // If no activation redirect.
-        if ( !get_transient( '_welcome_screen_activation_redirect_size_chart' ) ) {
-            return;
-        }
-        // Delete the redirect transient.
-        delete_transient( '_welcome_screen_activation_redirect_size_chart' );
-        // If activating from network, or bulk.
-        // Sanitize user input.
-        $activate_multi = filter_input( INPUT_GET, 'activate-multi', FILTER_SANITIZE_STRING );
-        if ( is_network_admin() || isset( $activate_multi ) ) {
-            return;
-        }
-        // Redirect to size chart welcome page.
-        wp_safe_redirect( admin_url( "admin.php?page=size-chart-get-started" ) );
-        exit;
     }
     
     /**
@@ -1013,92 +915,6 @@ class SCFW_Size_Chart_For_Woocommerce_Admin
             </div>
         </div>
 		<?php 
-    }
-    
-    /**
-     * Remove the row actions for default size chart.
-     *
-     * @param array $actions post table row actions array.
-     *
-     * @return mixed post table row actions.
-     */
-    public function scfw_size_chart_remove_row_actions_callback( $actions )
-    {
-        global  $post ;
-        $post_status = get_post_meta( $post->ID, 'post_status', true );
-        
-        if ( $this->get_plugin_post_type_name() === $post->post_type && isset( $post_status ) && 'default' === $post_status ) {
-            unset( $actions );
-            $actions = array();
-        }
-        
-        return apply_filters( 'size_chart_add_row_actions', $actions );
-    }
-    
-    /**
-     * Size chart default template.
-     */
-    public function scfw_size_chart_filter_default_template_callback()
-    {
-        global  $typenow ;
-        // Sanitize user input.
-        $current = filter_input( INPUT_GET, 'default_template', FILTER_SANITIZE_STRING );
-        
-        if ( $this->get_plugin_post_type_name() === $typenow ) {
-            ?>
-            <select name="default_template" id="issue">
-                <option value=""><?php 
-            esc_html_e( 'Show All Template', 'size-chart-for-woocommerce' );
-            ?></option>
-                <option value="hide-default" <?php 
-            selected( 'hide-default', $current, true );
-            ?>><?php 
-            esc_html_e( 'Hide Default Template', 'size-chart-for-woocommerce' );
-            ?></option>
-            </select>
-			<?php 
-        }
-    
-    }
-    
-    /**
-     * Set size chart default template.
-     *
-     * @since      1.0.0
-     */
-    public function scfw_size_chart_filter_default_template_query_callback()
-    {
-        global  $pagenow ;
-        // Sanitize user input.
-        $default_template = filter_input( INPUT_GET, 'default_template', FILTER_SANITIZE_STRING );
-        $post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
-        $show_default_template = apply_filters( 'show_default_template', true );
-        if ( is_admin() && 'edit.php' === $pagenow && isset( $post_type ) && $this->get_plugin_post_type_name() === $post_type && isset( $default_template ) && !empty($default_template) || false === $show_default_template ) {
-            set_query_var( 'meta_query', array( array(
-                'key'     => 'post_status',
-                'value'   => 'default',
-                'compare' => 'NOT EXISTS',
-            ) ) );
-        }
-    }
-    
-    /**
-     * Size chart selected chart deleted.
-     *
-     * @param int $post_id size chart id.
-     */
-    public function scfw_size_chart_selected_chart_delete_callback( $post_id )
-    {
-        
-        if ( isset( $post_id ) && !empty($post_id) && $this->get_plugin_post_type_name() === get_post_type( $post_id ) ) {
-            $post_ids_result = $this->scfw_get_post_id_by_meta_key_and_value( 'prod-chart', $post_id );
-            if ( false !== $post_ids_result ) {
-                foreach ( $post_ids_result as $product_id ) {
-                    delete_post_meta( $product_id, 'prod-chart', $post_id );
-                }
-            }
-        }
-    
     }
     
     /**

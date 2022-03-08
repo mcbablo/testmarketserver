@@ -57,5 +57,28 @@
                 $('#create-order').hide();
             }
         } );
+		var window_w = $(window).width();
+		var cat_menu = $('#the4-mobile-menu__cat')
+		var initDropdownMenuCat = function() {
+        	$( '#the4-mobile-menu__cat ul li.has-sub' ).append( '<span class="holder"></span>' );
+			$( cat_menu ).on('click','.holder', function() {
+				var el = $( this ).closest( 'li' );
+				if ( el.hasClass( 'open' ) ) {
+					el.removeClass( 'open' );
+					el.find( 'li' ).removeClass( 'open' );
+					el.find( 'ul' ).slideUp();
+				} else {
+					el.addClass( 'open' );
+					el.children( 'ul' ).slideDown();
+					el.siblings( 'li' ).children( 'ul' ).slideUp();
+					el.siblings( 'li' ).removeClass( 'open' );
+					el.siblings( 'li' ).find( 'li' ).removeClass( 'open' );
+					el.siblings( 'li' ).find( 'ul' ).slideUp();
+				}
+			});
+    	}
+		if ( window_w < 768 ) {
+            initDropdownMenuCat();
+        }
     });
 })(jQuery);
