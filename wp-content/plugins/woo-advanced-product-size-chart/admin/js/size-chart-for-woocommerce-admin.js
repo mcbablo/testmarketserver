@@ -526,6 +526,13 @@
 			});
 	    }
 	    scfw_size_chart_position_options();
+
+		$('body').on('click', '.dotstore_plugin_sidebar .content_box .sc-star-rating label', function(e){
+			e.stopImmediatePropagation();
+			var rurl = $('#sc-review-url').val();
+			window.open( rurl, '_blank' );
+		});
+
 	});
 
 	$(document).ready(sizeChartScripts.init);

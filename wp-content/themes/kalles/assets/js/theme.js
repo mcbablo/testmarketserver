@@ -571,9 +571,9 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
         });
 
     };
-	var menuBox = $( '#the4-mobile-menu' );
     // Accordion mobile menu
     var initDropdownMenu = function() {
+        var menuBox = $( '#the4-mobile-menu' );
         $( '#the4-mobile-menu ul li.has-sub' ).append( '<span class="holder"></span>' );
         $( menuBox ).on('click','.holder',function() {
             var el = $( this ).closest( 'li' );

@@ -52,38 +52,28 @@ esc_html_e( 'Get Premium Now »', 'size-chart-for-woocommerce' );
         <?php 
 ?>
     <div class="dotstore-important-link">
-        <div class="image_box">
-            <img src="<?php 
-echo  esc_url( plugin_dir_url( dirname( __FILE__, 2 ) ) . 'images/rate-us.png' ) ;
-?>" alt="<?php 
-esc_attr_e( 'Rate us', 'size-chart-for-woocommerce' );
-?> ">
-        </div>
         <div class="content_box">
             <h3><?php 
 esc_html_e( 'Like This Plugin?', 'size-chart-for-woocommerce' );
 ?></h3>
-            <p class="star-container">
-                <a href="<?php 
+            <div class="sc-star-rating">
+                <input type="radio" id="5-stars" name="rating" value="5">
+                <label for="5-stars" class="star"></label>
+                <input type="radio" id="4-stars" name="rating" value="4">
+                <label for="4-stars" class="star"></label>
+                <input type="radio" id="3-stars" name="rating" value="3">
+                <label for="3-stars" class="star"></label>
+                <input type="radio" id="2-stars" name="rating" value="2">
+                <label for="2-stars" class="star"></label>
+                <input type="radio" id="1-star" name="rating" value="1">
+                <label for="1-star" class="star"></label>
+                <input type="hidden" id="sc-review-url" value="<?php 
 echo  esc_url( $review_url ) ;
-?>" target="_blank">
-                    <span class="dashicons dashicons-star-filled"></span>
-                    <span class="dashicons dashicons-star-filled"></span>
-                    <span class="dashicons dashicons-star-filled"></span>
-                    <span class="dashicons dashicons-star-filled"></span>
-                    <span class="dashicons dashicons-star-filled"></span>
-                </a>
-            </p>
+?>">
+            </div>
             <p><?php 
 esc_html_e( 'Your Review is very important to us as it helps us to grow more.', 'size-chart-for-woocommerce' );
 ?></p>
-            <a class="btn_style" href="<?php 
-echo  esc_url( $review_url ) ;
-?>" target="_blank"><?php 
-esc_html_e( 'Review Us on ', 'size-chart-for-woocommerce' );
-?> <?php 
-esc_html_e( $plugin_at, 'size-chart-for-woocommerce' );
-?></a>
         </div>
     </div>
     <div class="dotstore-sidebar-section">

@@ -190,3 +190,17 @@ function misha_remove_my_account_links( $menu_links ){
 	//unset( $menu_links['customer-logout'] ); // Remove Logout link
 	return $menu_links;
 }
+
+function my_custom_show_sale_price_at_cart( $old_display, $cart_item, $cart_item_key ) {
+
+	/** @var WC_Product $product */
+	$product = $cart_item['data'];
+
+	if ( $product ) {
+		return $product->get_price_html();
+	}
+
+	return $old_display;
+
+}
+add_filter( 'woocommerce_cart_item_price', 'my_custom_show_sale_price_at_cart', 10, 3 );

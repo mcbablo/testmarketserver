@@ -26,11 +26,22 @@ if ( isset($size_chart_get_sub_title_text) && !empty($size_chart_get_sub_title_t
 	$size_chart_get_sub_title_text = scfw_size_chart_get_sub_title_text();
 	$size_chart_sub_title = trim($size_chart_get_sub_title_text);
 }
+
+$chart_image_id = scfw_size_chart_get_primary_chart_image_id( $chart_id );
+if ( $chart_image_id ) {
+	$chart_image_url = wp_get_attachment_url( $chart_image_id );
+	printf(
+		'<div class="chart-toplist"><div class="chart-image"><img src="%s" alt="%s" title="%s"/></div>',
+		esc_url( $chart_image_url ),
+		esc_attr( $post_data->post_title ),
+		esc_attr( $chart_label )
+	);
+}
+
 if ( $post_data->post_content ) {
 	$content = wpautop($post_data->post_content);
 	if (isset($size_chart_sub_title) && !empty($size_chart_sub_title)) {
-		printf( '<div class="chart-content"><span><b>%s</b></span>%s</div>',
-			esc_html( $size_chart_sub_title ),
+		printf( '<div class="chart-content">%s</div></div>',
 			wp_kses_post( $content )
 		);
 	} else {
@@ -44,16 +55,6 @@ if ( $post_data->post_content ) {
 			esc_html( $size_chart_sub_title )
 		);
 	}
-}
-$chart_image_id = scfw_size_chart_get_primary_chart_image_id( $chart_id );
-if ( $chart_image_id ) {
-	$chart_image_url = wp_get_attachment_url( $chart_image_id );
-	printf(
-		'<div class="chart-image"><img src="%s" alt="%s" title="%s"/></div>',
-		esc_url( $chart_image_url ),
-		esc_attr( $post_data->post_title ),
-		esc_attr( $chart_label )
-	);
 }
 
 if ( isset( $chart_table ) && array_filter( $chart_table ) ) {

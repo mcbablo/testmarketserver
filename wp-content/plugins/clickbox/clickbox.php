@@ -221,7 +221,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
     // Вывод выбора почтоматов
     add_action( 'woocommerce_review_order_before_payment', function() {        
-        echo '<div class="selectBox" style="display: none;"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачу заказов' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать' ) . '</button></div>';
+        echo '<div class="selectBox" style="display: none;"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказа' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать' ) . '</button></div>';
     });
 
     // Вывод кнопки

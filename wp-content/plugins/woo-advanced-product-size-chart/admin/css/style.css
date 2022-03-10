@@ -248,7 +248,7 @@ ul#size-chart-checklist-all li {
 .dots-logo-main .plugin-version {
     background: #0073aa;
     color: #fff;
-    padding: 8px 8px;
+    padding: 8px 6px;
     font-weight: 600;
 }
 .dots-logo-main img {
@@ -396,6 +396,12 @@ ul#size-chart-checklist-all li {
 #size-chart-meta-fields .select2-selection__choice {white-space:normal;}
 .disable{display:none;}
 .enable{display:block;}
+.sc-star-rating{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:reverse;-ms-flex-direction:row-reverse;flex-direction:row-reverse;font-size:1.5em;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:0 .2em;text-align:center;}
+.sc-star-rating-lnk{color:#23282d;}
+.sc-star-rating input{display:none;}
+.sc-star-rating label{margin:0 4px;width:28px;height:28px;cursor:pointer;background-image:url("../../admin/images/light-star.svg");background-repeat:no-repeat;}
+.sc-star-rating label:hover,.et-star-rating label:hover ~ label{background-image:url("../../admin/images/dark-star.svg");}
+.sc-star-rating input[type="radio"]:checked ~ label{background-image:url("../../admin/images/dark-star.svg");}
 @media only screen and (max-width: 1450px){
     #dotsstoremain header .dots-header-right .logo-detail{
         width: 50%;

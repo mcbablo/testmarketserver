@@ -184,6 +184,7 @@ class SCFW_Size_Chart_For_Woocommerce {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'scfw_enqueue_styles_scripts_callback' );
 		$this->loader->add_action( 'init', $plugin_admin, 'scfw_size_chart_register_post_type_chart_callback' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'scfw_size_chart_pro_welcome_screen_and_default_posts_callback' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'scfw_size_chart_pro_welcome_page_screen_and_menu_callback' );
 		$this->loader->add_action( 'admin_head', $plugin_admin, 'scfw_welcome_screen_remove_menus_callback' );
 		$this->loader->add_action( 'admin_footer', $plugin_admin, 'scfw_size_chart_preview_dialog_box_callback' );
@@ -205,6 +206,7 @@ class SCFW_Size_Chart_For_Woocommerce {
 		$this->loader->add_action( 'size_chart_about', $plugin_admin, 'scfw_size_chart_about_callback' );
 		$this->loader->add_filter( 'post_row_actions', $plugin_admin, 'scfw_size_chart_remove_row_actions_callback', apply_filters( 'size_chart_post_row_actions_priority', 99 ), 2 );
 		$this->loader->add_action( 'restrict_manage_posts', $plugin_admin, 'scfw_size_chart_filter_default_template_callback' );
+		$this->loader->add_filter( 'parse_query', $plugin_admin, 'scfw_size_chart_filter_default_template_query_callback' );
 		$this->loader->add_action( 'trashed_post', $plugin_admin, 'scfw_size_chart_selected_chart_delete_callback' );
 
 		$this->loader->add_action( 'admin_notices', $plugin_admin, 'scfw_size_chart_pro_admin_notice_review_callback' );

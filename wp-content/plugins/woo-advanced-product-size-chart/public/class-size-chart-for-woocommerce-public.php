@@ -343,7 +343,7 @@ class SCFW_Size_Chart_For_Woocommerce_Public
      */
     public function scfw_size_chart_popup_button_position_callback()
     {
-        $filter_hook = apply_filters( 'add_hook_custom_size_chart_position', 'woocommerce_single_product_summary' );
+        $filter_hook = apply_filters( 'add_hook_custom_size_chart_position', 'woocommerce_product_meta_start' );
         add_action( $filter_hook, array( $this, 'size_chart_popup_button_callback' ), 11 );
     }
     
@@ -651,7 +651,7 @@ class SCFW_Size_Chart_For_Woocommerce_Public
         $prod_id = ( is_array( $prod_id ) ? $prod_id : [ $prod_id ] );
         $plugin_post_type_name = esc_attr__( 'size-chart', 'size-chart-for-woocommerce' );
         $plugin_name = esc_attr__( 'Product Size Charts Plugin for WooCommerce', 'size-chart-for-woocommerce' );
-        $plugin_version = esc_attr__( '2.2.2', 'size-chart-for-woocommerce' );
+        $plugin_version = esc_attr__( '2.2.3', 'size-chart-for-woocommerce' );
         $cls = new SCFW_Size_Chart_For_Woocommerce_Public( $plugin_name, $plugin_version, $plugin_post_type_name );
         if ( isset( $prod_id ) && is_array( $prod_id ) && !empty($prod_id) ) {
             foreach ( $prod_id as $prod_val ) {

@@ -13,16 +13,16 @@
  * @package           SCFW_Size_Chart_For_Woocommerce
  *
  * @wordpress-plugin
- * Plugin Name: Product Size Charts Plugin for WooCommerce
+ * Plugin Name: Product Size Charts Plugin for WooCommerce Premium
  * Plugin URI:        https://www.thedotstore.com/woocommerce-advanced-product-size-charts/
  * Description:       Add product size charts with default template or custom size chart to any of your WooCommerce products.
- * Version:           2.2.2
+ * Version:           10.12
  * Author:            theDotstore
  * Author URI:        https://www.thedotstore.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       size-chart-for-woocommerce
- * WC tested up to:   6.1.1
+ * WC tested up to:   6.2.1
  * Domain Path:       /languages
  */
 // If this file is called directly, abort.
@@ -139,7 +139,7 @@ if ( !function_exists( 'scfw_run_size_chart_for_woocommerce' ) ) {
     {
         $plugin_post_type_name = esc_attr__( 'size-chart', 'size-chart-for-woocommerce' );
         $plugin_name = esc_attr__( 'Product Size Charts Plugin for WooCommerce', 'size-chart-for-woocommerce' );
-        $plugin_version = esc_attr__( '2.1.8', 'size-chart-for-woocommerce' );
+        $plugin_version = esc_attr__( '2.2.3', 'size-chart-for-woocommerce' );
         $plugin = new SCFW_Size_Chart_For_Woocommerce( $plugin_name, $plugin_version, $plugin_post_type_name );
         $plugin->run();
     }

@@ -43,16 +43,14 @@
     
         var clickboxModal = new tingle.modal({
             footer: false,
-            onClose: function() {
-                $('.header-sticky').css('z-index', '1001');
-            },
             cssClass: ['clickbox-modal'],
         });
 
         var clickboxModalPlace = new tingle.modal({
             footer: false,
             onClose: function() {
-                $('.header-sticky').css('z-index', '1001');
+                $('#the4-header').css('z-index', '1001');
+				$('#kalles-section-toolbar_mobile').css('z-index', '1002');
             },
             cssClass: ['clickbox-modal'],
         });
@@ -80,6 +78,7 @@
                         });
                     marker.events.add('balloonopen', function(e) {
                         $('.header-sticky').css('z-index', '-1');
+						$('#kalles-section-toolbar_mobile').css('z-index', '-1');
                         let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
                         let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться:</span> На изи, заходишь в макро она возле банкоматов.</p>'+pochtamat.description+'</div></div>';
                         let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
@@ -113,23 +112,27 @@
                         let json = await response.json();
                         if (json.data.length > 0) {
                             loadingBtnFalse('#clickbox-btn');
-                            $('.header-sticky').css('z-index', '-1');
+                            $('#the4-header').css('z-index', '-1');
+							$('#kalles-section-toolbar_mobile').css('z-index', '-1');
                             $('#pochtamat-map').show();
                             ymaps.ready(init(json.data));
                         } else {
                             loadingBtnFalse('#clickbox-btn');
-                            $('.header-sticky').css('z-index', '-1');
+                            $('#the4-header').css('z-index', '-1');
+							$('#kalles-section-toolbar_mobile').css('z-index', '-1');
                             $('#pochtamat-map').html('<h4>К сожалению свободных почтоматов не осталось. Попробуйте удалить товары с корзины (если их много)</h4>');
                         }
                     } else {
                         loadingBtnFalse('#clickbox-btn');
-                        $('.header-sticky').css('z-index', '-1');
+                        $('#the4-header').css('z-index', '-1');
+						$('#kalles-section-toolbar_mobile').css('z-index', '-1');
                         $('#pochtamat-map').html('<h4>Ошибка HTTP. Пожалуйста, позвоните к службу поддержки.</h4>');
                     }
                 })
                 .catch((error) => {
                     loadingBtnFalse('#clickbox-btn');
-                    $('.header-sticky').css('z-index', '-1');
+                    $('#the4-header').css('z-index', '-1');
+					$('#kalles-section-toolbar_mobile').css('z-index', '-1');
                     $('#pochtamat-map').html('<h4>Ошибка HTTP. Пожалуйста, позвоните к службу поддержки.</h4>');
                 });
             }
@@ -304,7 +307,6 @@
                 return false;
             }
     
-            
             if($('#clickbox_address').val()){
                 fetch(
                     api_host+url_send_cell,
@@ -328,7 +330,8 @@
                     } else {
                         if (response.status == 426) {
                             clickboxModal.open();
-                            $('.header-sticky').css('z-index', '-1');
+                            $('#the4-header').css('z-index', '-1');
+							$('#kalles-section-toolbar_mobile').css('z-index', '-1');
                             $('#pochtamat-map').html('<h4>В почтомате не осталось мест</h4>');
                         }
                         let json = await response.json();
@@ -338,7 +341,8 @@
                 .catch(error => {
                     loadingBtnFalse('#create-order');
                     clickboxModal.open();
-                    $('.header-sticky').css('z-index', '-1');
+                    $('#the4-header').css('z-index', '-1');
+					$('#kalles-section-toolbar_mobile').css('z-index', '-1');
                     $('#pochtamat-map').html('<h4>Не удалось отправить данные. Попробуйте позже</h4>');
                 });
             } else{

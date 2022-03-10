@@ -4,8 +4,8 @@ Donate link:
 Tags: popup,chart,guideecommerce,size guide, size table, table size, chart size guide, chart size product category, chart size single product, custom size guide, default template,  product size chart, product size guide, size chart template, Woocommerce chart tables
 Requires at least: 4.0
 Tested up to: 5.9
-Stable tag: 2.2.2
-WC tested up to: 6.1.1
+Stable tag: 2.2.3
+WC tested up to: 6.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -213,7 +213,14 @@ Automatic updates should work great for you.  As always, though, we recommend ba
 2. Size Chart Setting page.
 
 == Changelog ==
+= 2.2.3 =
+* Enhancement – Security patch
+* Update – Review block design
+* Update – Compatible with Woocommece 6.2.x
+* Update – Compatible with WordPress 5.9.x
+
 = 2.2.2 =
+* New - Allow option to manage size chart by the shop manager or custom role.
 * Update – Compatible with Woocommece 6.1.x
 * Update – Compatible with WordPress 5.9.x
 
