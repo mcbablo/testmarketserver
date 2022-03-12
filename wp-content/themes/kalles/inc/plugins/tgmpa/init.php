@@ -46,7 +46,7 @@ function the4_kalles_register_required_plugins() {
 			'slug'      => 'revslider',
 			'source'	=> 'https://wp.the4.co/plugin/revslider.zip',
 			'required'  => true,
-			'version'  => '6.5.14',
+			'version'  => '6.5.18',
 		),
 		array(
 			'name'     => esc_html__( 'Pin Maker', 'kalles' ),
@@ -54,7 +54,7 @@ function the4_kalles_register_required_plugins() {
 			'source'   => 'https://wp.the4.co/plugin/pin-maker.zip',
 			'version'  => '1.0.9',
 		),
-		
+
 		array(
 			'name'     => esc_html__( 'WPA WooCommerce Product Bundle', 'kalles' ),
 			'slug'     => 'wpa-woocommerce-product-bundle',

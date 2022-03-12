@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'Jost';
+    src: url('Jost-400-Book.otf') format('opentype'),
+    url('Jost-400-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

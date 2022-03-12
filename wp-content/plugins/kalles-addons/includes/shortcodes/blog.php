@@ -85,7 +85,7 @@ if ( ! function_exists( 'kalles_addons_shortcode_blog' ) ) {
 				$attr_slider[] = '"dots": true';
 			}
 			if ( ! empty( $attr_slider ) ) {
-				$attr[] = 'data-slick=\'{' . esc_attr( implode( ', ', $attr_slider ) ) . ',"responsive":[{"breakpoint": 1024,"settings":{"slidesToShow": 3}},{"breakpoint": 991,"settings":{"slidesToShow": 2}},{"breakpoint": 480,"settings":{"slidesToShow": 1}}]'. ( is_rtl() ? ',"rtl":true' : '' ) .'}\'';
+				$attr[] = 'data-slick=\'{' . esc_attr( implode( ', ', $attr_slider ) ) . ',"responsive":[{"breakpoint": 1024,"settings":{"slidesToShow": 3}},{"breakpoint": 991,"settings":{"slidesToShow": 3}},{"breakpoint": 480,"settings":{"slidesToShow": 2}}]'. ( is_rtl() ? ',"rtl":true' : '' ) .'}\'';
 			}
 			$row = 'the4-carousel';
 			$columns = 12;

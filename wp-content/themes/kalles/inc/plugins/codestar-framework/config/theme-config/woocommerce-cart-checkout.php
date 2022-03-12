@@ -580,6 +580,24 @@ CSF::createSection( $prefix, array(
             ),
           ),
           array(
+            'id'      => 'wc_mini_cart_setting-custom_return_link',
+            'type'    => 'switcher',
+            'title'   => esc_html__( 'Enable Custom Return Link', 'kalles' ),
+            'desc'        => esc_html__( 'Return link when shopping cart empty', 'kalles' ),
+            'default' => true,
+          ),
+          array(
+            'id'       => 'custom-return-link',
+            'type'     => 'link',
+            'title'    => 'Custom return link',
+            'default'  => array(
+                'url'    => 'http://the4.co/',
+                'text'   => 'The4',
+                'target' => '_blank'
+            ),
+            'dependency' => array( 'wc_mini_cart_setting-custom_return_link', '==', true )
+          ),
+          array(
             'id'      => 'wc_mini_cart_setting-shipping_bar',
             'type'    => 'switcher',
             'title'   => esc_html__( 'Enable Shipping bar', 'kalles' ),

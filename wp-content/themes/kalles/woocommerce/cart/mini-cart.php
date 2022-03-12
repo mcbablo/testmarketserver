@@ -20,6 +20,10 @@
 defined( 'ABSPATH' ) || exit;
 
 $flag_check_gift = false;
+$enable_custom_link  = cs_get_option('wc_mini_cart_setting-custom_return_link');
+$custom_link       = cs_get_option( 'custom-return-link' );
+$custom_link_url   = isset( $custom_link['url'] ) ? $custom_link['url'] : '#';
+$custom_link_target   = isset( $custom_link['target'] ) ? $custom_link['target'] : '_blank';
 
 
 do_action( 'woocommerce_before_mini_cart' ); ?>
@@ -220,9 +224,15 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
 			<i class="t4_icon_shopping-bag pr mb__10"></i>
 			<p> <?php esc_html_e( 'Your cart is empty.', 'kalles' ) ?> </p>
 			<p class="return-to-shop mb__15">
+                <?php if ($enable_custom_link) : ?>
+                    <a class="button button_primary tu js_add_ld" href="<?php echo esc_attr($custom_link_url); ?>" target="<?php echo esc_attr($custom_link_target); ?> ?>">
+                        <span class="truncate"><?php esc_html_e( 'Return Link', 'kalles' ) ?></span>
+                    </a>
+                <?php else: ?>
 				<a class="button button_primary tu js_add_ld" href="<?php echo get_permalink( wc_get_page_id( 'shop' ) ); ?>">
-					<span class="truncate"><?php esc_html_e( 'Return to Shop.', 'kalles' ) ?></span>
+					<span class="truncate"><?php esc_html_e( 'Return to Shop', 'kalles' ) ?></span>
 				</a>
+                <?php endif; ?>
 			</p>
 		</div>
 

@@ -8241,11 +8241,3 @@ msgstr ""
 #: views/header/layout-6.php:173 views/header/layout-20.php:174
 msgid "Shop by category"
 msgstr ""
-
-#: inc/hooks/helper.php:1687
-msgid "Removed from the cart"
-msgstr ""
-
-#: inc/hooks/helper.php:1688
-msgid "Undo?"
-msgstr ""

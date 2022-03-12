@@ -15,7 +15,7 @@
 
 ?>
 <div class="the4-action in_flex al_center middle-xs">
-	<?php if ( cs_get_option( 'header-search-icon' ) && class_exists( 'WooCommerce' ) ) : ?>
+	<?php if ( cs_get_option( 'header-search-icon' ) && class_exists( 'WooCommerce' ) && (cs_get_option( 'header-layout' ) != 8) ) : ?>
 		<a class="sf-open cb chp" data-open="the4-search-opened" href="javascript:void(0);"  title="<?php esc_attr_e( 'Search', 'kalles' ); ?>"><i class="<?php echo esc_attr($icon_search_class); ?>"></i></a>
 	<?php endif; ?>
 	<?php
@@ -40,8 +40,4 @@
 			echo the4_kalles_wc_shopping_cart();
 		}
 	?>
-	<?php if (cs_get_option( 'header-layout' ) == 8) : ?>
-	<a href="javascript:void(0);" class="the4-push-menu-btn dn db_lg ml__10">
-	</a>
-	<?php endif; ?>
 </div><!-- .the4-action -->

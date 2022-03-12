@@ -21,8 +21,11 @@
 			}
 			switch ($f_copyright_right) {
 				case 'trust':
+					$output = '';
+					
 					if (cs_get_option( 'footer-copyright_right-source_img' ) == '1') {
 	        		$image = cs_get_option( 'footer-copyright_right-image' );
+
 	        		if (!empty($image['url'])) {
 	        			$output .= '<img class="img_tr_s1 lazyload lz_op_ef" alt="'. esc_attr__( 'coppy right', 'kalles' ) . '" src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20' . $image['width'] .'%20' . $image['height'] .'%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E" style="width:' . cs_get_option( 'footer-copyright_right-image_width' ) .'%;" data-src="' . $image['url'] .'" data-widths="[90, 120, 150, 180, 360, 480, 600, 750, 940, 1080, 1296]" data-sizes="auto"/>';
 	        		}

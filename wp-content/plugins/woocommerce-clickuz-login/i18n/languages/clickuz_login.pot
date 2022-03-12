@@ -23,7 +23,7 @@ msgstr ""
 "\n"
 "Language: "
 
-#: templates/form-login.php:36
+#: templates/form-login.php:29
 msgid "Login / Register"
 msgstr ""
 

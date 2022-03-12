@@ -24,7 +24,7 @@ if (cs_get_option('wc_product_upsell-enable')) {
 	$subtitle = cs_get_option('wc_product_upsell-subtext');
 	$title_type = cs_get_option('wc_product_upsell-title_design');
 	$title_icon = cs_get_option('wc_product_upsell-style7_icon') ? cs_get_option('wc_product_upsell-style7_icon') : 'gem';
-	$slidesToShow = cs_get_option('wc_product_upsell-style7_icon') ? cs_get_option('wc_product_upsell-product_no_slider') : 4;
+	$slidesToShow = cs_get_option('wc_product_upsell-product_no_slider') ? cs_get_option('wc_product_upsell-product_no_slider') : 4;
 
 
 	if ( $upsells ) : ?>

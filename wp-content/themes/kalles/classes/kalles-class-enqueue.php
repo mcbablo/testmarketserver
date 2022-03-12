@@ -16,7 +16,7 @@ class Enqueue {
 
     protected $styles = array();
     protected $scripts = array();
-    protected $minfile = '.min';
+    protected $minfile = '';
 
     /**
      * Instance
@@ -52,7 +52,7 @@ class Enqueue {
 
     public function __construct()
     {
-        $this->minfile = '';
+        $this->minfile = '.min';
 
         $this->set_style();
         $this->set_script();
@@ -317,7 +317,7 @@ class Enqueue {
     public function enqueue_style() {
 
         // Google font
-        if ( cs_get_option( 'enable-google-font' ) ){
+        if ( cs_get_option( 'font_face_type' ) == 'google' ){
             wp_enqueue_style( 'kalles-font-google', kalles_google_font_url() );
         }
 
@@ -363,7 +363,9 @@ class Enqueue {
         }
 
         if ( kalles_is_woocommerce() ) {
+
             wp_enqueue_script( 'wc-add-to-cart-variation' );
+
             //Product page
             if ( function_exists( 'is_product' ) && is_product() ) {
                 foreach ( $this->scripts as $script ) {

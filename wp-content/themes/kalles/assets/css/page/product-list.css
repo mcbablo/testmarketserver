@@ -11,30 +11,97 @@
 .product.action-bg-transparent .product-inner .product-title a:hover {
 	color: #fff;
 }
-
+.full_info.product .product__lop-top_information {
+	position: absolute;
+	top: 0;
+	background: linear-gradient(180deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 100%);
+	right: 0;
+	left: 0;
+	padding: 15px 20px;
+	transition: opacity .3s ease,-webkit-transform .3s ease;
+	z-index: 99;
+}
+.full_info.product div.ryviu-collection {
+	margin: 0;
+}
+.full_info.product .ryviu-number-widget {
+	color: #eee;
+}
+.full_info.product .swatch__list {
+	margin: 0px -5px -5px;
+}
+.on_list_view_false .full_info.product .product__lop-bottom_information {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	transition: opacity .3s ease,-webkit-transform .3s ease;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	background: linear-gradient(0deg,rgba(0,0,0,.6) 0,rgba(0,0,0,0) 100%);
+	padding: 15px 20px;
+}
+.full_info.product .product__lop-bottom_information .price,
+.full_info.product .product__lop-bottom_information .price del {
+	color: var(--primary-color);
+	font-weight: 16px;
+}
+.full_info.product .kalles-btn-tools {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	z-index: 99;
+	display: flex;
+	flex-direction: column;
+}
+.full_info.product .kalles-btn-tools .hover_button {
+	opacity: 0;
+	visibility: hidden;
+	left: auto;
+	transform: none;
+	top: auto;
+	bottom: 10px;
+	right: 10px;
+	z-index: 2;
+	background: #fff;
+	box-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
+	transition: .2s;
+	border-radius: 4px;
+	padding: 0;
+	transform: translateX(13px) translateZ(0);
+}
 @media (min-width: 1025px) {
 	.full_info .product__lop-top_information {
 		transition: all .25s ease-in-out;
 		opacity: 0;
 		visibility: hidden;
-		transform: scale(0.8);
 	}
 	.full_info .product-inner:hover .product__lop-top_information{
 		opacity: 1;
 		transform: scale(1);
 		visibility: visible;
 	}
+	.product__lop-top_information + .product-image .badge {
+		top: auto;
+		bottom: 20px;
+		left: 20px;
+		right: auto;
+	}
+	.product__lop-top_information + .product-image .badge span {
+		margin: 0;
+	}
 	.full_info .product__lop-top_information .product-title a,
 	.full_info .product__lop-top_information .price,
 	.full_info .product__lop-top_information .price del {
 		color: #fff;
-		text-shadow: 1px 1px 3px #e3e3e3;
 	}
 	.product.action-bg-transparent:not(.layout-6) .product-image .hover_button {
 		width: 100%;
 		max-width: 250px;
 	    padding: 0 20px;
-	    justify-content: space-around;
+	    justify-content: center;
 	}
 
 	.product.action-bg-transparent .product-image .hover_button .tt_txt
@@ -56,11 +123,12 @@
 	    opacity: 0;
 	    text-transform: capitalize;
 	    pointer-events: none;
+		white-space: nowrap;
 	}
 	.full_info.product.layout-5:not(.col-lg-2) .product-image-loop a.button  {
 		min-width: 150px;
 	}
-	.full_info.product:not(.layout-5) .product__lop-bottom_information {
+	.on_list_view_false .full_info.product:not(.layout-5) .product__lop-bottom_information {
 		display: none;
 		opacity: 0;
 		visibility: hidden;
@@ -196,16 +264,41 @@
 	.full_info.product.layout-5 .product-image-loop > a.button {
 		display: none;
 	}
+	.full_info.product .kalles-btn-tools .product__style--icon {
+	    flex-direction: row-reverse;
+	    bottom: 0;
+	    background: transparent;
+	    box-shadow: none;
+	    opacity: 1;
+	    box-shadow: none;
+	    visibility: visible;
+	}
+	.full_info.product .product__lop-top_information {
+		display: none;
+	}
 }
 /* Brand filter */
 
 .section_nt_filter .nt_filter_block li.type-brand a {
-	font-size: 0px;
+	font-size: 14px;
 }
 .nt_filter_color.type-brand .filter-swatch>span {
-	width: 50px;
-	height: 30px;
+	width: 80px;
+	height: 40px;
 	border-radius: 0;
+	border: 1px solid #eee;
+}
+.nt_filter_color.type-brand .active .filter-swatch>span {
+	border: 1px solid var(--primary-color);
+}
+.widget.wrap_filter ul.filter_block_brand li.nt_filter_color.type-brand {
+	padding: 0;
+	width: 100%;
+	justify-content: flex-start;
+	text-align: left;
+}
+.widget.wrap_filter ul.filter_block_brand li.nt_filter_color.type-brand:hover {
+	opacity: 0.8;
 }
 .filter_block_brand > li {
     display: inline-flex;

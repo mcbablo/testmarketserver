@@ -177,34 +177,35 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     add_action( 'woocommerce_review_order_before_cart_contents', 'clickbox_validate_order' , 10 );
 
     // При входе фильтрация по городу и ролю
-    function blm_action_after_shipping_rate($method, $index ) {
-        if( is_cart() ) {
-            return;
-        }
-        $shipping_state = WC()->customer->get_shipping_state();
-        $user_role = WC()->customer->get_role();
-        if($shipping_state === '01' && $user_role !== 'staffer'){
-            add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
-        }
-    }
-    add_action( 'woocommerce_after_shipping_rate', 'blm_action_after_shipping_rate', 20, 2 );
+//     function blm_action_after_shipping_rate($method, $index ) {
+//         if( is_cart() ) {
+//             return;
+//         }
+//         $shipping_state = WC()->customer->get_shipping_state();
+//         $user_role = WC()->customer->get_role();
+//         if($shipping_state === '01' && $user_role !== 'staffer'){
+//             add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
+//         }
+//     }
+//     add_action( 'woocommerce_after_shipping_rate', 'blm_action_after_shipping_rate', 20, 2 );
 
     // При смене фильтрация по городу и ролю
-	function shipping_rates_for_specific_states( $rates, $package ) {
-		if ( is_admin() && ! defined( 'DOING_AJAX' ) )
-			return;
-		$excluded_states = array(
-			'01'
-		);
-		$destination_state = $package['destination']['state'];
-		if( ! in_array( $destination_state, $excluded_states ) ) {
-            unset( $rates['clickbox'] );
-		}
-		return $rates;
-	}
-    add_filter( 'woocommerce_package_rates', 'shipping_rates_for_specific_states', 10, 2 );
+// 	function shipping_rates_for_specific_states( $rates, $package ) {
+// 		if ( is_admin() && ! defined( 'DOING_AJAX' ) )
+// 			return;
+// 		$excluded_states = array(
+// 			'01'
+// 		);
+// 		$destination_state = $package['destination']['state'];
+// 		if( ! in_array( $destination_state, $excluded_states ) ) {
+//             unset( $rates['clickbox'] );
+// 		}
+// 		return $rates;
+// 	}
+//     add_filter( 'woocommerce_package_rates', 'shipping_rates_for_specific_states', 10, 2 );
 
     // Удаление кнопки
+    add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
     function remove_order_button_html( $button ) {
         $targeted_shipping_class = 0;
         $found = false;
@@ -221,12 +222,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
     // Вывод выбора почтоматов
     add_action( 'woocommerce_review_order_before_payment', function() {        
-        echo '<div class="selectBox" style="display: none;"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказа' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать' ) . '</button></div>';
+        echo '<div class="selectBox"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказа' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать' ) . '</button></div>';
     });
 
     // Вывод кнопки
     add_action( 'woocommerce_review_order_after_payment', function() {        
-        echo '<button type="button" id="create-order" style="display: none;">Оплатить</button>';
+        echo '<button type="button" id="create-order">Оплатить</button>';
     });
 
     // Добавление полей в оформление заказа

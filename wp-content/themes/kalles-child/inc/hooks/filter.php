@@ -268,14 +268,7 @@ if ( ! function_exists( 'the4_get_search_form' ) ) {
                 <?php if ($check_full_width == true) : ?>
                     <div class="row seach-full-width">
                 <?php endif; ?>
-                    <div class="frm_search_cat mb__15 <?php if ($check_full_width == true) echo 'col-lg-auto col-md-12'; ?>">
-                        <?php if ($categories): ?>
-                            <select name="product_cat" class="the4-search-category">
-                                <option class="default" value=""><?php esc_html_e( 'All categories', 'kalles' ); ?></option>
-                                <?php \Kalles\Woocommerce\Search::instance()->the4_get_categories_option( $categories); ?>
-                            </select>
-                        <?php endif ?>
-                    </div>
+
                     <div class="frm_search_input pr oh the4-search-wrapper <?php if ($check_full_width == true) echo 'col-lg col-md-12'; ?>">
                         <input type="text"
                                name="s"

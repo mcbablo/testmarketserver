@@ -1251,7 +1251,7 @@ if ( ! function_exists( 'the4_woo_buy_now_btn' ) ) {
 
 }
 if ( cs_get_option( 'wc-single-buynow_btn' ) ) {
-    add_action( 'woocommerce_after_add_to_cart_form', 'the4_woo_buy_now_btn' );
+    add_action( 't4_woocommerce_checkout_button', 'the4_woo_buy_now_btn' );
 }
 
 /**************************

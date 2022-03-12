@@ -65,7 +65,7 @@ table#size-chart tr th{
 
 .md-size-chart-label{font-weight:bold;margin:0 0 15px;font-size: 18px;}
 
-@media only screen and (min-width:641px){.md-size-chart-modal-body{max-width:700px;overflow-y: scroll;}}
+@media only screen and (min-width:641px){.md-size-chart-modal-body{max-width:700px;}}
 @media only screen and (max-width:640px){div#md-size-chart-modal .chart-table{overflow-x:scroll;overflow-y:hidden;width:100%}.chart-content-list{width:100%;-webkit-box-sizing:border-box;box-sizing:border-box}div#md-size-chart-modal .chart-table table{width:100%;table-layout:auto;margin-bottom:0;white-space:nowrap}div#md-size-chart-modal .chart-table::-webkit-scrollbar{height:8px;width:0}div#md-size-chart-modal .chart-table::-webkit-scrollbar-track{background-color:rgb(238 238 238 / 90%)}}
 
 /* Add Animation */

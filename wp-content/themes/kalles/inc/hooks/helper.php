@@ -908,7 +908,7 @@ if ( ! function_exists( 'the4_kalles_custom_css' ) ) {
         // Boxed layout
         $boxed_bg = cs_get_option('boxed-bg');
         if ( ! empty( $boxed_bg['background-image'] ) ) {
-            $css[] = 'htnl .boxed {';
+            $css[] = 'html .boxed {';
             $css[] = 'background-image:  url(' . esc_url($boxed_bg['background-image']['url']) . ');';
 
             if ( ! empty( $boxed_bg['background-size'] ) ) {
@@ -1050,82 +1050,115 @@ if ( ! function_exists( 'the4_kalles_custom_css' ) ) {
         }
 
         // Typography
-        $body_font = cs_get_option('body-font');
+        
+        $font_face_type = cs_get_option('font_face_type') ? cs_get_option('font_face_type') : 'default';
 
-        $heading_font = cs_get_option('heading-font');
+        if ( $font_face_type == 'custom' ) {
+            $font_custom = cs_get_option('font_face_option') ? cs_get_option('font_face_option') : 'futura';
+            
+            if ($font_custom == 'futura') {
+                $css[] = "@font-face {
+                            font-family: 'Futura';
+                            src: url('". THE4_KALLES_URL . "/assets/font/futura/FuturaLT.woff2') format('woff2'),
+                            url('". THE4_KALLES_URL . "/assets/font/futura/FuturaLT.woff') format('woff');
+                            font-weight: normal;
+                            font-style: normal;
+                        }";
+                $css[] = 'body, .the4-menu > li > a, .f__pop, .the4-menu ul li a, h1,h2, h3, h4, h5, h6 {';
+                // Body font family
+                $css[] = 'font-family: "Futura" !important';
+                $css[] = '}';
+            } elseif ($font_custom == 'jost') {
+                $css[] = "@font-face {
+                            font-family: 'Jost';
+                            src: url('". THE4_KALLES_URL . "/assets/font/jost/Jost-400-Book.otf') format('opentype'),
+                            url('". THE4_KALLES_URL . "/assets/font/jost/Jost-400-Book.ttf') format('truetype');
+                            font-weight: normal;
+                            font-style: normal;
+                        }";
+                $css[] = 'body, .the4-menu > li > a, .f__pop, .the4-menu ul li a, h1,h2, h3, h4, h5, h6 {';
+                // Body font family
+                $css[] = 'font-family: "Jost" !important';
+                $css[] = '}';
+            }
 
-        if ( $body_font ) {
-        // Body font family
+        } elseif ( $font_face_type == 'google' ) {
+            $body_font = cs_get_option('body-font');
 
-            $css[] = 'html body, .the4-menu > li > a, .f__pop, .the4-menu ul li a, .prod-content div {';
+            $heading_font = cs_get_option('heading-font');
+
+            if ( $body_font ) {
             // Body font family
-            $css[] = 'font-family: "' . $body_font['font-family'] . '";';
-            if (!empty($body_font['font-weight'])) {
-                $css[] = 'font-weight: ' . $body_font['font-weight'] . ';';
-            }
-            if (!empty($body_font['font-style'])) {
-                $css[] = 'font-style: ' . $body_font['font-style'] . ';';
-            }
-            if (!empty($body_font['font-size'])) {
-                $css[] = 'font-size: ' . $body_font['font-size'] . $body_font['unit'] . ';';
-            }
-            if (!empty($body_font['color'])) {
-                $css[] = 'color: ' . $body_font['color'] . ';';
-            }
-            if (!empty($body_font['text-align'])) {
-                $css[] = 'text-align: ' . $body_font['text-align'] . ';';
-            }
-            if (!empty($body_font['text-transform'])) {
-                $css[] = 'text-transform: ' . $body_font['text-transform'] . ';';
-            }
-            if (!empty($body_font['text-align'])) {
-                $css[] = 'text-align: ' . $body_font['text-align'] . ';';
-            }
-            if (!empty($body_font['line-height'])) {
-                $css[] = 'line-height: ' . $body_font['line-height'] . ';';
-            }
-            if (!empty($body_font['letter-spacing'])) {
-                $css[] = 'letter-spacing: ' . $body_font['letter-spacing'] . ';';
+
+                $css[] = 'html body, .the4-menu > li > a, .f__pop, .the4-menu ul li a, .prod-content div {';
+                // Body font family
+                $css[] = 'font-family: "' . $body_font['font-family'] . '";';
+                if (!empty($body_font['font-weight'])) {
+                    $css[] = 'font-weight: ' . $body_font['font-weight'] . ';';
+                }
+                if (!empty($body_font['font-style'])) {
+                    $css[] = 'font-style: ' . $body_font['font-style'] . ';';
+                }
+                if (!empty($body_font['font-size'])) {
+                    $css[] = 'font-size: ' . $body_font['font-size'] . $body_font['unit'] . ';';
+                }
+                if (!empty($body_font['color'])) {
+                    $css[] = 'color: ' . $body_font['color'] . ';';
+                }
+                if (!empty($body_font['text-align'])) {
+                    $css[] = 'text-align: ' . $body_font['text-align'] . ';';
+                }
+                if (!empty($body_font['text-transform'])) {
+                    $css[] = 'text-transform: ' . $body_font['text-transform'] . ';';
+                }
+                if (!empty($body_font['text-align'])) {
+                    $css[] = 'text-align: ' . $body_font['text-align'] . ';';
+                }
+                if (!empty($body_font['line-height'])) {
+                    $css[] = 'line-height: ' . $body_font['line-height'] . ';';
+                }
+                if (!empty($body_font['letter-spacing'])) {
+                    $css[] = 'letter-spacing: ' . $body_font['letter-spacing'] . ';';
+                }
+
+                $css[] = '}';
             }
 
-            $css[] = '}';
+            if ( $heading_font ) {
+                $css[] = 'h1, h2, h3, h4, h5, h6, .f__pop {';
+                $css[] = 'font-family: "' . $heading_font['font-family'] . '";';
+                if (!empty($heading_font['font-weight'])) {
+                    $css[] = 'font-weight: ' . $heading_font['font-weight'] . ';';
+                }
+                if (!empty($heading_font['font-style'])) {
+                    $css[] = 'font-style: ' . $heading_font['font-style'] . ';';
+                }
+                if (!empty($heading_font['font-size'])) {
+                    $css[] = 'font-size: ' . $heading_font['font-size'] . $heading_font['unit'] . ';';
+                }
+                if (!empty($heading_font['color'])) {
+                    $css[] = 'color: ' . $heading_font['color'] . ';';
+                }
+                if (!empty($heading_font['text-align'])) {
+                    $css[] = 'text-align: ' . $heading_font['text-align'] . ';';
+                }
+                if (!empty($heading_font['text-transform'])) {
+                    $css[] = 'text-transform: ' . $heading_font['text-transform'] . ';';
+                }
+                if (!empty($heading_font['text-align'])) {
+                    $css[] = 'text-align: ' . $heading_font['text-align'] . ';';
+                }
+                if (!empty($heading_font['line-height'])) {
+                    $css[] = 'line-height: ' . $heading_font['line-height'] . ';';
+                }
+                if (!empty($heading_font['letter-spacing'])) {
+                    $css[] = 'letter-spacing: ' . $heading_font['letter-spacing'] . ';';
+                }
+                $css[] = '}';
+            }
         }
-
-        if ( $heading_font ) {
-            $css[] = 'h1, h2, h3, h4, h5, h6, .f__pop {';
-            $css[] = 'font-family: "' . $heading_font['font-family'] . '";';
-            if (!empty($heading_font['font-weight'])) {
-                $css[] = 'font-weight: ' . $heading_font['font-weight'] . ';';
-            }
-            if (!empty($heading_font['font-style'])) {
-                $css[] = 'font-style: ' . $heading_font['font-style'] . ';';
-            }
-            if (!empty($heading_font['font-size'])) {
-                $css[] = 'font-size: ' . $heading_font['font-size'] . $heading_font['unit'] . ';';
-            }
-            if (!empty($heading_font['color'])) {
-                $css[] = 'color: ' . $heading_font['color'] . ';';
-            }
-            if (!empty($heading_font['text-align'])) {
-                $css[] = 'text-align: ' . $heading_font['text-align'] . ';';
-            }
-            if (!empty($heading_font['text-transform'])) {
-                $css[] = 'text-transform: ' . $heading_font['text-transform'] . ';';
-            }
-            if (!empty($heading_font['text-align'])) {
-                $css[] = 'text-align: ' . $heading_font['text-align'] . ';';
-            }
-            if (!empty($heading_font['line-height'])) {
-                $css[] = 'line-height: ' . $heading_font['line-height'] . ';';
-            }
-            if (!empty($heading_font['letter-spacing'])) {
-                $css[] = 'letter-spacing: ' . $heading_font['letter-spacing'] . ';';
-            }
-            $css[] = '}';
-        }
-
-
-
+        
+        
         if (cs_get_option('menu-font-size')) {
             $css[] = '.the4-menu > li > a { font-size:' . cs_get_option('menu-font-size') . 'px; }';
         }
@@ -1151,25 +1184,7 @@ if ( ! function_exists( 'the4_kalles_custom_css' ) ) {
             $css[] = 'h6 { font-size:' . cs_get_option('h6-font-size') . 'px; }';
         }
 
-        $enable_font_face = cs_get_option('enable_font_face');
-        if (isset($_REQUEST['enable_font_face'])) {
-            $enable_font_face = sanitize_text_field($_REQUEST['enable_font_face']);
-        }
-        $font_face_option = cs_get_option('font_face_option');
-        if (isset($_REQUEST['font_face_option'])) {
-            $font_face_option = sanitize_text_field($_REQUEST['font_face_option']);
-        }
-        if ($enable_font_face && $font_face_option == 'futura') {
-            $css[] = 'body, .the4-menu > li > a, .f__pop, .the4-menu ul li a, h1,h2, h3, h4, h5, h6 {';
-            // Body font family
-            $css[] = 'font-family: "Futura"';
-            $css[] = '}';
-        } elseif ($enable_font_face && $font_face_option == 'jost') {
-            $css[] = 'body, .the4-menu > li > a, .f__pop, .the4-menu ul li a, h1,h2, h3, h4, h5, h6 {';
-            // Body font family
-            $css[] = 'font-family: "Jost"';
-            $css[] = '}';
-        }
+        
         // Body color
         if (cs_get_option('body-background-color')) {
             $css[] = 'body { background-color: ' . esc_attr(cs_get_option('body-background-color')) . '}';

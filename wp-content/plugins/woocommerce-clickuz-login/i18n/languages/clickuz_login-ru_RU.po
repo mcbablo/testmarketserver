@@ -19,9 +19,9 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: templates/form-login.php:36
+#: templates/form-login.php:29
 msgid "Login / Register"
-msgstr "Авторизация"
+msgstr "Вход или регистрация"
 
 #: templates/form-login.php:42
 msgid "Phone number"
@@ -29,7 +29,7 @@ msgstr "Номер телефона"
 
 #: templates/form-login.php:47
 msgid "Confirmation code"
-msgstr "Код подтверждение"
+msgstr "Код подтверждения"
 
 #: templates/form-login.php:52
 msgid "Password"

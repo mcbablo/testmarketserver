@@ -58,7 +58,7 @@ $order_items = $order->get_items(apply_filters('woocommerce_purchase_order_item_
 									$thankyou_messager = str_replace('{first_name}', $order_details['billing_first_name'], $thankyou_messager);
 									$thankyou_messager = str_replace('{last_name}', $order_details['billing_last_name'], $thankyou_messager);
 								  ?>
-								<?php echo apply_filters( 'woocommerce_thankyou_order_received_text', $thankyou_messager ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<?php echo apply_filters( 'woocommerce_thankyou_order_received_text', $thankyou_messager, null ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</p>
 						</div>
 					</div>

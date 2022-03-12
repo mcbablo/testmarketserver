@@ -35,9 +35,6 @@ jQuery(window).on('elementor:init', function() {
 
         onReady: function() {
 
-            // this.control_select = this.$el.find('.post-select');
-            // this.save_input = this.$el.find('.post-select-save-value');
-
             var _this = this;
 
             this.ui.select.select2({

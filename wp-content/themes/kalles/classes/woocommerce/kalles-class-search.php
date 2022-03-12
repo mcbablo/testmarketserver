@@ -8,7 +8,7 @@
 
 namespace Kalles\Woocommerce;
 
-if ( ! defined( 'ABSPATH' )  ) { die; } // Cannot access directly. 
+if ( ! defined( 'ABSPATH' )  ) { die; } // Cannot access directly.
 
 class Search {
 
@@ -26,7 +26,7 @@ class Search {
      * @since 1.1.2
      * @return object
      */
-    
+
 
     public static function instance() {
         if ( is_null( self::$instance ) ) {
@@ -46,25 +46,34 @@ class Search {
     }
     public function the4_get_taxonomy($taxonomy, $parent = 0, $exclude = 0)
     {
+
         $taxonomy = is_array( $taxonomy ) ? array_shift( $taxonomy ) : $taxonomy;
         $terms = get_terms( $taxonomy, array( 'parent' => $parent, 'hide_empty' => false, 'exclude' => $exclude) );
+        $children = null;
 
-        $children = array();
-        foreach ( $terms as $term ){
-            $term->children = self::the4_get_taxonomy( $taxonomy, $term->term_id, $exclude);
-            $children[ $term->term_id ] = $term;
+        if( $terms ) {
+            $children = array();
+            foreach ( $terms as $term ){
+                if ( isset( $term->term_id ) ) {
+                    $term->children = self::the4_get_taxonomy( $taxonomy, $term->term_id, $exclude);
+                    $children[ $term->term_id ] = $term;
+                }
+            }
         }
+
         return $children;
     }
     public function the4_get_categories_option( $taxonomies, $seperate = '') {
         ?>
 
         <?php foreach ( $taxonomies as $taxonomy ) { ?>
-            <?php $children = $taxonomy->children; ?>
-            <option value="<?php echo esc_attr( $taxonomy->slug ); ?>" data-id="<?php echo esc_attr( $taxonomy->term_id ); ?>"><?php echo esc_html( $seperate . $taxonomy->name ); ?></option>
-            <?php if (is_array($children) && !empty($children)): ?>
-                <?php self::the4_get_categories_option( $children, '--' ); ?>
-            <?php endif ?>
+
+                <?php $children = $taxonomy->children; ?>
+                <option value="<?php echo esc_attr( $taxonomy->slug ); ?>" data-id="<?php echo esc_attr( $taxonomy->term_id ); ?>"><?php echo esc_html( $seperate . $taxonomy->name ); ?></option>
+                <?php if (is_array($children) && !empty($children)): ?>
+                    <?php self::the4_get_categories_option( $children, '--' ); ?>
+                <?php endif ?>
+
         <?php } ?>
 
         <?php
@@ -88,7 +97,7 @@ class Search {
 
         } else {
 
-            return new WP_Error( 'no_categories', esc_html__( 'No categories.', 'kalles' ) );
+            return new \WP_Error( 'no_categories', esc_html__( 'No categories.', 'kalles' ) );
 
         }
     }
@@ -128,7 +137,7 @@ class Search {
         }
 
     }
-    
 
-    
+
+
 }

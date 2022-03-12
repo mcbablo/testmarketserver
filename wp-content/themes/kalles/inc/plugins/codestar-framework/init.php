@@ -16,7 +16,6 @@ if ( class_exists( 'CSF' ) && is_admin() ) {
   require THE4_KALLES_CS_FRAMEWORK_PATH . '/config/taxonomy.config.php';
 }
 
-
 if ( ! function_exists( 't4_white_label' ) ) {
   function t4_white_label( $option, $default_value ) {
     $white_label = get_option( '_kalles_options_white_label' );

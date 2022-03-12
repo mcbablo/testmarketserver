@@ -329,8 +329,8 @@ class Kalles_Elementor_Newsletter_Form_Widget extends \Elementor\Widget_Base {
 		            </div>
 		         </div>
 		        <div class="mc4wp-response klaviyo_messages">
-		          <div class="kalles-message success_message dn"><i class="las la-check"></i><?php esc_html_e('Thanks for subscribing', 'kalles'); ?></div>
-		          <div class="kalles-error error_message dn"></div>
+		          <div class="kalles-message kalles-success dn"><i class="t4_icon_t4-check-circle mr__5"></i><?php esc_html_e('Thanks for subscribing', 'kalles'); ?></div>
+		          <div class="kalles-error kalles-message dn"></div>
 		        </div>
 		      </form>
 		   <?php elseif ( $platform == 'mailchimp' ) :  ?>
@@ -353,8 +353,8 @@ class Kalles_Elementor_Newsletter_Form_Widget extends \Elementor\Widget_Base {
 			            </div>
 			         </div>
 			        <div class="mc4wp-response">
-			          <div class="kalles-message success_message dn"><i class="las la-check"></i><?php esc_html_e('Thanks for subscribing', 'kalles'); ?></div>
-			          <div class="kalles-error error_message dn"></div>
+			          <div class="kalles-message kalles-success dn"><i class="t4_icon_t4-check-circle mr__5"></i><?php esc_html_e('Thanks for subscribing', 'kalles'); ?></div>
+			          <div class="kalles-error kalles-message dn"></div>
 			        </div>
 			      </form>
 			   <?php endif; ?>

@@ -47,9 +47,12 @@ $layout = cs_get_option( 'wc-sub-cat-layout' );
 
 	if ( $thumbnail_id ) {
 		$image = wp_get_attachment_image_src( $thumbnail_id, $size );
-		$w     = $image[1];
-		$h     = $image[2];
-		$image = $image[0];
+		if ( ! empty( $image ) ) {
+			$w     = $image[1];
+			$h     = $image[2];
+			$image = $image[0];
+		}
+		
 	} else {
 		$image = wc_placeholder_img_src();
 		$w = $h = 450;

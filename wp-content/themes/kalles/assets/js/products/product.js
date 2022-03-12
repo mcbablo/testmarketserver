@@ -1,11 +1,11 @@
 /*
- * Sticky add to cart 
+ * Sticky add to cart
  * @since 1.0.0
 */
 
 (function( $ ) {
 	"use strict";
-    
+
     var body = $('body'),
         $window  = $(window),
         window_w = $window.width(),
@@ -492,7 +492,7 @@
             gallery.listen('close', function() {
 
                 setTimeout(function(){
-  
+
                     $('.pswp_pp_prs').attr('class', 'pswp pswp_t4_js pswp_tp_light');
                 }, 500);
 
@@ -531,7 +531,6 @@
         The4Kalles.StickyAddToCart();
         The4Kalles.shortDescriptionReadMore();
         The4Kalles.wcInitImageZoom();
-        The4Kalles.initCarouselCustom();
         The4Kalles.wcInitPopupVideo();
         The4Kalles.ProductImages();
     })

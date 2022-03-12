@@ -24,9 +24,9 @@ if ( $layout == 'left-sidebar' ) {
 
 // Full width layout
 $fullwidth = cs_get_option( 'wc-detail-full' );
-
+$buynow_btn_layout = cs_get_option( 'wc-single-buynow_btn_layout' ) ? cs_get_option( 'wc-single-buynow_btn_layout' ) : 'buynow_btn_full';
 ?>
-<div class="the4-wc-single wc-single-2 mb__60 <?php if ( cs_get_option( 'wc-single-buynow_btn' ) ) echo 'has-buy-now'; ?>">
+<div class="the4-wc-single wc-single-2 mb__60 <?php echo esc_attr($buynow_btn_layout); ?> <?php if ( cs_get_option( 'wc-single-buynow_btn' ) ) echo 'has-buy-now'; ?>">
 	<?php
 		if ( $fullwidth ) echo '<div class="the4-full-brc">';
 		echo '<div class="woo-brc bgbl pt__20 pb__20 pl__15 pr__15 lh__1">';

@@ -13,12 +13,30 @@ CSF::createSection( $prefix, array(
   'id'     => 'portfolio',
   'title'  => esc_html__( 'Typography', 'kalles' ),
   'icon'   => 'fas fa-font',
-     'fields' => array(
+  'fields' => array(
     array(
-      'id'      => 'enable-google-font',
-      'type'    => 'switcher',
-      'title'   => esc_html__( 'Enable Google font', 'kalles' ),
-      'default' => true,
+      'id'      => 'font_face_type',
+      'type'    => 'button_set',
+      'title'   => esc_html__( 'Font face type', 'kalles' ),
+      'options'    => array(
+        'default' => 'default',
+        'custom' => 'Kalles font',
+        'google' => 'Google font',
+      ),
+      'default'    => 'default',
+    ),
+    array(
+      'id'    => 'font_face_option',
+      'type'  => 'select',
+      'title' => esc_html__( 'Kalles Font', 'kalles' ),
+      'options' => array(
+          'futura' => esc_html__( 'Font Futura', 'kalles' ),
+          'jost' => esc_html__( 'Font Jost', 'kalles' ),
+
+      ),
+      'dependency' => array( 'font_face_type', '==', 'custom' ),
+      'default' => 'futura'
+
     ),
     array(
       'type'    => 'subheading',
@@ -33,6 +51,7 @@ CSF::createSection( $prefix, array(
         'type'    => 'google',
         'font-weight' => 'regular',
       ),
+      'dependency' => array( 'font_face_type', '==', 'google' ),
     ),
     array(
       'id'      => 'head-top-font-size',
@@ -62,6 +81,7 @@ CSF::createSection( $prefix, array(
         'type'    => 'google',
         'font-weight' => '600',
       ),
+      'dependency' => array( 'font_face_type', '==', 'google' ),
     ),
     array(
       'id'      => 'h1-font-size',

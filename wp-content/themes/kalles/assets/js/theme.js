@@ -573,9 +573,8 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
     };
     // Accordion mobile menu
     var initDropdownMenu = function() {
-        var menuBox = $( '#the4-mobile-menu' );
-        $( '#the4-mobile-menu ul li.has-sub' ).append( '<span class="holder"></span>' );
-        $( menuBox ).on('click','.holder',function() {
+        $( '#the4-mobile-menu ul li.has-sub,.the4-push-menu ul li.has-sub' ).append( '<span class="holder"></span>' );
+        $( 'body' ).on('click','.holder',function() {
             var el = $( this ).closest( 'li' );
             if ( el.hasClass( 'open' ) ) {
                 el.removeClass( 'open' );
@@ -591,6 +590,7 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
             }
         });
     }
+
     // Sticky menu
     var initStickyMenu = function() {
         if ( THE4_Data_Js != undefined && THE4_Data_Js[ 'header_sticky' ] == 1) {
@@ -3309,7 +3309,7 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
 
     };
 
-    
+
 
     //Kalles product Swatches
     var The4KallesProductSwatches = function() {
@@ -4851,6 +4851,18 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
         });
      }
 
+     // Init slick carousel custom control
+    The4Kalles.initCarouselCustom = function() {
+        $( '.the4-carousel-custom-control' ).not( '.slick-initialized' ).slick(
+            {
+                infinite: false,
+                verticalSwiping: true,
+                prevArrow: $('.btn_pnav_prev'),
+                nextArrow: $('.btn_pnav_next')
+            }
+        );
+    }
+
     //Product section
 
     The4Kalles.The4KallesProductSection = function() {
@@ -4919,7 +4931,7 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
         kalles_footer_sticky();
         //Newsletter popup
         KallesNewsletterPopup();
-
+        The4Kalles.initCarouselCustom();
         //Popup exist Product
         The4KallesPromoPrPopup();
         //Tools: Add note, coupon, Gift Wrap, Estimate shipping
@@ -4977,9 +4989,7 @@ if ( ! THE4_Data_Js ) var THE4_Data_Js = [];
         OpenMiniCartFragments();
 
         //Mobile function
-        if ( window_w < 768 ) {
             initDropdownMenu();
-        }
 
 
         //RTL

@@ -264,6 +264,16 @@ CSF::createSection( $prefix, array(
         'default' => false,
       ),
       array(
+        'id'      => 'wc-single-buynow_btn_layout',
+        'type'    => 'select',
+        'title'   => esc_html__( 'Button buy now layout', 'kalles' ),
+        'default'    => 'buynow_btn_full',
+        'options' => array(
+            'buynow_btn_full' => esc_html__( 'Full width', 'kalles' ),
+            'buynow_btn_auto' => esc_html__( 'Auto width', 'kalles' ),
+        )
+      ),
+      array(
         'id'      => 'wc-single-buynow_text',
         'type'    => 'text',
         'title'   => esc_html__( 'Buy now button text', 'kalles' ),

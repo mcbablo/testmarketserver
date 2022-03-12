@@ -44,4 +44,5 @@ global $product;
 		<input type="hidden" name="product_id" value="<?php echo esc_attr( absint( $product->get_id() ) ); ?>" />
 		<input type="hidden" name="variation_id" class="variation_id" value="0" />
 	</div>
+    <?php do_action( 't4_woocommerce_checkout_button' ); ?>
 </div>
