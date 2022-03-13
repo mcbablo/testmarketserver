@@ -96,8 +96,8 @@ class RevSliderUpdate {
 		if(time() - $last_check > 172800 || $this->force == true){
 			$data = $this->_retrieve_update_info();
 			
+			update_option('revslider-update-check', time());
 			if(isset($data->basic)) {
-				update_option('revslider-update-check', time());
 				
 				$this->data->checked = time();
 				$this->data->basic	 = $data->basic;

@@ -124,3 +124,12 @@ body::-webkit-scrollbar-thumb {
     background-color: #7188a2 !important;
 }
 
+.content-quickview{
+	padding: 20px !important;
+}
+
+@media(max-width:991px){
+	.tingle-modal-box{
+		height: 90vh;	
+	}
+}

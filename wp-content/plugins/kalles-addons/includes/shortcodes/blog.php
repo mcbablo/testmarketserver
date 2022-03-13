@@ -142,7 +142,7 @@ if ( ! function_exists( 'kalles_addons_shortcode_blog' ) ) {
 									$output .= '</span></span>';
 								$output .= '</div>';
 
-								$output .= '<div class="post-content">' . do_shortcode( wp_trim_words( get_the_content(), 10, '...' ) ) . '</div>';
+								$output .= '<div class="post-content">' . the_excerpt() . '</div>';
 							$output .= '</article>';
 						$output .= '</div>';
 					}
@@ -209,7 +209,7 @@ if ( ! function_exists( 'kalles_addons_shortcode_blog' ) ) {
                     $output .= '</span></span>';
                     $output .= '<h4 class="mg__0 fs__16 mb__5 ls__0"><a class="cd chp" href="' . esc_url( get_permalink() ) . '">' . get_the_title() . '</a></h4>';
                     $output .= '</div>';
-                    $output .= '<div class="post-content">' . do_shortcode( wp_trim_words( get_the_content(), 12, '...' ) ) . '</div>';
+                    $output .= '<div class="post-content">' . do_shortcode( wp_trim_words( get_the_excerpt() ) ) . '</div>';
                     $output .= '</article>';
                     $output .= '</div>';
                 }

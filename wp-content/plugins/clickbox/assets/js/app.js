@@ -1,6 +1,6 @@
 (function($) {
     $(window).on('load', function(){
-        var api_host = 'https://dev.clickbox.uz/api';
+        var api_host = 'https://app.clickbox.uz/api';
         var url_cells = '/merchant/handbooks/cell-types';
         var url_pochtamats = '/merchant/handbooks/postomats';
         var url_cells_pochtomat = '/merchant/handbooks/postomats?cells[0][cell_type_id]=';
@@ -44,31 +44,45 @@
         var clickboxModal = new tingle.modal({
             footer: false,
             cssClass: ['clickbox-modal'],
+			onOpen: function(){
+                $('#the4-header').css('z-index', '-1');
+				$('#kalles-section-toolbar_mobile').css('z-index', '-1');
+			},
+			onClose: function() {
+                $('#the4-header').css('z-index', '1001');
+				$('#kalles-section-toolbar_mobile').css('z-index', '1002');
+            },
         });
 
         var clickboxModalPlace = new tingle.modal({
             footer: false,
+			onOpen: function(){
+                $('#the4-header').css('z-index', '-1');
+				$('#kalles-section-toolbar_mobile').css('z-index', '-1');
+			},
             onClose: function() {
                 $('#the4-header').css('z-index', '1001');
 				$('#kalles-section-toolbar_mobile').css('z-index', '1002');
             },
-            cssClass: ['clickbox-modal'],
+            cssClass: ['clickbox-modal', 'clickbox-modal-place'],
         });
     
-        clickboxModal.setContent('<div id="pochtamat-map"></div>');
+        clickboxModal.setContent('<div class="pochtomat-box"><div id="pochtomat-list"></div><div id="pochtamat-map"></div></div>');
         clickboxModalPlace.setContent('<div id="pochtamat-place"></div>');
-    
+		
         function init(pochtamats = null) {
             $('#pochtamat-map').html('');
             $('#pochtamat-place').html('');
             var myMap = new ymaps.Map("pochtamat-map", {
                 center: [41.31688073, 69.24690049],
-                zoom: 12
-            }, {
-                searchControlProvider: 'yandex#search'
+                zoom: 11,
             });
+			var menu = $('<div class="pochtomats-list"></ul>');
             if (pochtamats) {
                 pochtamats.map((pochtamat, index) => {
+					var menuItem = $('<div class="pochtomats-item"><div class="pochtomats-address">' + pochtamat.address + '</div><div class="pochtomats-name">' + pochtamat.name + '</div><div class="pochtomats-des">' + pochtamat.description + '</div></div>');
+        				menuItem.appendTo(menu);
+						menu.appendTo($('#pochtomat-list'));
                     var marker = new ymaps.Placemark(
                         [pochtamat.loc_latitude, pochtamat.loc_longitude], {
                             balloonContentBody: '<span>'+pochtamat.name+'</span>',
@@ -76,17 +90,23 @@
                             preset: 'islands#blueDotIcon',
                             iconColor: '#0095b6'
                         });
-                    marker.events.add('balloonopen', function(e) {
-                        $('.header-sticky').css('z-index', '-1');
-						$('#kalles-section-toolbar_mobile').css('z-index', '-1');
+                    marker.events.add('balloonopen', function addPochtomat(e) {
                         let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
                         let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться:</span> На изи, заходишь в макро она возле банкоматов.</p>'+pochtamat.description+'</div></div>';
                         let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
-                        clickboxModalPlace.open();
                         clickboxModal.close();
+						clickboxModalPlace.open();
                         $('#pochtamat-place').html(pcht1+pcht2+pcht3);
                     });
                     myMap.geoObjects.add(marker);
+					menuItem.find('.pochtomats-address').parent().bind('click', function(){
+						let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
+                        let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться:</span> На изи, заходишь в макро она возле банкоматов.</p>'+pochtamat.description+'</div></div>';
+                        let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
+                        clickboxModal.close();
+						clickboxModalPlace.open();
+                        $('#pochtamat-place').html(pcht1+pcht2+pcht3);
+					});
                 });
             }
         }

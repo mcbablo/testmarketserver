@@ -72,7 +72,7 @@
 }
 
 .tingle-modal-box{
-  width: 50% !important;
+  width: 70% !important;
 }
 
 .clickbox-modal .tingle-modal-box__content{
@@ -117,7 +117,7 @@
 }
 
 #pochtamat-place{
-  height: 380px;
+  height: 500px;
   width: 100%;
 }
 
@@ -144,20 +144,90 @@
   justify-content: center;
 }
 
+.pochtomat-box{
+	display: flex;
+}
+
+#pochtomat-list{
+	width: 30%;
+	height: 500px;
+	overflow-y: scroll;
+	padding: 0 20px 0 0;
+}
+
+#pochtomat-list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+}
+
+#pochtomat-list::-webkit-scrollbar {
+    width: 4px;
+    background-color: #fff;
+}
+
+#pochtomat-list::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, .3);
+    background-color: #7188a2;
+}
+
 #pochtamat-map{
   height: 500px;
-  width: 100%;
+  width: 70%;
+}
+
+.pochtomats-item{
+	padding: 15px;
+	border: 1px solid #eaeaea;
+}
+
+.pochtomats-item:hover {
+    background: #00b1e3;
+    color: #fff;
+    cursor: pointer;
+}
+
+.pochtomats-address {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pochtomats-name {
+    font-size: 15px;
+}
+
+.pochtomats-des {
+    font-size: 13px;
 }
 
 @media screen and (max-width:991px) {
   #pochtamat-place{
-    height: 300px;
+    height: 100%;
   }
   .tingle-modal-box{
     width: 90% !important;
   }
   #pochtamat-map{
-    height: 300px;
-    width: 100%;
+    height: 60vh !important;
+    width: 100% !important;
   }
+  #pochtomat-list{
+	height: 25vh !important;
+	width: 100% !important;
+	overflow-y: scroll !important;
+	padding: 0 !important;
+  }
+  .pochtomat-box{
+	 flex-direction: column-reverse;
+  }
+	.pchtBox{
+		flex-direction: column;
+	}
+	.pchtImage{
+		padding: 0;
+		width: 100%;
+		margin-bottom: 20px;
+	}
+	.pchtText{
+		width: 100%;
+	}
 }

@@ -17,7 +17,7 @@ $is_kalles_lazyload = kalles_image_lazyload_class(false);
 <div class="mfp-with-anim popup-quick-view" id="content_quickview">
 	<div id="product-<?php the_ID(); ?>" <?php post_class( 'product-quickview pr' ); ?> >
 		<div class="row">
-			<div class="col-md-7 col-sm-6 col-xs-12 pr">
+			<div class="col-md-6 col-sm-6 col-xs-12 pr">
 				<?php do_action( 'woocommerce_quickview_before_thumbnail' ); ?>
 				<?php echo woocommerce_show_product_loop_sale_flash();?>
 				<div class="single-product-thumbnail pr">
@@ -71,7 +71,7 @@ $is_kalles_lazyload = kalles_image_lazyload_class(false);
 				<?php do_action( 'woocommerce_quickview_after_thumbnail' ); ?>
 			</div><!-- .col-md-6 -->
 
-			<div class="col-md-5 col-sm-6 col-xs-12 pr">
+			<div class="col-md-6 col-sm-6 col-xs-12 pr">
 				<?php do_action( 'woocommerce_quickview_before_summary' ); ?>
 				<div class="summary-inner gecko-scroll-quick">
 					<div class="gecko-scroll-content-quick">
