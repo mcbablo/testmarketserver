@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_filter( 'woocommerce_states', 'awrr_states_uzbekistan' );
 function awrr_states_uzbekistan( $states ) {
 	$states['UZ'] = array(
-		'01' => 'Город Ташкент'
+		'01' => pll__('tashkent2')
 	);
 	return $states;
 }

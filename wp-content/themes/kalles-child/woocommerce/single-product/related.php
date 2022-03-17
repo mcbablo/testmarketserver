@@ -31,7 +31,7 @@ if (cs_get_option('wc_product_cross_sell-enable')) {
 		<div class="related product-extra mt__60">
 			<div class="wrap_title  des_<?php echo esc_attr( $title_type ); ?>">
 				<h3 class="the4-section-title mg__0 tc pr flex fl_center al_center fs__24 <?php echo esc_attr( $title_type ); ?>">
-					<span class="mr__10 ml__10"><?php echo esc_html( $title ); ?></span>
+					<span class="mr__10 ml__10"><?php pll_e('relatedtitle2'); ?></span>
 				</h3>
 				<span class="dn tt_divider">
 					<span></span>

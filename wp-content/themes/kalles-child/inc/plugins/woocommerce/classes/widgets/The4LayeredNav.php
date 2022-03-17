@@ -733,14 +733,16 @@ if (class_exists('WooCommerce') && class_exists('CSF')) {
 	            $html .= '<h5 class="widget-title"><span>' . translate( 'By ', 'kalles' ) . '</span>' . translate( 'Price', 'kalles' ) . '</h5>';
 	            $html .= '<ul class="nt_filter_block css_ntbar list filter-top">';
 	            	foreach ($links as $link) {
-	            		$html .= '<li class="wc-layered-nav-term">';
-	            		$html .= '<a href="' . $link['href'] . '" rel="nofollow" class="' . $link['class'] . '">' . $link['title'] . '</a>';
-	            		if ( $is_count) {
-							if(!$link['count'] == 0){
-								$html .= '<span class="count">(' . $link['count'] . ')</span>';
+						if($link['count'] !== 0){
+							$html .= '<li class="wc-layered-nav-term">';
+							$html .= '<a href="' . $link['href'] . '" rel="nofollow" class="' . $link['class'] . '">' . $link['title'] . '</a>';
+							if ( $is_count) {
+								if(!$link['count'] == 0){
+									$html .= '<span class="count">(' . $link['count'] . ')</span>';
+								}
 							}
-	            		}
-	            		$html .= '</li>';
+							$html .= '</li>';
+						}
 	            	}
 
 	            $html .= '</ul>';

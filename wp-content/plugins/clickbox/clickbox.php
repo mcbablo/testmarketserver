@@ -9,6 +9,7 @@
  * License: GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: clickbox
+ * Domain Path: /i18n/languages/
 **/
 
 if ( ! defined( 'WPINC' ) ) {
@@ -34,6 +35,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                     $this->id                 = 'clickbox'; 
                     $this->method_title       = __( 'CLICKBox Shipping', 'clickbox' );  
                     $this->method_description = __( 'Custom Shipping Method for CLICKBox', 'clickbox' ); 
+					load_plugin_textdomain( 'clickbox', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages/' );
 
                     $this->availability = 'including';
                     
@@ -122,7 +124,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
             wp_enqueue_script('googlemaps_js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAFTWLzPcF1hRcc4X5q0fqG_w-FAgCZlrk&libraries=geometry', [], 0.1, true);
             wp_enqueue_script('yandexmap_js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', [], 0.1, true);
             wp_enqueue_script('tingle_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/tingle.min.js', [], 0.1, true);
-            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js', [], 0.1, true);
+            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js?ver2', [], 0.1, true);
             wp_enqueue_style('tingle__css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/tingle.min.css', [], 0.1);
             wp_enqueue_style('clickbox_css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/style.css', [], 0.1);
         }
@@ -222,12 +224,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
     // Вывод выбора почтоматов
     add_action( 'woocommerce_review_order_before_payment', function() {        
-        echo '<div class="selectBox"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказа' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать' ) . '</button></div>';
+        echo '<div class="selectBox"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказов', 'clickbox' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать', 'clickbox' ) . '</button></div>';
     });
 
     // Вывод кнопки
     add_action( 'woocommerce_review_order_after_payment', function() {        
-        echo '<button type="button" id="create-order">Оплатить</button>';
+        echo '<button type="button" id="create-order">' . esc_html__( 'Оплатить', 'clickbox' ) . ' </button>';
     });
 
     // Добавление полей в оформление заказа

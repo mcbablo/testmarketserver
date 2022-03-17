@@ -44,6 +44,15 @@
             if(value.outerText == 'по Цена'){
                 $(this).text('По цене')
             }
+			if(value.outerText == "bo'yicha Narxi"){
+                $(this).text("Narx bo'yicha");
+            }
+			if(value.outerText == "bo'yicha Размер"){
+                $(this).text("O'lcham bo'yicha");
+            }
+			if(value.outerText == "bo'yicha Цвет для фильтров"){
+                $(this).text("Rang bo'yicha");
+            }
         });
         $('.the4-banner a').removeAttr('target');
         $('#user_phone').inputmask('\\9\\9\\8 (99) 999-99-99');
@@ -62,7 +71,7 @@
 		var initDropdownMenuCat = function() {
         	$( '#the4-mobile-menu__cat ul li.has-sub' ).append( '<span class="holder"></span>' );
 			$( cat_menu ).on('click','.holder', function() {
-				var el = $( this ).closest( 'li' );
+				var el = $( cat_menu ).closest( 'li' );
 				if ( el.hasClass( 'open' ) ) {
 					el.removeClass( 'open' );
 					el.find( 'li' ).removeClass( 'open' );

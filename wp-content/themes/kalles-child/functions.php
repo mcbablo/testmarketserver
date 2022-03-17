@@ -162,6 +162,18 @@ function wc_save_account_details_required_fields( $required_fields ){
     return $required_fields;
 }
 
+add_filter('woocommerce_checkout_fields', 'njengah_edit_checkout_placeholders_labels');
+function njengah_edit_checkout_placeholders_labels($fields){
+	if (get_locale() == 'ru_RU') {
+		$fields['billing']['billing_first_name']['placeholder'] = 'Введите имя и фамилию';
+	    $fields['billing']['billing_first_name']['label'] = 'Имя и фамилия';
+	} else if(get_locale() == 'uz_UZ'){
+		$fields['billing']['billing_first_name']['placeholder'] = 'Ismingiz va familiyangizni kiriting';
+	    $fields['billing']['billing_first_name']['label'] = 'Ismingiz va familiyangiz';
+	}
+    return $fields;
+}
+
 add_filter( 'woocommerce_new_customer_data', 'customer_username_based_on_firstname', 20, 1 );
 function customer_username_based_on_firstname( $new_customer_data ){
     $wrong_user_names = array( 'info', 'contact' );
@@ -170,13 +182,6 @@ function customer_username_based_on_firstname( $new_customer_data ){
         $new_customer_data['user_login'] = sanitize_user( $first_name );
     }
     return $new_customer_data;
-}
-
-add_filter('woocommerce_checkout_fields', 'njengah_edit_checkout_placeholders_labels');
-function njengah_edit_checkout_placeholders_labels($fields){
-    $fields['billing']['billing_first_name']['placeholder'] = 'Введите имя и фамилию';
-    $fields['billing']['billing_first_name']['label'] = 'Имя и фамилия';
-    return $fields;
 }
 
 add_filter ( 'woocommerce_account_menu_items', 'misha_remove_my_account_links' );
@@ -204,3 +209,10 @@ function my_custom_show_sale_price_at_cart( $old_display, $cart_item, $cart_item
 
 }
 add_filter( 'woocommerce_cart_item_price', 'my_custom_show_sale_price_at_cart', 10, 3 );
+
+pll_register_string('relatedtitle1', 'relatedtitle2');
+pll_register_string('recenttitle1', 'recenttitle2');
+pll_register_string('tashkent1', 'tashkent2');
+pll_register_string('selectPochtomat1', 'selectPochtomat2');
+pll_register_string('copyright1', 'copyright2');
+pll_register_string('support1', 'support2');

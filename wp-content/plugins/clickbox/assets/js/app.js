@@ -92,20 +92,22 @@
                         });
                     marker.events.add('balloonopen', function addPochtomat(e) {
                         let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
-                        let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться:</span> На изи, заходишь в макро она возле банкоматов.</p>'+pochtamat.description+'</div></div>';
+                        let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="'+pochtamat.images[0]+'" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться: </span>'+pochtamat.instruction+'</p><p class="pchtMarsh"><span>Ориентир: </span>'+pochtamat.reference_point+'</p><p class="pchtMarsh"><span>Как найти: </span>'+pochtamat.location+'</p><p class="pchtMarsh"><span>Режим работы: </span>'+pochtamat.working_hours+'</p></div></div>';
                         let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
                         clickboxModal.close();
 						clickboxModalPlace.open();
                         $('#pochtamat-place').html(pcht1+pcht2+pcht3);
+						$('#pochtomat-list').html('<span></span>');
                     });
                     myMap.geoObjects.add(marker);
 					menuItem.find('.pochtomats-address').parent().bind('click', function(){
 						let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
-                        let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться:</span> На изи, заходишь в макро она возле банкоматов.</p>'+pochtamat.description+'</div></div>';
+                        let pcht2 = '<div class="pchtBox"><div class="pchtImage"><img src="'+pochtamat.images[0]+'" class="pchtImg" width="100%"></div><div class="pchtText"><p class="pchtMarsh"><span>Как добраться: </span>'+pochtamat.instruction+'</p><p class="pchtMarsh"><span>Ориентир: </span>'+pochtamat.reference_point+'</p><p class="pchtMarsh"><span>Как найти: </span>'+pochtamat.location+'</p><p class="pchtMarsh"><span>Режим работы: </span>'+pochtamat.working_hours+'</p></div></div>';
                         let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
                         clickboxModal.close();
 						clickboxModalPlace.open();
                         $('#pochtamat-place').html(pcht1+pcht2+pcht3);
+						$('#pochtomat-list').html('<span></span>');
 					});
                 });
             }

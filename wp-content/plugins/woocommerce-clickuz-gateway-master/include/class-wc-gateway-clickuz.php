@@ -40,8 +40,7 @@ class WC_Gateway_Clickuz extends WC_Payment_Gateway {
         $this->init_settings();
 
         // Define user set variables.
-        $this->title       = 'CLICK';
-        $this->description = __( 'Pay with CLICK', 'clickuz' );
+        $this->title       = __( 'Pay with CLICK', 'clickuz' );
         $this->testmode    = 'yes' === $this->get_option( 'testmode', 'no' );
         $this->debug       = 'yes' === $this->get_option( 'debug', 'no' );
 
@@ -56,10 +55,7 @@ class WC_Gateway_Clickuz extends WC_Payment_Gateway {
      *
      * @return string
      */
-    public function get_icon() {
-        $icon_html = '<img src="' . CLICK_LOGO . '" alt="CLICK" />';
-        return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id );
-    }
+    
 
     /**
      * Logging method.
