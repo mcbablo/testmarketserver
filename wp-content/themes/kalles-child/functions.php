@@ -27,15 +27,22 @@ function custom_override_checkout_fields( $fields ) {
 add_action( 'wp_enqueue_scripts', 'kalleschild_enqueue_child_theme_styles', PHP_INT_MAX);
 
 function kalleschild_enqueue_child_theme_styles() {
-    wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
-    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri().'/style.css', array('parent-style') );
+    wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css', [], 0.2 );
+    wp_enqueue_style( 'tingle-style', get_stylesheet_directory_uri().'/assets/css/tingle.min.css', [], 0.1 );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri().'/style.css', array('parent-style'), [], 0.2 );
 }
 
 function my_scripts_method_child() {
     wp_enqueue_script(
+        'tingle-script',
+        get_stylesheet_directory_uri() . '/assets/js/tingle.min.js',
+        [], 0.1, true
+    );
+    wp_enqueue_script(
         'custom-script-child',
         get_stylesheet_directory_uri() . '/app.js',
-        array( 'jquery' )
+        array( 'jquery' ),
+		[], 0.2, true
     );
 }
 
@@ -57,27 +64,6 @@ function change_existing_currency_symbol( $currency_symbol, $currency ) {
     return $currency_symbol;
 }
 
-add_filter( 'woocommerce_package_rates', 'hide_specific_shipping_method_based_on_user_role', 30, 2 );
-function hide_specific_shipping_method_based_on_user_role( $rates, $package ) {
-    $excluded_role = "staffer"; // User role to be excluded
-    $shipping_id = 'local_pickup'; // Shipping rate to be removed
-    $shipping_id2 = 'clickbox'; // Shipping rate to be removed
-    foreach( $rates as $rate_key => $rate ){
-        if( $rate->method_id === $shipping_id ){
-          if(!current_user_can( $excluded_role )){
-              unset($rates[$rate_key]);
-              break;
-          }
-        } else if($rate->method_id === $shipping_id2){
-            if(current_user_can( $excluded_role )){
-                unset($rates[$rate_key]);
-                break;
-            }
-        }
-    }
-    return $rates;
-}
-
 if ( ! function_exists( 't4_woo_login_register_form' ) ) {
 	function t4_woo_login_register_form() {
 
@@ -85,6 +71,7 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
 		?>
 		<?php if( is_page( 'my-account' ) ){
 		 //код
+		} else if( is_page( 'mening-akkauntim' ) ) {
 		} else {?>
 			<link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />
             <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.device.detector.min.js"></script>
@@ -122,7 +109,7 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
                     <p class="woocommerce-form-row form-row">
                         <input type="hidden" name="device_id" id="device_id" value="" />
                         <button type="submit" class="auth-sidebar-btn woocommerce-Button woocommerce-button button woocommerce-form-register__submit">
-                            <?php esc_html_e( 'Send', 'clickuz_login' ); ?>
+                            <?php esc_html_e( 'Sign', 'clickuz_login' ); ?>
                         </button>
                     </p>
                 </form>
@@ -141,6 +128,7 @@ function add_phone_to_edit_account_form() {
             <label for="user_phone">Номер телефона <span class="required">*</span></label>
             <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="user_phone" id="user_phone" value="<?php echo esc_attr( $user->user_login ); ?>" readonly />
         </p>
+        <script>$('#user_phone').inputmask('\\9\\9\\8 (99) 999-99-99');</script>
     <?php
 }
 
@@ -216,3 +204,67 @@ pll_register_string('tashkent1', 'tashkent2');
 pll_register_string('selectPochtomat1', 'selectPochtomat2');
 pll_register_string('copyright1', 'copyright2');
 pll_register_string('support1', 'support2');
+
+add_action( 'admin_menu', 'remove_some_menus', 999 ); 
+function remove_some_menus() {
+    if ( current_user_can('operator') ) {
+        global $submenu;
+        remove_menu_page('woocommerce-marketing');
+        remove_menu_page('woocommerce');
+        remove_menu_page('profile.php');
+        remove_menu_page('index.php');
+    }
+}
+
+add_action('admin_head', 'operator_css');
+function operator_css() {
+    if ( current_user_can('operator') ) {
+        echo '<style>
+            #menu-posts-shop_order>.wp-submenu>li:last-child, .page-title-action, .woocommerce-message, #wp-admin-bar-new-content, .alignleft.actions.bulkactions, .check-column, #wc_actions, #shipping_address, #language_ru, #language_uz, .column-shipping_address, .column-wc_actions, .column-language_ru, .column-language_uz, .wc-order-item-meta, .wc-backbone-modal-main footer{
+                display: none !important;
+            }
+            .wc-backbone-modal-main{
+                padding-bottom: 0 !important;
+            }
+            .type-shop_order, .order_number, .order_date, .order_status, .billing_address, .order_total{
+                cursor: default !important;
+            }
+        </style>';
+    }
+}
+
+add_action('admin_footer', 'operator_js');
+function operator_js() {
+    if ( current_user_can('operator') ) {
+        echo '<script>
+                let viewes = document.querySelectorAll(".order-view");
+                viewes.forEach(view => {
+                    view.addEventListener("click", function handleClick(event){
+                        event.preventDefault();
+                    })
+                });
+                let orders = document.querySelectorAll(".type-shop_order");
+                orders.forEach(order => {
+                    order.onclick = function() {
+                        order.querySelector(".order-view").href="#";
+                        return false;
+                    }
+                });
+        </script>';
+    }
+}
+
+add_filter( 'woocommerce_package_rates', 'hide_specific_shipping_method_based_on_user_role', 30, 2 );
+function hide_specific_shipping_method_based_on_user_role( $rates, $package ) {
+    $excluded_role = "staffer"; // User role to be excluded
+    $shipping_id = 'local_pickup'; // Shipping rate to be removed
+    foreach( $rates as $rate_key => $rate ){
+        if( $rate->method_id === $shipping_id ){
+          if(!current_user_can( $excluded_role )){
+              unset($rates[$rate_key]);
+              break;
+          }
+        }
+    }
+    return $rates;
+}

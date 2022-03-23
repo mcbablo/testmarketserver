@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-18 11:17+0700\n"
-"PO-Revision-Date: 2022-03-13 08:07+0500\n"
+"PO-Revision-Date: 2022-03-24 00:01+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uz\n"
@@ -551,7 +551,7 @@ msgstr "Yangilash"
 #: woocommerce/cart/cart-shipping.php:51
 #, php-format
 msgid "Shipping to %s."
-msgstr "%s. gacha yetazib berish."
+msgstr "%s. gacha yetazib berish"
 
 #: woocommerce/cart/cart-shipping.php:52
 msgid "Change address"
@@ -619,11 +619,11 @@ msgstr ""
 
 #: woocommerce/cart/mini-cart.php:220
 msgid "Your cart is empty."
-msgstr "Savatcha bo'sh."
+msgstr "Savatcha bo'sh"
 
 #: woocommerce/cart/mini-cart.php:223
 msgid "Return to Shop."
-msgstr "Do'konga o'tish."
+msgstr "Do'konga o'tish"
 
 #: woocommerce/cart/mini-cart.php:245
 msgid "View cart"
@@ -8244,7 +8244,7 @@ msgstr ""
 
 #: includes/classes/woocommerce/The4Wishlist.php:65
 msgid "Wishlist is empty."
-msgstr "Saralanganlar bo'sh."
+msgstr "Saralanganlar bo'sh"
 
 #: includes/classes/woocommerce/The4Wishlist.php:68
 #: includes/classes/woocommerce/The4Compare.php:96
@@ -8266,3 +8266,7 @@ msgstr "Saralanganlarni o'chirish"
 #: includes/classes/woocommerce/The4Wishlist.php:212
 msgid "Add to Wishlist"
 msgstr "Saralangalarga qo'shish"
+
+#: views/common/woocommere-search.php:53
+msgid "Inspiration"
+msgstr "Ilhom kerakmi?"

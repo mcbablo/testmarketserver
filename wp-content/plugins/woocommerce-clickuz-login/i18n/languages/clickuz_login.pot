@@ -72,3 +72,15 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "OOO \"Click\""
 msgstr ""
+
+#. Author of the plugin/theme
+msgid "Sign"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Reset password"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Reset"
+msgstr ""

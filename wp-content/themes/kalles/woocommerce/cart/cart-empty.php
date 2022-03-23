@@ -30,7 +30,7 @@ if ( wc_get_page_id( 'shop' ) > 0 ) : ?>
     <p class="return-to-shop">
         <?php if ($enable_custom_link) : ?>
             <a class="button wc-backward" href="<?php echo esc_attr($custom_link_url); ?>" target="<?php echo esc_attr($custom_link_target); ?> ?>">
-                <?php esc_html_e( 'Return Link', 'kalles' ) ?>
+                <?php esc_html_e( 'Return to Shop.', 'kalles' ) ?>
             </a>
         <?php else: ?>
             <a class="button wc-backward" href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ); ?>">
@@ -41,7 +41,7 @@ if ( wc_get_page_id( 'shop' ) > 0 ) : ?>
                  * @since 4.6.0
                  * @param string $default_text Default text.
                  */
-                echo esc_html( apply_filters( 'woocommerce_return_to_shop_text', __( 'Return to shop', 'kalles' ) ) );
+                echo esc_html( apply_filters( 'woocommerce_return_to_shop_text', __( 'Return to Shop.', 'kalles' ) ) );
                 ?>
             </a>
         <?php endif; ?>

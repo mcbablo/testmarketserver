@@ -50,7 +50,7 @@ if ( cs_get_option( 'header-layout' ) == 5 || $search_layout == 'fullwidth' || $
             <div class="search_header__prs fwsb cd <?php if ( ! $search_inspiration ) :  ?>dn<?php endif; ?>">
                 <div class="ld_bar_search"></div>
                 <?php if ( $search_inspiration && !empty( $cat_inspiration ) ) : ?>
-                    <span class="h_suggest"><?php esc_html_e('Нужно вдохновление?', 'kalles') ?></span>
+                    <span class="h_suggest"><?php esc_html_e('Inspiration', 'kalles') ?></span>
                 <?php endif; ?>
                 <span class="h_results dn"><?php esc_html_e('Search Results:', 'kalles') ?></span>
             </div> <!-- .search_header__prs -->

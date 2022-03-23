@@ -55,7 +55,6 @@
             }
         });
         $('.the4-banner a').removeAttr('target');
-        $('#user_phone').inputmask('\\9\\9\\8 (99) 999-99-99');
 //         $( 'form.checkout' ).on( 'change', 'input[name^="shipping_method"]', function () {
 //             var val = jQuery( this ).val();
 //             if ( val.match( "^clickbox" ) ) {

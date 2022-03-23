@@ -26,7 +26,7 @@ class MenuSettings
 					'moysklad',
 					'Управление',
 					'Управление',
-					'manage_woocommerce',
+					'manage_options',
 					'moysklad'
 				);
 				add_submenu_page(

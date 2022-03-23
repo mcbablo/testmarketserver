@@ -22,11 +22,11 @@ class MenuTools {
       'admin_menu',
       function () {
 
-        if(current_user_can('manage_woocommerce')){
+        if(current_user_can('manage_options')){
           add_menu_page(
             $page_title = 'МойСклад',
             $menu_title = 'МойСклад',
-            $capability = 'manage_woocommerce',
+            $capability = 'manage_options',
             $menu_slug = 'moysklad',
             $function = array( __CLASS__, 'display_ui' ),
             $icon = 'dashicons-forms',

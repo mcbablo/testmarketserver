@@ -605,15 +605,9 @@ class SCFW_Size_Chart_For_Woocommerce_Public
             $size_chart_get_button_class = '';
             ?>
 			<div class="button-wrapper">
-				<a class="<?php 
-            echo  esc_attr( $size_chart_get_button_class ) ;
-            ?> md-size-chart-btn" chart-data-id="chart-<?php 
-            esc_attr_e( $chart_id );
-            ?>" href="javascript:void(0);" id="chart-button">
-					<?php 
-            echo  esc_html( $popup_label ) ;
-            ?>
-				</a>
+				<a class="md-size-chart-btn btn-<?php esc_attr_e( $chart_id ); ?>" chart-data-id="chart-<?php esc_attr_e( $chart_id ); ?>" href="javascript:void(0);" id="chart-button">
+                    <?php echo  esc_html( $popup_label ); ?>
+                </a>
 			</div>
 			<div id="md-size-chart-modal" class="md-size-chart-modal scfw-size-chart-modal" chart-data-id="chart-<?php 
             esc_attr_e( $chart_id );

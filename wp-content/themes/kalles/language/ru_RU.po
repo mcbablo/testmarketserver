@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-18 11:17+0700\n"
-"PO-Revision-Date: 2022-03-12 14:03+0500\n"
+"PO-Revision-Date: 2022-03-23 23:59+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: wc-vendors/store/store-ratings.php:59
 msgid "<span>&larr;</span> Return to store"
-msgstr ""
+msgstr "<span>&larr;</span> Вернуться к покупкам"
 
 #: woocommerce/content-product-deal.php:122
 msgid "Sold"
@@ -530,7 +530,7 @@ msgstr ""
 
 #: woocommerce/cart/cart.php:228
 msgid "Coupon:"
-msgstr "Купон"
+msgstr "Купон:"
 
 #: woocommerce/cart/cart.php:228 inc/hooks/helper.php:2348
 msgid "Coupon code"
@@ -623,7 +623,7 @@ msgstr "Корзина пуста"
 
 #: woocommerce/cart/mini-cart.php:223
 msgid "Return to Shop."
-msgstr "Перейти к покупкам."
+msgstr "Перейти к покупкам"
 
 #: woocommerce/cart/mini-cart.php:245
 msgid "View cart"
@@ -8263,7 +8263,7 @@ msgstr "Магазин по категориям"
 
 #: includes/classes/woocommerce/The4Wishlist.php:65
 msgid "Wishlist is empty."
-msgstr "Избранное пусто."
+msgstr "Избранное пусто"
 
 #: includes/classes/woocommerce/The4Wishlist.php:68
 #: includes/classes/woocommerce/The4Compare.php:96
@@ -8285,3 +8285,7 @@ msgstr "Удалить из избранного"
 #: includes/classes/woocommerce/The4Wishlist.php:212
 msgid "Add to Wishlist"
 msgstr "Добавить в избранное"
+
+#: views/common/woocommere-search.php:53
+msgid "Inspiration"
+msgstr "Нужно вдохновление?"

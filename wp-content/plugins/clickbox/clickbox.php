@@ -16,6 +16,16 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
+function log_me($message) {
+	if (WP_DEBUG === true) {
+		if (is_array($message) || is_object($message)) {
+			error_log(print_r($message, true));
+		} else {
+			error_log($message);
+		}
+	}
+}
+
 // Путь к плагину
 define( 'WC_CLICKBOX_PLUGIN_URL', plugin_dir_url(__FILE__) );
 
@@ -122,11 +132,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
             wp_enqueue_script('jquery');
             wp_enqueue_script('inputmask_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/jquery.inputmask.bundle.js', [], 0.1, true);
             wp_enqueue_script('googlemaps_js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAFTWLzPcF1hRcc4X5q0fqG_w-FAgCZlrk&libraries=geometry', [], 0.1, true);
-            wp_enqueue_script('yandexmap_js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', [], 0.1, true);
-            wp_enqueue_script('tingle_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/tingle.min.js', [], 0.1, true);
-            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js?ver2', [], 0.1, true);
-            wp_enqueue_style('tingle__css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/tingle.min.css', [], 0.1);
-            wp_enqueue_style('clickbox_css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/style.css', [], 0.1);
+            wp_enqueue_script('yandexmap_js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', [], 0.2, true);
+            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js?ver2', [], 0.2, true);
+            wp_enqueue_style('clickbox_css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/style.css', [], 0.2);
         }
     }
     add_action( 'wp_enqueue_scripts', 'clickbox_scripts_and_styles' );
@@ -154,8 +162,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                 if($_product->get_width()){
                     $width = $width + $_product->get_width() * $values['quantity'];
                 }
-                $length = max($allLength, $length);
-                $height = max($allHeight, $height);
+                if($_product->get_length()){
+                    $length = max($allLength, $length);
+                }
+                if($_product->get_length()){
+                    $height = max($allHeight, $height);
+                }
             }
             $availableBox = null;
             foreach ( $myposts as $key => $post ) : 
@@ -207,30 +219,106 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 //     add_filter( 'woocommerce_package_rates', 'shipping_rates_for_specific_states', 10, 2 );
 
     // Удаление кнопки
-    add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
-    function remove_order_button_html( $button ) {
-        $targeted_shipping_class = 0;
-        $found = false;
-        foreach( WC()->cart->get_cart() as $cart_item ) {
-            if( $cart_item['data']->get_shipping_class_id() == $targeted_shipping_class ) {
-                $found = true; 
-                break;
-            }
-        }
-        if( $found )
-            $button = '';
-        return $button;
-    }
+    // add_filter('woocommerce_order_button_html', 'remove_order_button_html' );
+    // function remove_order_button_html( $button ) {
+    //     $targeted_shipping_class = 0;
+    //     $found = false;
+    //     foreach( WC()->cart->get_cart() as $cart_item ) {
+    //         if( $cart_item['data']->get_shipping_class_id() == $targeted_shipping_class ) {
+    //             $found = true; 
+    //             break;
+    //         }
+    //     }
+    //     if( $found )
+    //         $button = '';
+    //     return $button;
+    // }
 
     // Вывод выбора почтоматов
     add_action( 'woocommerce_review_order_before_payment', function() {        
-        echo '<div class="selectBox"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказов', 'clickbox' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать', 'clickbox' ) . '</button></div>';
+        echo '<div class="selectBox" id="selectClickbox"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказов', 'clickbox' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать', 'clickbox' ) . '</button></div>';
     });
 
     // Вывод кнопки
     add_action( 'woocommerce_review_order_after_payment', function() {        
         echo '<button type="button" id="create-order">' . esc_html__( 'Оплатить', 'clickbox' ) . ' </button>';
     });
+
+    function deleteSelect() { ?>
+        <script type="text/javascript">
+            jQuery(function($) {
+                var selector = '#selectClickbox';            
+                $( 'form.checkout' ).on( 'change', 'input[name^="shipping_method"]', function() {
+                    var c_s_m = $( this ).val();                    
+                    if ( c_s_m.indexOf( 'local_pickup' ) >= 0 ) {
+                        $( selector ).hide();   
+                    } else {
+                        $( selector ).show();               
+                    }
+                });
+            });
+        </script>
+        <?php
+    }
+    add_action( 'woocommerce_review_order_before_payment', 'deleteSelect', 10, 0 );
+
+    function deleteButton() { ?>
+        <script type="text/javascript">
+            jQuery(function($) {
+                var selector = '#create-order';            
+                $( 'form.checkout' ).on( 'change', 'input[name^="shipping_method"]', function() {
+                    var c_s_m = $( this ).val();                    
+                    if ( c_s_m.indexOf( 'local_pickup' ) >= 0 ) {
+                        $( selector ).hide();   
+                    } else {
+                        $( selector ).show();               
+                    }
+                });
+            });
+        </script>
+        <?php
+    }
+    add_action( 'woocommerce_review_order_after_payment', 'deleteButton', 10, 0 );
+
+    add_filter( 'woocommerce_package_rates' , 'businessbloomer_sort_shipping_methods', 10, 2 );
+    function businessbloomer_sort_shipping_methods( $rates, $package ) {
+        if ( empty( $rates ) ) return;
+        if ( ! is_array( $rates ) ) return;
+        uasort( $rates, function ( $a, $b ) { 
+            if ( $a == $b ) return 0;
+            return ( $a->cost > $b->cost ) ? -1 : 1; 
+        } );
+        return $rates;
+    }
+
+    add_filter('woocommerce_order_button_html', 'disable_place_order_button_html' );
+    function disable_place_order_button_html( $button ) {
+        $chosen_shipping_methods = WC()->session->get( 'chosen_shipping_methods' );
+        $chosen_shipping_method  = reset($chosen_shipping_methods);
+        $chosen_shipping_method  = explode(':', $chosen_shipping_method );
+        if( $chosen_shipping_method[0] == 'clickbox' ) {
+            $button = '';
+        }
+        return $button;
+    }
+
+    add_action( 'woocommerce_before_cart', 'auto_select_free_shipping_by_default' );
+    add_action( 'woocommerce_before_checkout_form', 'auto_select_free_shipping_by_default' );
+    function auto_select_free_shipping_by_default() {
+        if ( isset(WC()->session) && ! WC()->session->has_session() )
+            WC()->session->set_customer_session_cookie( true );
+
+        if ( strpos( WC()->session->get('chosen_shipping_methods')[0], 'clickbox' ) !== false )
+            return;
+
+        foreach( WC()->session->get('shipping_for_package_0')['rates'] as $key => $rate ){
+            if( $rate->method_id === 'clickbox' ){
+                // Set "Free shipping" method
+                WC()->session->set( 'chosen_shipping_methods', array($rate->id) );
+                return;
+            }
+        }
+    }
 
     // Добавление полей в оформление заказа
     function clickbox_checkout_add( $checkout) {
@@ -311,7 +399,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
             $status_click_box = "Заказа нет в кликбокс";
         } else {
             try {
-                $url = file_get_contents("https://dev.clickbox.uz/api/merchant/bookings/" . $order->get_meta('clickbox_order_id'), true, $context);
+                $url = file_get_contents("https://app.clickbox.uz/api/merchant/bookings/" . $order->get_meta('clickbox_order_id'), true, $context);
                 $data = json_decode($url);
                 $status_array = [
                     'waiting_payment' => 'Ожидание оплаты',
@@ -360,7 +448,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
             if ($order->get_meta('clickbox_order_id')) {
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://dev.clickbox.uz/api/merchant/bookings/'.$order->get_meta('clickbox_order_id').'/pay',
+                CURLOPT_URL => 'https://app.clickbox.uz/api/merchant/bookings/'.$order->get_meta('clickbox_order_id').'/pay',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,

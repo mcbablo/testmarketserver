@@ -51,6 +51,16 @@
   background: #2ecc71 !important;
 }
 
+.pcht-back{
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+}
+
+.pcht-back{
+  background: #7f8c8d !important;
+}
+
 .btn-pochtamat.btn-danger{
   background: #e74c3c !important;
 }
@@ -71,7 +81,7 @@
   background: #0c9043 !important;
 }
 
-.tingle-modal-box{
+.clickbox-modal .tingle-modal-box{
   width: 70% !important;
 }
 
@@ -86,6 +96,28 @@
 .tingle-modal__close{
   line-height: 40px !important;
   background: #c0392b !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.tingle-modal__closeIcon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tingle-modal__closeIcon>svg{
+  width: 20px;
+  height: 20px;
+}
+
+.tingle-modal__closeIcon>svg>path{
+  fill: #fff;
+  width: 20px;
+  height: 20px;
 }
 
 .selectBox {
@@ -121,7 +153,7 @@
 }
 
 #pochtamat-place{
-  height: 430px;
+  height: auto;
   width: 100%;
 }
 
@@ -145,7 +177,7 @@
 
 .pchtBtns{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .pochtomat-box{
@@ -204,24 +236,34 @@
 }
 
 @media screen and (max-width:991px) {
+  .clickbox-modal{
+    padding: 20px !important;
+  }
+  .clickbox-modal .tingle-modal-box{
+    height: calc(100vh - 40px) !important;
+    width: calc(100%) !important;
+  }
+  .clickbox-modal .tingle-modal-box__content{
+    padding: 20px !important;
+  }
+  .pochtomat-box{
+    flex-direction: column-reverse;
+  }
+  #pochtomat-list{
+    height: calc(50vh - 40px) !important;
+    width: 100% !important;
+    overflow-y: scroll !important;
+    padding: 0 !important;
+  }
+  #pochtamat-map{
+    height: calc(50vh - 40px) !important;
+    width: 100% !important;
+  }
   #pochtamat-place{
     height: 100%;
   }
-  .tingle-modal-box{
-    width: 90% !important;
-  }
-  #pochtamat-map{
-    height: 60vh !important;
+  .clickbox-modal .tingle-modal-box{
     width: 100% !important;
-  }
-  #pochtomat-list{
-	height: 25vh !important;
-	width: 100% !important;
-	overflow-y: scroll !important;
-	padding: 0 !important;
-  }
-  .pochtomat-box{
-	 flex-direction: column-reverse;
   }
 	.pchtBox{
 		flex-direction: column;
@@ -236,14 +278,14 @@
 		width: 100%;
 	}
 	.clickbox-modal-place .tingle-modal-box{
-		width: 90% !important;
+		width: 100% !important;
 	}
 	.pchtImage{
 		text-align: center;
 	}
 	.pchtImage>img{
 		width: auto;
-		max-height: 180px;
+		max-height: 240px;
 	}
 	.pchtMarsh {
 		margin-bottom: 8px;
@@ -251,4 +293,26 @@
 	.clickbox-modal-place .tingle-modal-box{
 		height: auto !important;
 	}
+  .pchtBtns{
+    flex-direction: column;
+    justify-content: center;
+  }
+  .pchtBtns>button{
+    width: 100%;
+  }
+  .pcht-back{
+    margin-bottom: 10px;
+  }
+  .pochtomats-item{
+    padding: 10px;
+  }
+  .pochtomats-address{
+    font-size: 14px;
+  }
+  .pochtomats-name{
+    font-size: 13px;
+  }
+  .pochtomats-des{
+    font-size: 12px;
+  }
 }

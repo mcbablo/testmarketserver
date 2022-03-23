@@ -57,7 +57,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
         <p class="woocommerce-form-row form-row">
             <input type="hidden" name="device_id" id="device_id" value="" />
             <button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit click-login-btn">
-                <?php esc_html_e( 'Send', 'clickuz_login' ); ?>
+                <?php esc_html_e( 'Sign', 'clickuz_login' ); ?>
             </button>
         </p>
     </form>

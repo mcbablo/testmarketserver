@@ -65,6 +65,10 @@ body::-webkit-scrollbar-thumb {
     background-color: #7188a2;
 }
 
+input {
+    font-family: 'Fira Sans' !important;
+}
+
 #the4-content{
     min-height: auto !important;
 }
@@ -128,8 +132,10 @@ body::-webkit-scrollbar-thumb {
 	padding: 20px !important;
 }
 
-@media(max-width:991px){
-	.tingle-modal-box{
-		height: 90vh;	
-	}
+.the4-search-results .woocommerce-Price-amount.amount{
+	margin-right: 3px;
+}
+
+.postid-36675 .btn-37816, .postid-38115 .btn-38058{
+	display: none !important;
 }
