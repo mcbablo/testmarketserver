@@ -278,7 +278,7 @@ class Enqueue {
             ),
             array(
                 'handle' => 'the4-kalles-script',
-                'src'    => THE4_KALLES_URL . '/assets/js/theme' . $this->minfile . '.js',
+                'src'    => THE4_KALLES_URL . '/assets/js/theme' . $this->minfile . '.js?ver1',
                 'deps'   => array( 'jquery', 'imagesloaded' ),
                 'ver'    => $version,
                 'bottom'  => true,
