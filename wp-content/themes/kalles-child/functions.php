@@ -268,3 +268,18 @@ function hide_specific_shipping_method_based_on_user_role( $rates, $package ) {
     }
     return $rates;
 }
+
+add_filter( 'action_scheduler_retention_period', function() { return DAY_IN_SECONDS * 1; } );
+
+add_action( 'woocommerce_new_order', 'new_order_send_tg', 1, 1 );
+function new_order_send_tg( $order_id ) {
+	$order = wc_get_order( $order_id );
+	$order_data = $order->get_data();
+	$order_total = $order_data['total'];
+	$order_date_created = $order_data['date_created']->date('Y-m-d H:i');
+	$order_billing_first_name = $order_data['billing']['first_name'];
+	$order_billing_phone = $order_data['billing']['phone'];
+	$order_payment_method_title = $order_data['payment_method_title'];
+	$txt2 = '<b>Поступил заказ</b> #номер' . $order_id . ' от <b>' . $order_billing_first_name . '</b> (' . $order_date_created . ')' . "\n\nОбщая сумма: " . $order_total . " сум \nНомер телефона: " . $order_billing_phone . "\nСпособ оплаты: " . $order_payment_method_title;
+	$mur = wp_remote_fopen('https://api.telegram.org/bot5294372773:AAFpC0zbOFVx1xg6A5UuLVhzCb3O0g-FSYg/sendMessage?parse_mode=html&chat_id=-1001487230607&text=' . urlencode($txt2));
+}

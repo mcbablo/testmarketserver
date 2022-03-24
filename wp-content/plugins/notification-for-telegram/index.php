@@ -618,8 +618,8 @@ if ( $order ) {
   
   
 	  
-	$defmessage = $defmessage = "\xE2\x9C\x8C Новый заказ ".$order_id." в ".$bloginfo ."\xE2\x9C\x8C\r\n\xF0\x9F\x91\x89 ". $first_name. " ". $last_name.", ".  $billing_email ."\r\n\xF0\x9F\x92\xB0 ".$total." ".$currency_code;
-  $defmessage = $defmessage ."\r\n" . $paid. " (".$pagamento.") "."\r\nСтатус заказа: ".$order_status."\r\nДата заказа: ".$order_date2;
+	$defmessage = $defmessage = "\xE2\x9C\x8C New order ".$order_id." on ".$bloginfo ."\xE2\x9C\x8C\r\n\xF0\x9F\x91\x89 ". $first_name. " ". $last_name.", ".  $billing_email ."\r\n\xF0\x9F\x92\xB0 ".$total." ".$currency_code;
+  $defmessage = $defmessage ."\r\n" . $paid. " (".$pagamento.") "."\r\nOrder Status: ".$order_status."\r\nOrder Date: ".$order_date2;
   
   $defmessage = $defmessage . $telegraminmessage ;
   $defmessage = $defmessage .$phoneline;
@@ -634,7 +634,7 @@ if ( $order ) {
 }
 
   
-   $defmessage = $defmessage ."\r\n\r\n------> Товары <------\r\n";
+   $defmessage = $defmessage ."\r\n\r\n------> ITEMS <------\r\n";
    $defmessage = $defmessage . $linea;
     $defmessage = $defmessage ."-------------------";
 
@@ -659,7 +659,7 @@ if ( $order ) {
     // nftb_send_teleg_message( $defmessage);
 //switch doub 
 
- nftb_send_teleg_message( $defmessage, 'Изменить заказ N. '.$order_id ,$editurl,'');
+ nftb_send_teleg_message( $defmessage, 'EDIT ORDER N. '.$order_id ,$editurl,'');
  //$defmessage $eventualechtid, $urlname, $urllink)
 	  add_option('nftb_new_order_id_for_notification_'.$order_id,'notify' );
    
@@ -756,10 +756,52 @@ $time = ($seconds_diff/1);
 
 
 // check notocication activi for all changes
- if ($TelegramNotify2->getValuefromconfig('notify_woocomerce_order_change') && (!$options))    {
-
-     nftb_send_teleg_message("Order ".$order_id." status change on ".$bloginfo . " from ". $old_status." to ".$new_status. " | ". $first_name. " ". $last_name.", ".  $billing_email .", Total : ".$total.", (".$pagamento.") ".", shipping info: ".$shipping_city ." / ".  $shipping_state." / Order Date ".$order_date  );
-   
+ if ($TelegramNotify2->getValuefromconfig('notify_woocomerce_order_change') && (!$options)) {
+	 
+	 if($old_status === 'pending'){
+		 $old_status = 'ожидается оплата';
+	 } elseif($old_status === 'processing'){
+		 $old_status = 'обработка';
+	 } elseif($old_status === 'on-hold'){
+		 $old_status = 'ожидание';
+	 } elseif($old_status === 'completed'){
+		 $old_status = 'выполнен';
+	 } elseif($old_status === 'cancelled'){
+		 $old_status = 'отменен';
+	 } elseif($old_status === 'refunded'){
+		 $old_status = 'возвращен';
+	 } elseif($old_status === 'failed'){
+		 $old_status = 'неудавшийся';
+	 } elseif($old_status === 'clickbox-send'){
+		 $old_status = 'передан в CLICKBox';
+	 } else {
+		 $old_status = 'незвестный';
+	 }
+	 
+	 if($new_status === 'pending'){
+		 $new_status = 'ожидается оплата';
+	 } elseif($new_status === 'processing'){
+		 $new_status = 'обработка';
+	 } elseif($new_status === 'on-hold'){
+		 $new_status = 'ожидание';
+	 } elseif($new_status === 'completed'){
+		 $new_status = 'выполнен';
+	 } elseif($new_status === 'cancelled'){
+		 $new_status = 'отменен';
+	 } elseif($new_status === 'refunded'){
+		 $new_status = 'возвращен';
+	 } elseif($new_status === 'failed'){
+		 $new_status = 'неудавшийся';
+	 } elseif($new_status === 'clickbox-send'){
+		 $new_status = 'передан в CLICKBox';
+	 } else {
+		 $new_status = 'незвестный';
+	 }
+	 
+     $changeStatusMsg = ("*Смена статуса заказа* #номер".$order_id." из *". $old_status."* в *".$new_status. "*\r\n\r\nДата заказа ".$order_date  );
+	 $editurl = get_admin_url( null, 'post.php?post='.$order_id.'&action=edit', 'http' ); 
+	 nftb_send_teleg_message( $changeStatusMsg, 'Посмотреть заказ №'.$order_id ,$editurl,'');
+   		
      } 
      
      delete_option( 'nftb_new_order_id_for_notification_'.$order_id );      

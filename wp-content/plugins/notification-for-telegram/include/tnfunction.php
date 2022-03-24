@@ -331,7 +331,9 @@ function nftb_send_teleg_message( $messaggio) {
 		$data = [
         'chat_id' => $user,
         'text' => __(  $messaggio , 'notification-for-telegram' ),
-        'reply_markup' => json_encode($keyboard)  ];
+        'reply_markup' => json_encode($keyboard),
+		'parse_mode' => "Markdown"
+		];
 	
 		 }	else {
 		 //MESSAGGIO SENZALINK
@@ -380,7 +382,6 @@ If you have time remember to Rate me on wordpress rep ! !! 🙌 " , 'notificatio
 
 
  ];
-	$response = wp_remote_get( "https://api.telegram.org/bot$apiToken/sendMessage?" . http_build_query($data), array( 'timeout' => 120, 'httpversion' => '1.1','disable_web_page_preview'=>True ) );
 
 	}
 	}

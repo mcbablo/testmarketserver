@@ -470,6 +470,34 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
            
     }
     add_action( 'woocommerce_order_status_clickbox-send', 'clickbox_order_sendpay', 20, 2 );  
+	
+	function clickbox_order_sendcancel( $order_id, $order ) {
+        try {
+            if ($order->get_meta('clickbox_order_id')) {
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://app.clickbox.uz/api/merchant/bookings/'.$order->get_meta('clickbox_order_id').'/cancel',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'PUT',
+                CURLOPT_HTTPHEADER => array(
+                        'Accept: application/json',
+                        'Content-Type: application/json',
+                        'Authorization: Basic MTo1ZGU0ZmI3MjcyMGFl'
+                    ),
+                ));
+                $response = curl_exec($curl);
+                curl_close($curl);
+            }
+        } catch (\Exception $exception) {
+            
+        }  
+    }
+    add_action( 'woocommerce_order_status_cancelled', 'clickbox_order_sendcancel', 20, 2 ); 
     
     function display_product_name() {
         foreach ( WC()->cart->get_cart() as $cart_item ) {
