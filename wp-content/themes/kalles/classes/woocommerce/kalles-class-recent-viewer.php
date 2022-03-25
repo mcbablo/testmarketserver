@@ -179,7 +179,7 @@ class Recent_Viewer {
                 <div class="recent-viewer product-extra mt__30">
                     <div class="wrap_title  des_<?php echo esc_attr( $title_type ); ?>">
                         <h3 class="the4-section-title mg__0 tc pr flex fl_center al_center fs__24 <?php echo esc_attr( $title_type ); ?>">
-                            <span class="mr__10 ml__10"><?php echo esc_html( $title ); ?></span>
+                            <span class="mr__10 ml__10"><?php pll_e('recenttitle2'); ?></span>
                         </h3>
                         <span class="dn tt_divider">
                             <span></span>

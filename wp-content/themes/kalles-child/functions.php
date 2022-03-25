@@ -125,7 +125,7 @@ function add_phone_to_edit_account_form() {
     $user = wp_get_current_user();
     ?>
         <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-last">
-            <label for="user_phone">Номер телефона <span class="required">*</span></label>
+            <label for="user_phone"><?php pll_e('phone2'); ?> <span class="required">*</span></label>
             <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="user_phone" id="user_phone" value="<?php echo esc_attr( $user->user_login ); ?>" readonly />
         </p>
         <script>$('#user_phone').inputmask('\\9\\9\\8 (99) 999-99-99');</script>
@@ -204,6 +204,7 @@ pll_register_string('tashkent1', 'tashkent2');
 pll_register_string('selectPochtomat1', 'selectPochtomat2');
 pll_register_string('copyright1', 'copyright2');
 pll_register_string('support1', 'support2');
+pll_register_string('phone1', 'phone2');
 
 add_action( 'admin_menu', 'remove_some_menus', 999 ); 
 function remove_some_menus() {

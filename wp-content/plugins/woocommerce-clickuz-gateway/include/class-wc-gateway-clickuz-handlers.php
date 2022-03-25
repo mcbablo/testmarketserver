@@ -139,6 +139,13 @@ class WC_ClickAPI {
 			);
 		}
 
+        if( $order->has_status(array('cancelled', 'failed')) ) {
+            return array(
+                'error'      => '-9',
+                'error_note' => __( 'Transaction cancelled', 'clickuz' )
+            );
+        }
+
 		if( abs($order->get_total() - (float)$_POST['amount']) > 0.01 ) {
 			return array(
 				'error'      => '-2',
@@ -254,19 +261,21 @@ class WC_ClickAPI {
 			);
 		}
 
-		if( $order->has_status('failed') ) {
-			return array(
-				'error'      => '-9',
-				'error_note' => __( 'Transaction cancelled', 'clickuz' )
-			);
-		}
-
         if( $order->is_paid() ) {
             return array(
                 'error'      => '-4',
                 'error_note' => __( 'Already paid', 'clickuz' )
             );
         }
+
+		if( $order->has_status(array('cancelled', 'failed')) ) {
+			return array(
+				'error'      => '-9',
+				'error_note' => __( 'Transaction cancelled', 'clickuz' )
+			);
+		}
+
+
 
 		if( $_POST['error'] < 0 ) {
 
