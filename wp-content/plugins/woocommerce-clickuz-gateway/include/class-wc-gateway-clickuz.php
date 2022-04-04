@@ -104,12 +104,14 @@ class WC_Gateway_Clickuz extends WC_Payment_Gateway
         if ($this->get_option('click_button_type') == 'redirect') {
 
             $order_number = $order->get_order_number();
+			$phoneUser = mb_substr( $order->get_billing_phone(), 3);
             $query_args = array(
                 'merchant_id' => defined('CLICK_MERCHANT_ID') && !empty(CLICK_MERCHANT_ID) ? CLICK_MERCHANT_ID : $this->get_option('merchant_id'),
                 'merchant_user_id' => defined('CLICK_MERCHANT_USER_ID') && !empty(CLICK_MERCHANT_USER_ID) ? CLICK_MERCHANT_USER_ID : $this->get_option('merchant_user_id'),
                 'service_id' => defined('CLICK_SERVICE_ID') && !empty(CLICK_SERVICE_ID) ? CLICK_SERVICE_ID : $this->get_option('merchant_service_id'),
                 'transaction_param' => $order_id != $order_number ? $order_number . CLICK_DELIMITER . $order_id : $order_id,
                 'amount' => number_format($order->get_total(), 0, '.', ''),
+				'user_phone' =>  str_replace(array('(', ')', ' ', '-'), '', $phoneUser ),
                 'return_url' => apply_filters('click_return_url', add_query_arg(array('click-return' => WC()->customer->get_id()), $order->get_view_order_url()))
             );;
 

@@ -19,6 +19,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+wp_register_script( 'clickloginjs',  CLICK_LOGIN_PLUGIN_DIR_URL . 'assets/click-login.js' );
+$translation_array = array(
+    'good' => pll__('logingood2'),
+	'confirm' => pll__('loginconfirm2'),
+	'req' => pll__('loginphonereq2'),
+	'phonefalse' => pll__('loginphonefalse2'),		
+	'pass' => pll__('loginpass2'),		
+	'phonecode' => pll__('logincode2'),		
+	'phonenot' => pll__('loginphonenot2'),		
+	'reg' => pll__('loginreg2'),		
+	'reqlink' => pll__('loginreglink2'),		
+	'passname' => pll__('loginpassname2'),
+	'passreset' => pll__('loginreset2'),
+	'passdont' => pll__('loginpassdont2'),
+	'passsuccess' => pll__('loginsuccess2'),
+	'auth' => pll__('loginauth2'),
+);
+wp_localize_script( 'clickloginjs', 'translate', $translation_array );
+wp_enqueue_script( 'clickloginjs' );
 
 do_action( 'woocommerce_before_customer_login_form' ); ?>
 <link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-18 11:17+0700\n"
-"PO-Revision-Date: 2022-03-24 00:01+0500\n"
+"PO-Revision-Date: 2022-03-30 14:27+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uz\n"
@@ -551,7 +551,7 @@ msgstr "Yangilash"
 #: woocommerce/cart/cart-shipping.php:51
 #, php-format
 msgid "Shipping to %s."
-msgstr "%s. gacha yetazib berish"
+msgstr "%sgacha yetkazib berish"
 
 #: woocommerce/cart/cart-shipping.php:52
 msgid "Change address"
@@ -712,7 +712,7 @@ msgstr ""
 
 #: woocommerce/loop/orderby.php:25 woocommerce/loop/orderby.php:32
 msgid "Sort by"
-msgstr "Saralsh"
+msgstr "Saralash"
 
 #: woocommerce/loop/pagination.php:33
 #: inc/plugins/woocommerce/action-hook.php:782
@@ -766,7 +766,7 @@ msgstr "Tez sotib olish"
 
 #: inc/plugins/woocommerce/filter-hook.php:72
 msgid "Read more"
-msgstr "Davomi"
+msgstr "Ko'proq"
 
 #: inc/plugins/woocommerce/filter-hook.php:246
 msgid "View your shopping cart"
@@ -880,7 +880,7 @@ msgstr "Savatcha"
 
 #: inc/plugins/woocommerce/action-hook.php:851
 msgid "Order Complete"
-msgstr "Buyurtyma qabul qilindi"
+msgstr "Buyurtma qabul qilindi"
 
 #: inc/plugins/woocommerce/action-hook.php:1278
 msgid "Subtotal:"
@@ -8054,12 +8054,12 @@ msgstr ""
 #: views/post/content-grid.php:27
 #, php-format
 msgid "Continue Reading<span class=\"screen-reader-text\"> \"%s\"</span>"
-msgstr "Davomi <span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "Ko'proq <span class=\"screen-reader-text\"> \"%s\"</span>"
 
 #: views/post/content-masonry.php:32 views/post/content.php:56
 #: views/post/content-grid.php:32
 msgid "Continue Reading"
-msgstr "Davomi"
+msgstr "Ko'proq"
 
 #: views/post/content-none.php:14
 #, php-format
@@ -8260,12 +8260,12 @@ msgstr "Saralanganlarni ko'rish"
 #: includes/classes/woocommerce/The4Wishlist.php:214
 #: includes/classes/woocommerce/The4Wishlist.php:230
 msgid "Remove Wishlist"
-msgstr "Saralanganlarni o'chirish"
+msgstr "Saralanganlardan o’chirish"
 
 #: includes/classes/woocommerce/The4Wishlist.php:168
 #: includes/classes/woocommerce/The4Wishlist.php:212
 msgid "Add to Wishlist"
-msgstr "Saralangalarga qo'shish"
+msgstr "Saralanganlarga qo'shish"
 
 #: views/common/woocommere-search.php:53
 msgid "Inspiration"

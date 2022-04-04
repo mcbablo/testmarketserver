@@ -72,11 +72,30 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
 		<?php if( is_page( 'my-account' ) ){
 		 //код
 		} else if( is_page( 'mening-akkauntim' ) ) {
-		} else {?>
+		} else {
+			wp_register_script( 'clickloginjs',  CLICK_LOGIN_PLUGIN_DIR_URL . 'assets/click-login.js' );
+			$translation_array = array(
+				'good' => pll__('logingood2'),
+				'confirm' => pll__('loginconfirm2'),
+				'req' => pll__('loginphonereq2'),
+				'phonefalse' => pll__('loginphonefalse2'),		
+				'pass' => pll__('loginpass2'),		
+				'phonecode' => pll__('logincode2'),		
+				'phonenot' => pll__('loginphonenot2'),		
+				'reg' => pll__('loginreg2'),		
+				'reqlink' => pll__('loginreglink2'),		
+				'passname' => pll__('loginpassname2'),
+				'passreset' => pll__('loginreset2'),
+				'passdont' => pll__('loginpassdont2'),
+				'passsuccess' => pll__('loginsuccess2'),
+				'auth' => pll__('loginauth2'),
+			);
+			wp_localize_script( 'clickloginjs', 'translate', $translation_array );
+			wp_enqueue_script( 'clickloginjs' );
+		?>
 			<link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />
             <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.device.detector.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.9/jquery.inputmask.bundle.min.js"></script>
-            <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.js"></script>
             <div class="auth-sidebar">
                 <h2><?php esc_html_e( 'Login / Register', 'clickuz_login' ); ?></h2>
 
@@ -205,6 +224,20 @@ pll_register_string('selectPochtomat1', 'selectPochtomat2');
 pll_register_string('copyright1', 'copyright2');
 pll_register_string('support1', 'support2');
 pll_register_string('phone1', 'phone2');
+pll_register_string('logingood1', 'logingood2');
+pll_register_string('loginconfirm1', 'loginconfirm2');
+pll_register_string('loginphonereq1', 'loginphonereq2');
+pll_register_string('loginphonefalse1', 'loginphonefalse2');
+pll_register_string('loginpass1', 'loginpass2');
+pll_register_string('logincode1', 'logincode2');
+pll_register_string('loginphonenot1', 'loginphonenot2');
+pll_register_string('loginreg1', 'loginreg2');
+pll_register_string('loginreglink1', 'loginreglink2');
+pll_register_string('loginpassname1', 'loginpassname2');
+pll_register_string('loginreset1', 'loginreset2');
+pll_register_string('loginpassdont1', 'loginpassdont2');
+pll_register_string('loginsuccess1', 'loginsuccess2');
+pll_register_string('loginauth1', 'loginauth2');
 
 add_action( 'admin_menu', 'remove_some_menus', 999 ); 
 function remove_some_menus() {
@@ -219,16 +252,37 @@ function remove_some_menus() {
 
 add_action('admin_head', 'operator_css');
 function operator_css() {
-    if ( current_user_can('operator') ) {
+    if ( current_user_can('operators') ) {
         echo '<style>
-            #menu-posts-shop_order>.wp-submenu>li:last-child, .page-title-action, .woocommerce-message, #wp-admin-bar-new-content, .alignleft.actions.bulkactions, .check-column, #wc_actions, #shipping_address, #language_ru, #language_uz, .column-shipping_address, .column-wc_actions, .column-language_ru, .column-language_uz, .wc-order-item-meta, .wc-backbone-modal-main footer{
+            #toplevel_page_woocommerce>.wp-submenu>li, .page-title-action, .alignleft.actions.bulkactions, #side-sortables, .edit_address, #woocommerce-order-downloads, .wc-order-data-row.wc-order-bulk-actions.wc-order-data-row-toggle{
                 display: none !important;
             }
-            .wc-backbone-modal-main{
-                padding-bottom: 0 !important;
+			#toplevel_page_woocommerce>.wp-submenu>li:nth-child(3){
+                display: block !important;
             }
-            .type-shop_order, .order_number, .order_date, .order_status, .billing_address, .order_total{
-                cursor: default !important;
+			.order-back {
+				position: absolute;
+				top: 10px;
+				left: 20px;
+				background: #00b1e3;
+				color: #fff;
+				margin-bottom: 20px;
+				display: block;
+				padding: 12px 25px;
+				cursor: pointer;
+				text-decoration: none;
+				color: #fff;
+			}
+			.order-back:hover{
+				color: #fff;
+				background: #3498db;
+			}
+        </style>';
+    }
+	if ( current_user_can('order_manager') ) {
+        echo '<style>
+            #toplevel_page_woocommerce>.wp-submenu>li:nth-child(4){
+                display: none !important;
             }
         </style>';
     }
@@ -236,21 +290,19 @@ function operator_css() {
 
 add_action('admin_footer', 'operator_js');
 function operator_js() {
-    if ( current_user_can('operator') ) {
+    if ( current_user_can('operators') ) {
         echo '<script>
-                let viewes = document.querySelectorAll(".order-view");
-                viewes.forEach(view => {
-                    view.addEventListener("click", function handleClick(event){
-                        event.preventDefault();
-                    })
-                });
-                let orders = document.querySelectorAll(".type-shop_order");
-                orders.forEach(order => {
-                    order.onclick = function() {
-                        order.querySelector(".order-view").href="#";
-                        return false;
-                    }
-                });
+				document.querySelector(".date-picker").disabled = true;
+				document.querySelector(".hour").disabled = true;
+				document.querySelector(".minute").disabled = true;
+				document.getElementById("order_status").disabled = true;
+				document.getElementById("customer_user").disabled = true;
+				let orderdata = document.getElementById("postbox-container-2");
+				let orderback = document.createElement("a");
+				orderback.innerText = "Назад к списку заказам";
+				orderback.classList.add("order-back");
+				orderback.href = "https://market.click.uz/wp-admin/edit.php?post_type=shop_order";
+				orderdata.appendChild(orderback);
         </script>';
     }
 }

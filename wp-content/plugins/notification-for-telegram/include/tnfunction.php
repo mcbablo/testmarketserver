@@ -150,40 +150,7 @@ $tlgruser = get_post_meta( $order->id, 'Telegram', true );
 
 
 
-//Mostra notice con condizioni
-add_action('admin_notices', 'nftb_admin_notice');
 
-function nftb_admin_notice() {
-	global $current_user ;
-        $user_id = $current_user->ID;
-        /* Check that the user hasn't already clicked to ignore the message */
-       
-       $all_meta_for_user = get_user_meta($user_id ) ;
-       
-      // delete_user_meta($user_id, 'nftb_ignore_notyyy');
-       // echo "jjj". $all_meta_for_user['nftb_ignore_notyyy'][0];
-        
-        
-       $datetime1 = date_create(); // now
-		$datetime2 = date_create($all_meta_for_user['nftb_ignore_notyyy'][0]);
-		$interval = date_diff($datetime1, $datetime2);
-		$days = $interval->format('%d'); // the time between your last login and now in da
-       
-      //echo "days". $days;
-      global $pagenow;
-    
-    $current_rel_uri = add_query_arg( NULL, NULL );
-   
-    //show uot of option page
-   // if ( !strpos( $current_rel_uri, 'telegram-notify' )) {   
-    
-    if ( empty($all_meta_for_user['nftb_ignore_notyyy'][0]) || $days >30){
-        echo '<div class="updated" ><p>'; 
-
-        printf(__('<img src="https://ps.w.org/notification-for-telegram/assets/icon-128x128.jpg?rev=2383266" ><h3><a href="https://it.wordpress.org/plugins/notification-for-telegram/#reviews" target="_blank">'.__('Please remeber to RATE Notification for Telegram!!' , 'notification-for-telegram' ).'</a><h3><a href="%1$s">'.__('Hide Notice for now' , 'notification-for-telegram' ).'</a>'), '?page=telegram-notify&nftb_nag_ignore=0');
-        echo  "</p></div>";
-	//}
-}}
 
 
 //dismiss button

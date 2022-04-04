@@ -359,12 +359,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     /// Регистрация нового статуса
     function clickbox_register_status( $order_statuses ){
         $order_statuses['wc-clickbox-send'] = array(                                 
-            'label' => _x( 'Передано в CLICKBox', 'Order status', 'woocommerce' ),
+            'label' => _x( 'Готов к отправке', 'Order status', 'woocommerce' ),
             'public' => false,                                 
             'exclude_from_search' => false,                                 
             'show_in_admin_all_list' => true,                                 
             'show_in_admin_status_list' => true,                                 
-            'label_count' => _n_noop( 'Передано в CLICKBox <span class="count">(%s)</span>', 'Передано в CLICKBox <span class="count">(%s)</span>', 'woocommerce' ),                              
+            'label_count' => _n_noop( 'Готов к отправке <span class="count">(%s)</span>', 'Готов к отправке <span class="count">(%s)</span>', 'woocommerce' ),                              
         );      
         return $order_statuses;
     }
@@ -372,14 +372,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
     // Показ нового статуса
     function clickbox_show_status( $order_statuses ) {      
-        $order_statuses['wc-clickbox-send'] = _x( 'Передано в CLICKBox', 'Order status', 'woocommerce' );       
+        $order_statuses['wc-clickbox-send'] = _x( 'Готов к отправке', 'Order status', 'woocommerce' );       
         return $order_statuses;
     }
     add_filter( 'wc_order_statuses', 'clickbox_show_status' );
 
     // Изменение нового статуса
     function clickbox_getshow_status( $bulk_actions ) {
-        $bulk_actions['mark_clickbox-send'] = 'Изменить статус на Передано в CLICKBox';
+        $bulk_actions['mark_clickbox-send'] = 'Изменить статус на Готов к отправке';
         return $bulk_actions;
     }
     add_filter( 'bulk_actions-edit-shop_order', 'clickbox_getshow_status' );
@@ -441,6 +441,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
         echo '<strong>Подходящяя упаковка: </strong>' . $status_click_box_size;
     }
     add_action( 'woocommerce_admin_order_data_after_billing_address', 'clickbox_get_status', 10, 1 );
+	
+	
 
     // Отправка в API после изменения статуса
     function clickbox_order_sendpay( $order_id, $order ) {

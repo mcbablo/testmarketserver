@@ -773,7 +773,7 @@ $time = ($seconds_diff/1);
 	 } elseif($old_status === 'failed'){
 		 $old_status = 'неудавшийся';
 	 } elseif($old_status === 'clickbox-send'){
-		 $old_status = 'передан в CLICKBox';
+		 $old_status = 'готов к отправке';
 	 } else {
 		 $old_status = 'незвестный';
 	 }
@@ -793,7 +793,7 @@ $time = ($seconds_diff/1);
 	 } elseif($new_status === 'failed'){
 		 $new_status = 'неудавшийся';
 	 } elseif($new_status === 'clickbox-send'){
-		 $new_status = 'передан в CLICKBox';
+		 $new_status = 'готов к отправке';
 	 } else {
 		 $new_status = 'незвестный';
 	 }

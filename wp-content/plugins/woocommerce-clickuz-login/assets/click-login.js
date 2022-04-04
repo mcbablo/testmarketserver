@@ -13,7 +13,7 @@ jQuery(function ($) {
         closeLabel: false,
         cssClass: ['auth-modal']
     });
-    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"></div></div><button id="auth-modal-done">Хорошо</button>');
+    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"></div></div><button id="auth-modal-done">' + translate.good + '</button>');
     $('#auth-modal-done').click(function(){
         authModal.close();
     });
@@ -22,7 +22,7 @@ jQuery(function ($) {
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
 
         if (phone.toString().trim() === '') {
-            $('#auth-modal-text').html('<h4 class="error">Заполните ваш номер телефона</h4>');
+            $('#auth-modal-text').html('<h4 class="error">' + translate.req + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $phone.focus();
@@ -33,7 +33,7 @@ jQuery(function ($) {
         var regex = new RegExp("^998([93]{1})([01345789]{1})([0-9]{7})$");
 
         if (!regex.test(phone.toString().trim())) {
-            $('#auth-modal-text').html('<h4 class="error">Неверный номер телефона</h4>');
+            $('#auth-modal-text').html('<h4 class="error">' + translate.phonefalse + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $phone.focus();
@@ -71,14 +71,14 @@ jQuery(function ($) {
 
                     if (response['status'] == 'registered') {
                         $form.attr('data-step', 'check-password');
-                        $('#auth-modal-text').html('<h4 class="done">Введите пароль от аккаунта</h4>');
+                        $('#auth-modal-text').html('<h4 class="done">' + translate.pass + '</h4>');
                         authModal.open();
                         $('#auth-modal-done').click(function(){
                             $('#password').focus();
                         });
                     } else {
                         if (!response['error']) {
-                            $('#auth-modal-text').html('<h4 class="done">Введите код подтверждения</h4>');
+                            $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
                             authModal.open();
                             $('#auth-modal-done').click(function(){
                                 $('#confirmation-code').focus();
@@ -86,7 +86,7 @@ jQuery(function ($) {
                             $form.attr('data-step', 'check-otp');
                             $form.find('#device_id').val(response['result']['device_id']);
                             $form.find('#phone-number').attr('readonly', 'readonly');
-                            $form.find('[type=submit]').text('Подтвердить');
+                            $form.find('[type=submit]').text(translate.confirm);
                         } else {
                             $('#auth-modal-text').html('<h4 class="error">' + response.error.message + '</h4>');
                             authModal.open();
@@ -102,7 +102,7 @@ jQuery(function ($) {
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
 
         if (phone.toString().trim() === '') {
-            $('#auth-modal-text').html('<h4 class="error">Заполните ваш номер телефона</h4>');
+            $('#auth-modal-text').html('<h4 class="error">' + translate.req + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $phone.focus();
@@ -113,7 +113,7 @@ jQuery(function ($) {
         var regex = new RegExp("^998([93]{1})([01345789]{1})([0-9]{7})$");
 
         if (!regex.test(phone.toString().trim())) {
-            $('#auth-modal-text').html('<h4 class="error">Неверный номер телефона</h4>');
+            $('#auth-modal-text').html('<h4 class="error">' + translate.phonefalse + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $phone.focus();
@@ -150,7 +150,7 @@ jQuery(function ($) {
                     $form.addClass(response['status']);
 
                     if (response['status'] == 'registered') {
-                        $('#auth-modal-text').html('<h4 class="done">Введите код подтверждения</h4>');
+                        $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
                         authModal.open();
                         $('#auth-modal-done').click(function(){
                             $('#confirmation-code').focus();
@@ -158,10 +158,10 @@ jQuery(function ($) {
                         $form.attr('data-step', 'check-otp-reset');
                         $form.find('#device_id').val(response['result']['device_id']);
                         $form.find('#phone-number').attr('readonly', 'readonly');
-                        $form.find('[type=submit]').text('Подтвердить');
+                        $form.find('[type=submit]').text(translate.confirm);
                     } else {
                         if (!response['error']) {
-                            authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text">Номер телефона не найден</div></div><a href="/my-account/" class="auth-modal-btn">Зарегистрироваться</a>');
+                            authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text">' + translate.phonenot + '</div></div><a href="' + translate.reqlink +'" class="auth-modal-btn">' + translate.reg +'</a>');
                             authModal.open();
                         } else {
                             $('#auth-modal-text').html('<h4 class="error">' + response.error.message + '</h4>');
@@ -178,7 +178,7 @@ jQuery(function ($) {
         var device_id = $form.find('#device_id').val();
 
         if (sms_code.toString().trim() == '') {
-            $('#auth-modal-text').html('<h4 class="done">Введите код подтверждения</h4>');
+            $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $('#confirmation-code').focus();
@@ -217,7 +217,7 @@ jQuery(function ($) {
                     $form.attr('data-step', 'register');
                     $form.find('[type=submit]').text('Зарегистрироваться');
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">Хорошо</button>');
+                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good + '</button>');
                     authModal.open();
                     $('#clear1').click(function(){
                         authModal.close();
@@ -237,7 +237,7 @@ jQuery(function ($) {
         var device_id = $form.find('#device_id').val();
 
         if (sms_code.toString().trim() == '') {
-            $('#auth-modal-text').html('<h4 class="done">Введите код подтверждения</h4>');
+            $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $('#confirmation-code').focus();
@@ -262,7 +262,7 @@ jQuery(function ($) {
                 }
             },
             function (response) {
-                $('#auth-modal-text').html('<h4 class="done">Введите пароль</h4>');
+                $('#auth-modal-text').html('<h4 class="done">' + translate.pass + '</h4>');
                 authModal.open();
                 $('#auth-modal-done').click(function(){
                     $('#password').focus();
@@ -274,9 +274,9 @@ jQuery(function ($) {
                 $('.auth-sidebar-btn').prop('disabled', false);
                 if (!response['error']) {
                     $form.attr('data-step', 'reset');
-                    $form.find('[type=submit]').text('Восстановить');
+                    $form.find('[type=submit]').text(translate.passreset);
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">Хорошо</button>');
+                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good +'</button>');
                     authModal.open();
                     $('#clear1').click(function(){
                         authModal.close();
@@ -294,7 +294,7 @@ jQuery(function ($) {
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
         var password = $form.find('#password').val();
         if (password.toString().trim() == '') {
-            $('#auth-modal-text').html('<h4 class="done">Введите пароль</h4>');
+            $('#auth-modal-text').html('<h4 class="done">' + translate.pass +'</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $('#password').focus();
@@ -326,7 +326,7 @@ jQuery(function ($) {
                 if (!response['error']) {
                     window.location.reload();
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">Хорошо</button>');
+                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good +'</button>');
                     authModal.open();
                     $('#clear1').click(function(){
                         authModal.close();
@@ -346,7 +346,7 @@ jQuery(function ($) {
         var display_name = $form.find('#display_name').val();
 
         if (password !== confirmation) {
-            $('#auth-modal-text').html('<h4 class="error">Пароль и его подтверждение не совпадает</h4>');
+            $('#auth-modal-text').html('<h4 class="error">' + translate.passdont + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $('#password').focus();
@@ -379,7 +379,7 @@ jQuery(function ($) {
                 if (!response['error']) {
                     window.location.reload();
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">Хорошо</button>');
+                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good + '</button>');
                     authModal.open();
                     $('#clear1').click(function(){
                         authModal.close();
@@ -398,7 +398,7 @@ jQuery(function ($) {
         var confirmation = $form.find('#password_confirmation').val();
 
         if (password !== confirmation) {
-            $('#auth-modal-text').html('<h4 class="error">Пароль и его подтверждение не совпадает</h4>');
+            $('#auth-modal-text').html('<h4 class="error">' + translate.passdont + '</h4>');
             authModal.open();
             $('#auth-modal-done').click(function(){
                 $('#password').focus();
@@ -427,10 +427,10 @@ jQuery(function ($) {
                 $('.click-login-btn').prop('disabled', false);
                 $('.auth-sidebar-btn').prop('disabled', false);
                 if (!response['error']) {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="done">Вы успешно поменяли пароль</h4></div></div><a href="/my-account/" id="auth-modal-done">Авторизоваться</a>');
+                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="done">' + translate.passsuccess + '</h4></div></div><a href="' + translate.reqlink + '" id="auth-modal-done">Авторизоваться</a>');
                     authModal.open();
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">Хорошо</button>');
+                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good + '</button>');
                     authModal.open();
                     $('#clear1').click(function(){
                         authModal.close();
