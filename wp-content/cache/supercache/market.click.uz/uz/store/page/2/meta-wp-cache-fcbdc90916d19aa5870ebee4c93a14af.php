@@ -1,0 +1,1 @@
+<?php die(); ?>{"headers":{"Vary":"Vary: Accept-Encoding, Cookie","Content-Type":"Content-Type: text\/html; charset=UTF-8","Last-Modified":"Last-Modified: Wed, 27 Apr 2022 07:25:49 GMT"},"uri":"market.click.uz\/uz\/store\/page\/2\/?max_price=350000&orderby=menu_order","blog_id":1,"post":0,"key":"market.click.uz443\/uz\/store\/page\/2\/?max_price=350000&orderby=menu_order"}

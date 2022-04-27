@@ -114,7 +114,7 @@ input {
     color: #111;
 }
 
-#user_phone{
+.edit-account #user_phone, .edit-account #account_display_name{
     cursor: not-allowed;
     opacity: 0.9;
     background: #e5e5e5;
@@ -138,4 +138,19 @@ input {
 
 .postid-36675 .btn-37816, .postid-38115 .btn-38058{
 	display: none !important;
+}
+
+.woocommerce-error>li>a{
+	padding: 0;
+    background: none;
+    color: #a94442;
+    font-weight: 700;
+    height: auto;
+    line-height: initial;
+    margin-top: 5px;
+}
+
+.woocommerce-error>li>a:hover{
+	background: none;
+	color: #000;
 }

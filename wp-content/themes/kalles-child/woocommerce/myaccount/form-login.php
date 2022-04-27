@@ -50,7 +50,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
             <label for="phone-number"><?php esc_html_e( 'Phone number', 'clickuz_login' ); ?>&nbsp;<span class="required">*</span></label>
-            <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="phone-number" id="phone-number" autocomplete="phone-number" placeholder="998 (__) ___-__-__" value="<?php echo ( ! empty( $_POST['phone-number'] ) ) ? esc_attr( wp_unslash( $_POST['phone-number'] ) ) : ''; ?>" /><?php // @codingStandardsIgnoreLine ?>
+            <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="phone-number" id="phone-number" autocomplete="phone-number" placeholder="998 (__) ___-__-__" value="<?php echo ( ! empty( $_POST['phone-number'] ) ) ? esc_attr( wp_unslash( $_POST['phone-number'] ) ) : ''; ?>" required /><?php // @codingStandardsIgnoreLine ?>
         </p>
 
         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide otp-wrapper">
@@ -72,11 +72,17 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
             <input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="display_name" id="display_name" autocomplete="off" value="<?php echo ( ! empty( $_POST['display_name'] ) ) ? esc_attr( wp_unslash( $_POST['display_name'] ) ) : ''; ?>" /><?php // @codingStandardsIgnoreLine ?>
         </p>
 
-        <p class="woocommerce-form-row form-row">
+        <p class="woocommerce-form-row form-row click-login-bottom">
             <input type="hidden" name="device_id" id="device_id" value="" />
             <button type="submit" class="woocommerce-Button woocommerce-button button woocommerce-form-register__submit click-login-btn">
                 <?php esc_html_e( 'Sign', 'clickuz_login' ); ?>
             </button>
+			<span class="auth-login-change password-wrapper" id="change-number">
+                <?php esc_html_e( 'Change number', 'clickuz_login' ); ?>
+            </span>
+			<span class="auth-login-change otp-wrapper" id="change-number-otp">
+                <?php esc_html_e( 'Change number', 'clickuz_login' ); ?>
+            </span>
         </p>
     </form>
 </div>

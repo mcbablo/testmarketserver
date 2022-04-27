@@ -11,7 +11,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo( 'charset' ); ?>"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="yandex-verification" content="edcbf7c7e5dd3f7e" />
+		<meta property="og:title" content="CLICK Market - Официальный интернет магазин" />
 		<link rel="profile" href="http://gmpg.org/xfn/11">
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 		<link rel="dns-prefetch" href="https://fonts.googleapis.com" crossorigin>

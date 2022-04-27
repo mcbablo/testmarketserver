@@ -1,0 +1,174 @@
+.click-login .otp-wrapper,
+.click-login .password-wrapper,
+.click-login .password-confirmation-wrapper,
+.click-login .name-wrapper {
+    display: none;
+}
+
+.click-login[data-step="check-otp"] .otp-wrapper{
+    display: block;
+}
+
+.click-login[data-step="check-password"] .password-wrapper{
+    display: block;
+}
+
+.click-login[data-step="register"] .password-wrapper,
+.click-login[data-step="register"] .password-confirmation-wrapper,
+.click-login[data-step="register"] .name-wrapper {
+    display: block;
+}
+
+.click-reset .otp-wrapper,
+.click-reset .password-wrapper,
+.click-reset .password-confirmation-wrapper{
+    display: none;
+}
+
+.click-reset[data-step="check-otp-reset"] .otp-wrapper{
+    display: block;
+}
+
+.click-reset[data-step="check-password"] .password-wrapper{
+    display: block;
+}
+
+.click-reset[data-step="reset"] .password-wrapper,
+.click-reset[data-step="reset"] .password-confirmation-wrapper{
+    display: block;
+}
+
+.auth-sidebar{
+    padding: 20px;
+}
+
+.auth-sidebar>h2{
+    margin: 0 0 20px;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.auth-sidebar .click-login{
+    margin-bottom: 0;
+}
+
+.auth-sidebar .click-login[data-step="check-otp"] .otp-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-sidebar .click-login[data-step="check-password"] .password-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-sidebar .click-login[data-step="register"] .password-wrapper,
+.auth-sidebar .click-login[data-step="register"] .password-confirmation-wrapper,
+.auth-sidebar .click-login[data-step="register"] .name-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-sidebar .click-reset{
+    margin-bottom: 0;
+}
+
+.auth-sidebar .click-reset[data-step="check-otp-reset"] .otp-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-sidebar .click-reset[data-step="check-password"] .password-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-sidebar .click-reset[data-step="reset"] .password-wrapper,
+.auth-sidebar .click-reset[data-step="reset"] .password-confirmation-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-sidebar .form-row>label,
+.auth-sidebar .form-row>input{
+    width: 100%;
+}
+
+.click-login-btn{
+    position: relative;
+}
+
+.click-reset-btn{
+    position: relative;
+}
+
+.auth-modal{
+    z-index: 1100 !important;
+}
+
+.auth-modal .tingle-modal-box{
+    width: 30%;
+}
+
+#auth-modal-text{
+    text-align: center;
+    padding: 2rem;
+}
+
+#auth-modal-text>h4{
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+}
+
+#auth-modal-text>h4.error{
+    color: #e74c3c;
+}
+
+.auth-modal .tingle-modal-box__content{
+    padding: 0;
+}
+
+#auth-modal-done, .auth-modal-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    font-size: 16px;
+    height: 45px;
+    line-height: 45px;
+    display: block;
+    background: #00b1e3;
+    text-align: center;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+#auth-modal-done:hover, .auth-modal-btn:hover{
+    color: #fff !important;
+}
+
+.click-login-bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auth-login-change{
+    cursor: pointer;
+}
+
+.auth-login-change:hover{
+    color: #00b1e3;
+}
+
+
+
+@media screen and (max-width:991px) {
+    .auth-modal .tingle-modal-box{
+        width: 80% !important;
+        height: auto !important;
+    }
+}

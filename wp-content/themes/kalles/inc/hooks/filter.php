@@ -208,7 +208,7 @@ if ( ! function_exists( 'the4_get_search_form_full' ) ) {
                         <div class="frm_search_cat col-auto">
                             <select name="product_cat" class="the4-search-category">
                                 <option class="default" value=""><?php esc_html_e( 'Select a category', 'kalles' ); ?></option>
-                                <?php \Kalles\Woocommerce\Search::instance()->the4_get_categories_option( $categories); ?>
+                                <?php echo get_categories_product();?>
                             </select>
                         </div>
                         <div class="col-auto h_space_search"></div>
@@ -272,7 +272,7 @@ if ( ! function_exists( 'the4_get_search_form' ) ) {
                         <?php if ($categories): ?>
                             <select name="product_cat" class="the4-search-category">
                                 <option class="default" value=""><?php esc_html_e( 'All categories', 'kalles' ); ?></option>
-                                <?php \Kalles\Woocommerce\Search::instance()->the4_get_categories_option( $categories); ?>
+                                <?php echo get_categories_product();?>
                             </select>
                         <?php endif ?>
                     </div>

@@ -180,7 +180,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                 echo '<script>document.getElementById("clickbox-box").value = ' .  $availableBox . ';</script>';
             } else {
                 echo '<script>document.getElementById("clickbox-box").value = 0;</script>';
-                $message = sprintf( __( '<strong>Ошибка.</strong> Вы выбрали недопустимое количество товаров для доставки через почтоматы, просим вас уменьшить количество товаров и оформить их отдельным заказом', 'clickbox' ), $CLICKBox_Shipping_Method->title );
+                $message = sprintf( pll__( 'clickboxLimit2' ), $CLICKBox_Shipping_Method->title );
                 $messageType = "error";
                 if( ! wc_has_notice( $message, $messageType ) ) {
                     wc_add_notice( $message, $messageType );
@@ -395,6 +395,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
         $status_click_box = '';
         $status_click_box_size = '';
         $data = '';
+		$address_clickbox = '';
         if (!$order->get_meta('clickbox_order_id')) {
             $status_click_box = "Заказа нет в кликбокс";
         } else {
@@ -413,6 +414,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                     'expired' => 'Время истекло',
                     'failed' => 'Срыв заказа'
                 ];
+				$address_clickbox = $data->data->routes[1]->address;
                 foreach ($status_array as $key => $stat) {
                     if ($key == $data->data->status) {
                         $status_click_box = $stat;
@@ -428,17 +430,18 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
         if (!$order->get_meta('clickbox_box_size')) {
             $status_click_box_size = "Коробка не передана";
         } else {
-            if($clickboxorderid = 1){
+            if($order->get_meta('clickbox_box_size') == 1){
                 $status_click_box_size = "S";
-            } else if($clickboxorderid = 2){
+            } else if($order->get_meta('clickbox_box_size') == 2){
                 $status_click_box_size = "M";
-            } else if($clickboxorderid = 3){
+            } else if($order->get_meta('clickbox_box_size') == 3){
                 $status_click_box_size = "L";
-            } else if($clickboxorderid = 4){
+            } else if($order->get_meta('clickbox_box_size') == 4){
                 $status_click_box_size = "XL";
             }
         }
-        echo '<strong>Подходящяя упаковка: </strong>' . $status_click_box_size;
+        echo '<strong>Подходящяя упаковка: </strong>' . $status_click_box_size . '<br />';
+		echo '<strong>Адрес почтомата: </strong>' . $address_clickbox;
     }
     add_action( 'woocommerce_admin_order_data_after_billing_address', 'clickbox_get_status', 10, 1 );
 	
