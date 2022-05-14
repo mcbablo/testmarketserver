@@ -1,1 +1,0 @@
-<?php die(); ?>{"headers":{"Vary":"Vary: Accept-Encoding, Cookie","Content-Encoding":"Content-Encoding: gzip","Content-Type":"Content-Type: text\/html; charset=UTF-8","Content-Length":"Content-Length: 21189","Last-Modified":"Last-Modified: Wed, 27 Apr 2022 03:08:55 GMT"},"uri":"clickmarket.uz\/?author=1","blog_id":1,"post":0,"key":"clickmarket.uz443\/?author=1gzip"}

@@ -9,39 +9,30 @@
         var myMap, myPlacemark;
         var postomatSelected;
         $('input[name^="shipping_method"][value="clickbox"]').prop('checked', true);
-    
+        var currentLang = $('#currentLang').data('lang');
         $('#billing_phone').inputmask('\\9\\9\\8 (99) 999-99-99');
-    
         var cell_input = Number($('#clickbox-box').val());
         var cells = [];
         var lists = [];
         var receivername = $('#billing_first_name').val();
-    
         function getProductNames() {
             var lists = [];
-          
             var inputs = document.querySelectorAll('[id="clickbox_productname"]');
-          
             for(var i = 0; i < inputs.length; i++) {
                 var value = inputs[i].value;
                 lists.push(value);
             }
-          
             let productsName = lists.join(', ');
-    
             return productsName;
         }
-    
         function loadingBtn(id){
             $(id).addClass('the-loading');
             $(id).prop('disabled', true);
         }
-    
         function loadingBtnFalse(id){
             $(id).removeClass('the-loading');
             $(id).prop('disabled', false);
         }
-    
         var clickboxModal = new tingle.modal({
             footer: false,
             cssClass: ['clickbox-modal'],
@@ -70,10 +61,38 @@
             },
             cssClass: ['clickbox-modal', 'clickbox-modal-place'],
         });
+
+        var bringoModal = new tingle.modal({
+            footer: false,
+            cssClass: ['clickbox-modal'],
+            closeLabel: '',
+			onOpen: function(){
+                $('#the4-header').css('z-index', '-1');
+				$('#kalles-section-toolbar_mobile').css('z-index', '-1');
+			},
+			onClose: function() {
+                $('#the4-header').css('z-index', '1001');
+				$('#kalles-section-toolbar_mobile').css('z-index', '1002');
+            },
+        });
     
         clickboxModal.setContent('<div class="pochtomat-box"><div id="pochtomat-list"></div><div id="pochtamat-map"></div></div>');
+        bringoModal.setContent('<div id="bringo-map"></div>');
         clickboxModalPlace.setContent('<div id="pochtamat-place"></div>');
-		
+        let goBackText = currentLang == 'uz' ? 'Ortga qaytish' : 'Вернуться назад';
+        let goSubmitText = currentLang == 'uz' ? 'Tasdiqlash' : 'Подтвердить';
+        let leaveText = currentLang == 'uz' ? 'Qoldirish' : 'Оставить';
+        let editText = currentLang == 'uz' ? 'O\'zgartirish' : 'Изменить';
+        let submitText = currentLang == 'uz' ? 'Tanlash' : 'Выбрать';
+        let cancelText = currentLang == 'uz' ? 'Bekor qilish' : 'Отменить';
+        let addressText = currentLang == 'uz' ? 'Manzil' : 'Адрес';
+        let getThereText = currentLang == 'uz' ? 'Qanday borsa bo\'ladi' : 'Как добраться';
+        let referenceText = currentLang == 'uz' ? 'Mo\'ljal' : 'Ориентир';
+        let whyFind = currentLang == 'uz' ? 'Qanday topish mumkin' : 'Как найти';
+        let workTime = currentLang == 'uz' ? 'Ish vaqti' : 'Режим работы';
+        let error1 = currentLang == 'uz' ? 'Afsuski, bo\'sh pochtomat yo\'q. Mahsulotlarni savatchadan kamaytiring (agar ko\'p bo\'lsa)' : 'К сожалению свободных почтоматов не осталось. Попробуйте удалить товары с корзины (если их много)';
+        let error2 = currentLang == 'uz' ? 'HTTP xato. Iltimos, qo\'llab-quvvatlash xizmatiga qo\'ng\'iroq qiling' : 'Ошибка HTTP. Пожалуйста, позвоните к службу поддержки';
+        let choosePcht = currentLang == 'uz' ? 'Pochtomat tanlang' : 'Выберите почтомат';
         function init(pochtamats = null) {
             $('#pochtamat-map').html('');
             $('#pochtamat-place').html('');
@@ -95,10 +114,10 @@
                             iconColor: '#0095b6'
                         });
                     marker.events.add('balloonopen', function addPochtomat(e) {
-                        let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
+                        let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>' + addressText + ': </span>'+pochtamat.address+'</p>';
                         let imagePochtomat = (pochtamat.images[0]) ? '<div class="pchtImage"><img src="'+pochtamat.images[0]+'" class="pchtImg" width="100%"></div>' : '<div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div>'
-                        let pcht2 = '<div class="pchtBox">'+imagePochtomat+'<div class="pchtText"><p class="pchtMarsh"><span>Как добраться: </span>'+pochtamat.instruction+'</p><p class="pchtMarsh"><span>Ориентир: </span>'+pochtamat.reference_point+'</p><p class="pchtMarsh"><span>Как найти: </span>'+pochtamat.location+'</p><p class="pchtMarsh"><span>Режим работы: </span>'+pochtamat.working_hours+'</p></div></div>';
-                        let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button class="pcht-back">Вернуться назад</button><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button class="pcht-back">Вернуться назад</button><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
+                        let pcht2 = '<div class="pchtBox">'+imagePochtomat+'<div class="pchtText"><p class="pchtMarsh"><span>' + getThereText + ': </span>'+pochtamat.instruction+'</p><p class="pchtMarsh"><span>' + referenceText + ': </span>'+pochtamat.reference_point+'</p><p class="pchtMarsh"><span>' + whyFind + ': </span>'+pochtamat.location+'</p><p class="pchtMarsh"><span>' + workTime + ': </span>'+pochtamat.working_hours+'</p></div></div>';
+                        let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button class="pcht-back">' + goBackText + '</button><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">' + leaveText + '</button></div>' : '<div class="pchtBtns"><button class="pcht-back">' + goBackText + '</button><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">' + goSubmitText + '</button></div>';
                         clickboxModal.close();
 						clickboxModalPlace.open();
                         $('.clickbox-modal-place').attr('data-step', '01');
@@ -107,10 +126,10 @@
                     });
                     myMap.geoObjects.add(marker);
 					menuItem.find('.pochtomats-address').parent().bind('click', function(){
-						let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>Адрес: </span>'+pochtamat.address+'</p>';
+						let pcht1 = '<h4 class="pchtName">'+pochtamat.name+'</h4><p class="pchtDes"><span>' + addressText + ': </span>'+pochtamat.address+'</p>';
                         let imagePochtomat = (pochtamat.images[0]) ? '<div class="pchtImage"><img src="'+pochtamat.images[0]+'" class="pchtImg" width="100%"></div>' : '<div class="pchtImage"><img src="https://www.spot.uz/media/img/2021/11/B6LGmS16375611296395_b.jpg" class="pchtImg" width="100%"></div>'
-                        let pcht2 = '<div class="pchtBox">'+imagePochtomat+'<div class="pchtText"><p class="pchtMarsh"><span>Как добраться: </span>'+pochtamat.instruction+'</p><p class="pchtMarsh"><span>Ориентир: </span>'+pochtamat.reference_point+'</p><p class="pchtMarsh"><span>Как найти: </span>'+pochtamat.location+'</p><p class="pchtMarsh"><span>Режим работы: </span>'+pochtamat.working_hours+'</p></div></div>';
-                        let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button class="pcht-back">Вернуться назад</button><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">Оставить</button></div>' : '<div class="pchtBtns"><button class="pcht-back">Вернуться назад</button><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">Подтвердить</button></div>';
+                        let pcht2 = '<div class="pchtBox">'+imagePochtomat+'<div class="pchtText"><p class="pchtMarsh"><span>' + getThereText + ': </span>'+pochtamat.instruction+'</p><p class="pchtMarsh"><span>' + referenceText + ': </span>'+pochtamat.reference_point+'</p><p class="pchtMarsh"><span>' + whyFind + ': </span>'+pochtamat.location+'</p><p class="pchtMarsh"><span>' + workTime + ': </span>'+pochtamat.working_hours+'</p></div></div>';
+                        let pcht3 = pochtamat.id == $('#clickbox_address').val() ? '<div class="pchtBtns"><button class="pcht-back">' + goBackText + '</button><button type="button" class="btn-pochtamat btn-danger" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-edit">' + leaveText + '</button></div>' : '<div class="pchtBtns"><button class="pcht-back">' + goBackText + '</button><button type="button" class="btn-pochtamat btn-success" data-address="'+pochtamat.address+'" data-lng="'+pochtamat.loc_longitude+'" data-lat="'+pochtamat.loc_latitude+'" data-id="'+pochtamat.id+'" data-state="1" id="pcht-select">' + goSubmitText + '</button></div>';
                         clickboxModal.close();
 						clickboxModalPlace.open();
                         $('.clickbox-modal-place').attr('data-step', '01');
@@ -133,7 +152,8 @@
                             headers: {
                                 'Authorization': 'Basic MTo1ZGU0ZmI3MjcyMGFl',
                                 'Accept': 'application/json',
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                'Accept-Language': currentLang
                             }
                         }
                     )
@@ -150,27 +170,28 @@
                                 loadingBtnFalse('#clickbox-btn');
                                 $('#the4-header').css('z-index', '-1');
                                 $('#kalles-section-toolbar_mobile').css('z-index', '-1');
-                                $('#pochtamat-map').html('<h4>К сожалению свободных почтоматов не осталось. Попробуйте удалить товары с корзины (если их много)</h4>');
+                                $('#pochtamat-map').html('<h4>' + error1 + '</h4>');
                             }
                         } else {
                             loadingBtnFalse('#clickbox-btn');
                             $('#the4-header').css('z-index', '-1');
                             $('#kalles-section-toolbar_mobile').css('z-index', '-1');
-                            $('#pochtamat-map').html('<h4>Ошибка HTTP. Пожалуйста, позвоните к службу поддержки.</h4>');
+                            $('#pochtamat-map').html('<h4>' + error2 + '</h4>');
                         }
                     })
                     .catch((error) => {
                         loadingBtnFalse('#clickbox-btn');
                         $('#the4-header').css('z-index', '-1');
                         $('#kalles-section-toolbar_mobile').css('z-index', '-1');
-                        $('#pochtamat-map').html('<h4>Ошибка HTTP. Пожалуйста, позвоните к службу поддержки.</h4>');
+                        $('#pochtamat-map').html('<h4>' + error2 + '</h4>');
                     });
                 }
             });
         }
         $(document).on('click', '.btn-pochtamat', function() {
-            $('#clickbox-btn').text('Выбрать');
-            $('#clickbox-edit').text('Выберите почтомат');
+            $('#clickbox-btn').text(submitText);
+            $('#clickbox-edit').text(choosePcht);
+            $('#billing_address_1').val('');
             clickboxModalPlace.close();
             if ($(this).data('state') == 1) {
                 fetch(
@@ -180,7 +201,8 @@
                         headers: {
                             'Authorization': 'Basic MTo1ZGU0ZmI3MjcyMGFl',
                             'Accept': 'application/json',
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept-Language': currentLang
                         }
                     }
                 )
@@ -285,12 +307,13 @@
                 })
                 .catch();
                 $('#clickbox_address').val($(this).data('id'));
-                $('.btn-pochtamat').addClass('btn-success').removeClass('btn-danger').data('state', 0).text('Выбрать');
-                $(this).addClass('btn-danger').removeClass('btn-success').data('state', 1).text('Отменить');
+                $('.btn-pochtamat').addClass('btn-success').removeClass('btn-danger').data('state', 0).text(submitText);
+                $(this).addClass('btn-danger').removeClass('btn-success').data('state', 1).text(cancelText);
                 $('#clickbox-edit').text($(this).data('address'));
-                $('#clickbox-btn').text('Изменить');
+                $('#billing_address_1').val($(this).data('address'));
+                $('#clickbox-btn').text(editText);
             } else {
-                $(this).data('state', 0).text('Выбрать');
+                $(this).data('state', 0).text(submitText);
                 $('#clickbox_address').val('');
             }
             return false;
@@ -307,7 +330,8 @@
                         headers: {
                             'Authorization': 'Basic MTo1ZGU0ZmI3MjcyMGFl',
                             'Accept': 'application/json',
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept-Language': currentLang
                         }
                     }
                 )
@@ -324,20 +348,20 @@
                             loadingBtnFalse('#clickbox-btn');
                             $('#the4-header').css('z-index', '-1');
 							$('#kalles-section-toolbar_mobile').css('z-index', '-1');
-                            $('#pochtamat-map').html('<h4>К сожалению свободных почтоматов не осталось. Попробуйте удалить товары с корзины (если их много)</h4>');
+                            $('#pochtamat-map').html('<h4>' + error1 + '</h4>');
                         }
                     } else {
                         loadingBtnFalse('#clickbox-btn');
                         $('#the4-header').css('z-index', '-1');
 						$('#kalles-section-toolbar_mobile').css('z-index', '-1');
-                        $('#pochtamat-map').html('<h4>Ошибка HTTP. Пожалуйста, позвоните к службу поддержки.</h4>');
+                        $('#pochtamat-map').html('<h4>' + error2 + '</h4>');
                     }
                 })
                 .catch((error) => {
                     loadingBtnFalse('#clickbox-btn');
                     $('#the4-header').css('z-index', '-1');
 					$('#kalles-section-toolbar_mobile').css('z-index', '-1');
-                    $('#pochtamat-map').html('<h4>Ошибка HTTP. Пожалуйста, позвоните к службу поддержки.</h4>');
+                    $('#pochtamat-map').html('<h4>' + error2 + '</h4>');
                 });
             }
         });
@@ -427,6 +451,5 @@
                 alert('Не выбран почтомат');
             }
         });
-        
     });
 })(jQuery);

@@ -17,6 +17,7 @@
 		<link rel="dns-prefetch" href="https://fonts.googleapis.com" crossorigin>
 	    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 	    <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+		<script src="//code-ya.jivosite.com/widget/w9CxhgrPnG" async></script>
 		<!-- Yandex.Metrika counter -->
 		<script type="text/javascript" >
 			(function (d, w, c) {
@@ -47,7 +48,6 @@
 		</script>
 		<noscript><div><img src="https://mc.yandex.ru/watch/86507788" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 		<!-- /Yandex.Metrika counter -->
-		<script src="//code-ya.jivosite.com/widget/w9CxhgrPnG" async></script>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-8FLJ8RF34K"></script>
 		<script>

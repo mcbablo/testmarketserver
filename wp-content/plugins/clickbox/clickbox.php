@@ -133,7 +133,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
             wp_enqueue_script('inputmask_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/jquery.inputmask.bundle.js', [], 0.1, true);
             wp_enqueue_script('googlemaps_js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAFTWLzPcF1hRcc4X5q0fqG_w-FAgCZlrk&libraries=geometry', [], 0.1, true);
             wp_enqueue_script('yandexmap_js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', [], 0.2, true);
-            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js?ver2', [], 0.2, true);
+            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js?ver3', [], 0.2, true);
             wp_enqueue_style('clickbox_css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/style.css?ver2', [], 0.2);
         }
     }
@@ -237,6 +237,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     // Вывод выбора почтоматов
     add_action( 'woocommerce_review_order_before_payment', function() {        
         echo '<div class="selectBox" id="selectClickbox"><h5 id="clickbox-edit">' . esc_html__( 'Выберите пункт выдачи заказов', 'clickbox' ) . '</h5>' . '<button class="selectClickbox" type="button" id="clickbox-btn">' . esc_html__( 'Выбрать', 'clickbox' ) . '</button></div>';
+		if (get_locale() == 'ru_RU') {
+            echo '<div id="currentLang" data-lang="ru"></div>';
+        } else if(get_locale() == 'uz_UZ'){
+            echo '<div id="currentLang" data-lang="uz"></div>';
+        }
     });
 
     // Вывод кнопки

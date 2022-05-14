@@ -13,11 +13,11 @@
     <!-- <i class="close-menu pegk pe-7s-close ts__03 cd"></i> -->
     <div class="mb_nav_tabs flex al_center mb_cat_true">
         <div class="mb_nav_title pr mb_nav_ul flex al_center fl_center active <?php if ( ! $has_nav_categories_mobile ) : ?> mb_nav_title_full <?php endif; ?>" data-id="#kalles-section-mb_nav_js">
-            <span class="d-block truncate"><?php esc_html_e( 'Menu', 'kalles' ); ?> </span>
+			<span class="d-block truncate"><?php esc_html_e( 'Categories', 'kalles' ); ?> </span>
         </div>
         <?php if ( $has_nav_categories_mobile ) : ?>
             <div class="mb_nav_title pr flex al_center fl_center" data-id="#kalles-section-mb_cat_js">
-                <span class="d-block truncate"><?php esc_html_e( 'Categories', 'kalles' ); ?> </span>
+				<span class="d-block truncate"><?php esc_html_e( 'Menu', 'kalles' ); ?> </span>
             </div>
         <?php endif; ?>
     </div>
