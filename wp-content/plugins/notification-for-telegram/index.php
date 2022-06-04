@@ -773,7 +773,9 @@ $time = ($seconds_diff/1);
 	 } elseif($old_status === 'failed'){
 		 $old_status = 'неудавшийся';
 	 } elseif($old_status === 'clickbox-send'){
-		 $old_status = 'готов к отправке';
+		 $old_status = 'готов к отправке clickbox';
+	 } elseif($old_status === 'bringo-send'){
+		 $old_status = 'готов к отправке bringo';
 	 } else {
 		 $old_status = 'незвестный';
 	 }
@@ -793,7 +795,9 @@ $time = ($seconds_diff/1);
 	 } elseif($new_status === 'failed'){
 		 $new_status = 'неудавшийся';
 	 } elseif($new_status === 'clickbox-send'){
-		 $new_status = 'готов к отправке';
+		 $new_status = 'готов к отправке clickbox';
+	 } elseif($new_status === 'bringo-send'){
+		 $new_status = 'готов к отправке bringo';
 	 } else {
 		 $new_status = 'незвестный';
 	 }

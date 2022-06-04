@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-18 11:17+0700\n"
-"PO-Revision-Date: 2022-03-30 14:27+0500\n"
+"PO-Revision-Date: 2022-06-02 12:09+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uz\n"
@@ -8270,3 +8270,40 @@ msgstr "Saralanganlarga qo'shish"
 #: views/common/woocommere-search.php:53
 msgid "Inspiration"
 msgstr "Ilhom kerakmi?"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:41
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Pending order"
+msgstr "To'lov kutilmoqda"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Processing order"
+msgstr "Bajarilmoqda"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Send order clickbox"
+msgstr "Buyurtma yo'lda"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Completed order"
+msgstr "Yetkazib berildi"
+
+#: woocommerce/my-account/view-order.php:41
+msgid "Cancelled order"
+msgstr "Bekor qilindi"

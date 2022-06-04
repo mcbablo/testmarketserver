@@ -11,7 +11,7 @@ jQuery(function ($) {
 	});
     var authModal = new tingle.modal({
         footer: false,
-        closeMethods: [],
+        closeMethods: ['overlay', 'escape'],
         closeLabel: false,
         cssClass: ['auth-modal']
     });

@@ -6,7 +6,7 @@ function custom_override_checkout_fields( $fields ) {
 //   unset($fields['billing']['billing_first_name']);// имя
   unset($fields['billing']['billing_last_name']);// фамилия
   unset($fields['billing']['billing_company']); // компания
-  unset($fields['billing']['billing_address_1']);//
+//   unset($fields['billing']['billing_address_1']);//
   unset($fields['billing']['billing_address_2']);//
   unset($fields['billing']['billing_city']);
   unset($fields['billing']['billing_postcode']);
@@ -27,9 +27,9 @@ function custom_override_checkout_fields( $fields ) {
 add_action( 'wp_enqueue_scripts', 'kalleschild_enqueue_child_theme_styles', PHP_INT_MAX);
 
 function kalleschild_enqueue_child_theme_styles() {
-    wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css', [], 0.2 );
+    wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css?ver3', [], 0.2 );
     wp_enqueue_style( 'tingle-style', get_stylesheet_directory_uri().'/assets/css/tingle.min.css', [], 0.1 );
-    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri().'/style.css', array('parent-style'), [], 0.2 );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri().'/style.css?ver4', array('parent-style'), [], 0.2 );
 }
 
 function my_scripts_method_child() {
@@ -74,7 +74,7 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
 		} else if (is_page( 'mening-akkauntim' )) {
 		} else if (is_page('lost-password')){
 		} else {
-			wp_register_script( 'clickloginjs',  CLICK_LOGIN_PLUGIN_DIR_URL . 'assets/click-login.js' );
+			wp_register_script( 'clickloginjs',  CLICK_LOGIN_PLUGIN_DIR_URL . 'assets/click-login.js?ver1' );
 			$translation_array = array(
 				'good' => pll__('logingood2'),
 				'confirm' => pll__('loginconfirm2'),
@@ -246,7 +246,12 @@ pll_register_string('loginpassdont1', 'loginpassdont2');
 pll_register_string('loginsuccess1', 'loginsuccess2');
 pll_register_string('loginauth1', 'loginauth2');
 pll_register_string('cartDouble1', 'cartDouble2');
-pll_register_string('clickboxLimit2', 'clickboxLimit2');
+pll_register_string('clickboxLimit1', 'clickboxLimit2');
+pll_register_string('bringo1', 'bringo2');
+pll_register_string('carttotal1', 'carttotal2');
+pll_register_string('cartweight1', 'cartweight2');
+pll_register_string('cartall2', 'cartall2');
+pll_register_string('cartsale2', 'cartsale2');
 
 add_action('admin_head', 'operator_css');
 function operator_css() {
@@ -425,4 +430,139 @@ function cart_update_qty_script() {
     </script>
     <?php
     endif;
+}
+
+add_filter( 'woocommerce_package_rates' , 'sort_shipping_method_by_cost_zero_empty_cost_last', 10, 2 );
+function sort_shipping_method_by_cost_zero_empty_cost_last( $rates, $package ) {
+    if ( empty( $rates ) || ! is_array( $rates ) ) return;
+    uasort( $rates, function ( $a, $b ) {
+        if ( $a == $b ) return 0;
+        return ( $a->cost < $b->cost ) ? -1 : 1;
+    } );
+    $free = $zero = [];
+    foreach ( $rates as $rate_key => $rate ) {
+        if ( 'free_shipping' === $rate->method_id ) {
+            $free[$rate_key] = $rate;
+            unset($rates[$rate_key]);
+        } 
+        elseif ( $rate->cost == 0 ) {
+            $zero[$rate_key] = $rate;
+            unset($rates[$rate_key]);
+        }
+    }
+    return ! empty( $free ) || ! empty( $zero ) ? array_merge($rates, $zero, $free) : $rates;
+}
+
+function disable_shipping_calc_on_cart( $show_shipping ) {
+    if( is_cart() ) {
+        return false;
+    }
+    return $show_shipping;
+}
+add_filter( 'woocommerce_cart_ready_to_calc_shipping', 'disable_shipping_calc_on_cart', 99 );
+
+add_action( 'woocommerce_cart_totals_after_order_total', 'show_total_discount_cart_checkout', 9999 );
+add_action( 'woocommerce_widget_shopping_cart_before_buttons', 'bbloomer_show_total_discount_cart_checkout', 9999 );
+function bbloomer_show_total_discount_cart_checkout() {
+	
+	$discount_total = 0;
+	
+	foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {         
+		$product = $values['data'];
+		if ( $product->is_on_sale() ) {
+			$regular_price = $product->get_regular_price();
+			$sale_price = $product->get_sale_price();
+			$discount = ( $regular_price - $sale_price ) * $values['quantity'];
+			$discount_total += $discount;
+		}
+	}
+            
+    if ( $discount_total > 0 ) {
+		echo '<div class="mini-sale">Скидка - ' . wc_price( $discount_total + WC()->cart->get_discount_total() ) .'</div>';
+    }
+}
+
+function show_total_discount_cart_checkout() {
+	
+	$discount_total = 0;
+    $total_price = 0;
+	
+	foreach ( WC()->cart->get_cart() as $cart_item_key => $values ) {         
+		$product = $values['data'];
+		if ( $product->is_on_sale() ) {
+			$regular_price = $product->get_regular_price();
+			$sale_price = $product->get_sale_price();
+			$discount = ( $regular_price - $sale_price ) * $values['quantity'];
+			$discount_total += $discount;
+		}
+        $regular_price = $product->get_regular_price();
+        $totalprice = ( $regular_price - 0 ) * $values['quantity'];
+		$total_price += $totalprice;
+	}
+
+            
+    if ( $discount_total > 0 ) {
+        echo '<div class="cart2"><div class="cart2-left"><div class="cart2-title">' . pll__('cartall2') . '(' . WC()->cart->get_cart_contents_count() . ')</div></div><div class="cart2-right"><div class="cart1-title lt">' . wc_price( $total_price ) .'</div></div></div>';
+		echo '<div class="cart2"><div class="cart2-left"><div class="cart2-title">' . pll__('cartsale2') . '</div></div><div class="cart2-right"><div class="cart1-title">' . wc_price( $discount_total + WC()->cart->get_discount_total() ) .'</div></div></div>';
+    } else {
+        echo '<div class="cart2"><div class="cart2-left"><div class="cart2-title">' . pll__('cartall2') . ' (' . WC()->cart->get_cart_contents_count() . ')</div></div><div class="cart2-right"><div class="cart1-title">' . wc_price( $total_price ) .'</div></div></div>';
+    }
+}
+
+function wpamit_change_button_text( $product_id, $button_text ) {
+    foreach( WC()->cart->get_cart() as $item ) {
+        if( $product_id === $item['product_id'] ) {
+            return pll_e('cartDouble2');
+        }
+    }
+    return $button_text;
+}
+
+add_filter( 'woocommerce_product_add_to_cart_text', 'wpamit_change_ajax_add_to_cart_button_text', 10, 2 );
+function wpamit_change_ajax_add_to_cart_button_text( $button_text, $product ) {
+    if ( $product->is_type('simple') ) {
+        $button_text = wpamit_change_button_text( $product->get_id(), $button_text );
+    }
+    return $button_text;
+}
+
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'wpamit_change_single_add_to_cart_button_text', 10, 2 );
+function wpamit_change_single_add_to_cart_button_text( $button_text, $product ) {
+    if (  ! $product->is_type('variable') ) {
+        $button_text = wpamit_change_button_text( $product->get_id(), $button_text );
+    }
+    return $button_text;
+}
+
+add_action( 'woocommerce_after_variations_form', 'wpamit_action_after_variations_form_callback' );
+function wpamit_action_after_variations_form_callback() {
+    global $product;
+
+    $children_ids = $product->get_visible_children();
+
+    $ids_in_cart  = [];
+    foreach( WC()->cart->get_cart() as $item ) {
+        if( in_array( $item['variation_id'], $children_ids ) ) {
+            $ids_in_cart[] = $item['variation_id'];
+        }
+    }
+    ?>
+    <script type="text/javascript">
+    jQuery(function($){
+        var b = 'button.single_add_to_cart_button',
+            t = '<?php echo $product->single_add_to_cart_text(); ?>';
+        $('form.variations_form').on('show_variation hide_variation found_variation', function(){
+            $.each(<?php echo json_encode($ids_in_cart); ?>, function(j, v){
+                var i = $('input[name="variation_id"]').val();
+                if(v == i && i != 0 ) {
+                    $(b).html('<?php pll_e('cartDouble2'); ?>');
+                    return false;
+                } else {
+                    $(b).html(t);
+                }
+            });
+        });
+    });
+    </script>
+    <?php
 }

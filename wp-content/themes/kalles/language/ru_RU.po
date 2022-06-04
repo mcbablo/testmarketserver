@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-18 11:17+0700\n"
-"PO-Revision-Date: 2022-04-06 15:39+0500\n"
+"PO-Revision-Date: 2022-06-02 12:07+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -8289,3 +8289,40 @@ msgstr "Добавить в избранное"
 #: views/common/woocommere-search.php:53
 msgid "Inspiration"
 msgstr "Нужно вдохновление?"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:41
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Pending order"
+msgstr "Ожидается оплата"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Processing order"
+msgstr "В обработке"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Send order clickbox"
+msgstr "Заказ передан курьеру"
+
+#: woocommerce/my-account/view-order.php:35
+#: woocommerce/my-account/view-order.php:37
+#: woocommerce/my-account/view-order.php:39
+#: woocommerce/my-account/view-order.php:43
+#: woocommerce/my-account/view-order.php:45
+msgid "Completed order"
+msgstr "Доставлен"
+
+#: woocommerce/my-account/view-order.php:41
+msgid "Cancelled order"
+msgstr "Отменен"

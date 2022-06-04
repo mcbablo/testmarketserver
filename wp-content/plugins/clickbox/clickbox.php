@@ -132,9 +132,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
             wp_enqueue_script('jquery');
             wp_enqueue_script('inputmask_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/jquery.inputmask.bundle.js', [], 0.1, true);
             wp_enqueue_script('googlemaps_js', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAFTWLzPcF1hRcc4X5q0fqG_w-FAgCZlrk&libraries=geometry', [], 0.1, true);
-            wp_enqueue_script('yandexmap_js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', [], 0.2, true);
-            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js?ver3', [], 0.2, true);
-            wp_enqueue_style('clickbox_css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/style.css?ver2', [], 0.2);
+            wp_enqueue_script('yandexmap_js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=63c06bef-0885-4954-8338-87733b6be0e6', [], 0.2, true);            wp_enqueue_script('clickbox_js', WC_CLICKBOX_PLUGIN_URL . 'assets/js/app.js?ver3', [], 0.2, true);
+            wp_enqueue_style('clickbox_css', WC_CLICKBOX_PLUGIN_URL . 'assets/css/style.css?ver3', [], 0.2);
         }
     }
     add_action( 'wp_enqueue_scripts', 'clickbox_scripts_and_styles' );
@@ -252,13 +251,24 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     function deleteSelect() { ?>
         <script type="text/javascript">
             jQuery(function($) {
-                var selector = '#selectClickbox';            
+                var selector = '#selectClickbox';       
+                var selector2 = '#create-order';     
+                var selector3 = '#selectBringo';     
                 $( 'form.checkout' ).on( 'change', 'input[name^="shipping_method"]', function() {
                     var c_s_m = $( this ).val();                    
-                    if ( c_s_m.indexOf( 'local_pickup' ) >= 0 ) {
+                    if ( c_s_m.indexOf( 'bringo' ) >= 0 ) {
                         $( selector ).hide();   
+                        $( selector2 ).hide();   
+                        $( selector3 ).show();
+                    } else if ( c_s_m.indexOf( 'local_pickup' ) >= 0 ) {
+                        $( selector ).hide();   
+                        $( selector2 ).hide();  
+                        $( selector3 ).hide();
+                        $('#billing_address_1').val('Саларская набережная');
                     } else {
-                        $( selector ).show();               
+                        $( selector ).show();
+                        $( selector2 ).show();   
+                        $( selector3 ).hide();               
                     }
                 });
             });
@@ -266,35 +276,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
         <?php
     }
     add_action( 'woocommerce_review_order_before_payment', 'deleteSelect', 10, 0 );
-
-    function deleteButton() { ?>
-        <script type="text/javascript">
-            jQuery(function($) {
-                var selector = '#create-order';            
-                $( 'form.checkout' ).on( 'change', 'input[name^="shipping_method"]', function() {
-                    var c_s_m = $( this ).val();                    
-                    if ( c_s_m.indexOf( 'local_pickup' ) >= 0 ) {
-                        $( selector ).hide();   
-                    } else {
-                        $( selector ).show();               
-                    }
-                });
-            });
-        </script>
-        <?php
-    }
-    add_action( 'woocommerce_review_order_after_payment', 'deleteButton', 10, 0 );
-
-    add_filter( 'woocommerce_package_rates' , 'businessbloomer_sort_shipping_methods', 10, 2 );
-    function businessbloomer_sort_shipping_methods( $rates, $package ) {
-        if ( empty( $rates ) ) return;
-        if ( ! is_array( $rates ) ) return;
-        uasort( $rates, function ( $a, $b ) { 
-            if ( $a == $b ) return 0;
-            return ( $a->cost > $b->cost ) ? -1 : 1; 
-        } );
-        return $rates;
-    }
 
     add_filter('woocommerce_order_button_html', 'disable_place_order_button_html' );
     function disable_place_order_button_html( $button ) {
@@ -425,28 +406,28 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                         $status_click_box = $stat;
                     }
                 }
-            }catch (Exception $e) {
+            } catch (Exception $e) {
                 $status_click_box = 'Заказ в CLICK BOX не найден';
             }
-        }
-        echo '<strong>ID заказа CLICKBOX: </strong>' . $order->get_meta('clickbox_order_id');
-        echo ' - <a href="https://app.clickbox.uz/admin/orders/' . $order->get_meta('clickbox_order_id') . '" target="_blank">Посмотреть </a>' . '<br />';
-        echo '<strong>Статус заказа в CLICKBOX: </strong>' . $status_click_box . '<br />';
-        if (!$order->get_meta('clickbox_box_size')) {
-            $status_click_box_size = "Коробка не передана";
-        } else {
-            if($order->get_meta('clickbox_box_size') == 1){
-                $status_click_box_size = "S";
-            } else if($order->get_meta('clickbox_box_size') == 2){
-                $status_click_box_size = "M";
-            } else if($order->get_meta('clickbox_box_size') == 3){
-                $status_click_box_size = "L";
-            } else if($order->get_meta('clickbox_box_size') == 4){
-                $status_click_box_size = "XL";
+            echo '<strong>ID заказа CLICKBOX: </strong>' . $order->get_meta('clickbox_order_id');
+            echo ' - <a href="https://app.clickbox.uz/admin/orders/' . $order->get_meta('clickbox_order_id') . '" target="_blank">Посмотреть </a>' . '<br />';
+            echo '<strong>Статус заказа в CLICKBOX: </strong>' . $status_click_box . '<br />';
+            if (!$order->get_meta('clickbox_box_size')) {
+                $status_click_box_size = "Коробка не передана";
+            } else {
+                if($order->get_meta('clickbox_box_size') == 1){
+                    $status_click_box_size = "S";
+                } else if($order->get_meta('clickbox_box_size') == 2){
+                    $status_click_box_size = "M";
+                } else if($order->get_meta('clickbox_box_size') == 3){
+                    $status_click_box_size = "L";
+                } else if($order->get_meta('clickbox_box_size') == 4){
+                    $status_click_box_size = "XL";
+                }
             }
+            echo '<strong>Подходящяя упаковка: </strong>' . $status_click_box_size . '<br />';
+            echo '<strong>Адрес почтомата: </strong>' . $address_clickbox;
         }
-        echo '<strong>Подходящяя упаковка: </strong>' . $status_click_box_size . '<br />';
-		echo '<strong>Адрес почтомата: </strong>' . $address_clickbox;
     }
     add_action( 'woocommerce_admin_order_data_after_billing_address', 'clickbox_get_status', 10, 1 );
 	

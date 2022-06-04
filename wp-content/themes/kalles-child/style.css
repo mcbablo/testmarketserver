@@ -154,3 +154,55 @@ input {
 	background: none;
 	color: #000;
 }
+
+.mini-sale{
+	margin-bottom: 10px;
+    text-align: right;
+	color: red;
+	font-size: 14px;
+}
+
+.cart_totals .order-total{
+    display: none;
+}
+
+.cart1{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 22px;
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.cart1-title{
+    line-height: 22px;
+}
+
+.cart1-title.lt{
+    text-decoration: line-through;
+}
+
+.cart2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    color: #878787;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.cart_totals .wc-proceed-to-checkout a{
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50px;
+    font-size: 16px;
+}
+
+.cart-collaterals{
+    padding: 25px;
+    background: #fff;
+    box-shadow: 0 0 8px rgb(0 0 0 / 15%);
+}
