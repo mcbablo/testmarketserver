@@ -1,55 +1,72 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CLICK Login\n"
-"POT-Creation-Date: 2022-01-29 01:17+0500\n"
-"PO-Revision-Date: 2022-04-04 17:46+0500\n"
+"POT-Creation-Date: 2022-04-14 13:45+0500\n"
+"PO-Revision-Date: 2022-06-04 23:24+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: ../..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wc-clickuz-login.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: templates/form-login.php:29
+#: templates/form-login.php:30
 msgid "Login / Register"
 msgstr "Вход или регистрация"
 
-#: templates/form-login.php:42
+#: templates/form-login.php:35
 msgid "Phone number"
 msgstr "Номер телефона"
 
-#: templates/form-login.php:47
+#: templates/form-login.php:40
 msgid "Confirmation code"
 msgstr "Код подтверждения"
 
-#: templates/form-login.php:52
+#: templates/form-login.php:45
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/form-login.php:57
+#: templates/form-login.php:50
 msgid "Password confirmation"
 msgstr "Подтверждение пароля"
 
-#: templates/form-login.php:61
+#: templates/form-login.php:54
 msgid "Name and surname"
 msgstr "Имя и фамилия"
 
-#: templates/form-login.php:67
-msgid "Send"
-msgstr "Отправить"
+#: templates/form-login.php:61
+msgid "Sign"
+msgstr "Войти"
 
-#: templates/form-login.php:67
-msgid "Register"
-msgstr "Регистрировать"
+#: templates/form-login.php:64 templates/form-login.php:67
+msgid "Change number"
+msgstr "Изменить номер"
+
+#: wc-clickuz-login.php:61
+msgid "Close"
+msgstr "Закрыть"
+
+#. translators: %s: User name.
+#: wc-clickuz-login.php:144
+#, php-format
+msgid "%s The password you entered is incorrect."
+msgstr "%s введённый Вами пароль неверен."
+
+#: wc-clickuz-login.php:147
+msgid "Lost your password?"
+msgstr "Забыли пароль?"
 
 #. Plugin Name of the plugin/theme
 msgid "CLICK Login"
@@ -68,18 +85,11 @@ msgstr "Авторизация с помощью CLICK партнер API"
 msgid "OOO \"Click\""
 msgstr "OOO \"Click\""
 
-#. Author of the plugin/theme
-msgid "Sign"
-msgstr "Войти"
+#~ msgid "Send"
+#~ msgstr "Отправить"
 
-#. Author of the plugin/theme
-msgid "Change number"
-msgstr "Изменить номер"
+#~ msgid "Register"
+#~ msgstr "Регистрировать"
 
-#. Author of the plugin/theme
-msgid "Reset password"
-msgstr "Восстановление пароля"
-
-#. Author of the plugin/theme
-msgid "Reset"
-msgstr "Восстановить"
+#~ msgid "Reset"
+#~ msgstr "Восстановить"

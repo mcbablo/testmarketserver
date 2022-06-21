@@ -25,11 +25,7 @@
     display: none;
 }
 
-.click-reset[data-step="check-otp-reset"] .otp-wrapper{
-    display: block;
-}
-
-.click-reset[data-step="check-password"] .password-wrapper{
+.click-reset[data-step="check-reset-otp"] .otp-wrapper{
     display: block;
 }
 

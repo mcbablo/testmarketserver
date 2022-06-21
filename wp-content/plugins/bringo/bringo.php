@@ -22,93 +22,126 @@ $bringoorderid;
 define( 'WC_BRINGO_PLUGIN_URL', plugin_dir_url(__FILE__) );
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
  
-    function bringo_shipping_method() {
-        if ( ! class_exists( 'Bringo_Shipping_Method' ) ) {
-            class Bringo_Shipping_Method extends WC_Shipping_Method {
-                public function __construct() {
-                    $this->id                 = 'bringo'; 
-                    $this->method_title       = __( 'Bringo Shipping', 'bringo' );  
-                    $this->method_description = __( 'Custom Shipping Method for Bringo', 'bringo' ); 
-                    load_plugin_textdomain( 'bringo', false, dirname( plugin_basename( __FILE__ ) ) . '/i18n/languages/' );
- 
+    function bringo_shipping_method()
+    {
+        if (!class_exists('Bringo_Shipping_Method')) {
+            class Bringo_Shipping_Method extends WC_Shipping_Method
+            {
+                /**
+                 * Constructor for your shipping class
+                 *
+                 * @access public
+                 * @return void
+                 */
+                public function __construct($instance_id = 0)
+                {
+                    $this->id = 'bringo';
+                    $this->instance_id = absint($instance_id);
+                    $this->method_title = __('Bringo Shipping', 'bringo');
+                    $this->method_description = __('Custom Shipping Method for Bringo', 'bringo');
+                    $this->supports = array(
+                        'shipping-zones',
+                        'settings'
+                    );
                     // Availability & Countries
                     $this->availability = 'including';
-                    $this->countries = array('UZ');
- 
+                    $this->countries = array(
+                        'UZ',
+                    );
+
                     $this->init();
- 
-                    $this->enabled = isset( $this->settings['enabled'] ) ? $this->settings['enabled'] : 'yes';
+
+                    $this->enabled = isset($this->settings['enabled']) ? $this->settings['enabled'] : 'yes';
                     $this->title = pll__( 'bringo2' );
                 }
-                function init() {
-                    $this->init_form_fields(); 
-                    $this->init_settings(); 
-                    add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
+
+                /**
+                 * Init your settings
+                 *
+                 * @access public
+                 * @return void
+                 */
+                function init()
+                {
+                    // Load the settings API
+                    $this->init_form_fields();
+                    $this->init_settings();
+
+                    // Save settings in admin if you have any defined
+                    add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
                 }
-                function init_form_fields() { 
+
+                /**
+                 * Define settings field for this shipping
+                 * @return void
+                 */
+                function init_form_fields()
+                {
+
                     $this->form_fields = array(
-                     'enabled' => array(
-                          'title' => __( 'Enable', 'bringo' ),
-                          'type' => 'checkbox',
-                          'description' => __( 'Enable this shipping.', 'bringo' ),
-                          'default' => 'yes'
-                          ),
-                     );
+
+                        'enabled' => array(
+                            'title' => __('Enable', 'bringo'),
+                            'type' => 'checkbox',
+                            'description' => __('Enable this shipping.', 'bringo'),
+                            'default' => 'yes'
+                        ),
+
+                        'title' => array(
+                            'title' => __('Title', 'bringo'),
+                            'type' => 'text',
+                            'description' => __('Title to be display on site', 'bringo'),
+                            'default' => __('Bringo Shipping', 'bringo')
+                        ),
+
+                    );
+
                 }
-                public function calculate_shipping( $package = array() ) {
+
+                /**
+                 * This function is used to calculate the shipping cost. Within this function we can check for weights, dimensions and other parameters.
+                 *
+                 * @access public
+                 * @param mixed $package
+                 * @return void
+                 */
+                public function calculate_shipping($package = array())
+                {
+
                     $rate = array(
                         'id' => $this->id,
                         'label' => $this->title,
                         'cost' => 25000
                     );
-                    $this->add_rate( $rate );
+
+                    $this->add_rate($rate);
+
                 }
             }
         }
     }
-    add_action( 'woocommerce_shipping_init', 'bringo_shipping_method' );
-    function add_bringo_shipping_method( $methods ) {
-        $methods[] = 'Bringo_Shipping_Method';
+
+    add_action('woocommerce_shipping_init', 'bringo_shipping_method');
+
+    function add_bringo_shipping_method($methods)
+    {
+        $methods['bringo'] = 'Bringo_Shipping_Method';
         return $methods;
     }
-    add_filter( 'woocommerce_shipping_methods', 'add_bringo_shipping_method' );
+
+    add_filter('woocommerce_shipping_methods', 'add_bringo_shipping_method');
+    
 	add_action( 'woocommerce_review_order_before_payment', function() {   
         echo '<input type="hidden" id="bringo-price">';
         echo '<div class="selectBox" id="selectBringo" style="display: none"><h5 id="bringo-edit">' . esc_html__( 'Выберите адрес доставки', 'clickbox'  ) . '</h5>' . '<button class="selectClickbox" type="button" id="bringo-btn">' . esc_html__( 'Выбрать', 'clickbox' ) . '</button></div>';
     });
 }
 
-// add_action( 'wp_ajax_woo_get_ajax_data', 'woo_get_ajax_data' );
-// add_action( 'wp_ajax_nopriv_woo_get_ajax_data', 'woo_get_ajax_data' );
-// function woo_get_ajax_data() {
-//     echo json_encode( WC()->session->get('billing_ups' ) );
-//     if ( $_POST['change_bringo']){
-//         WC()->session->set('change_bringo', $_POST['change_bringo'] );
-//     } else {
-//         WC()->session->set('change_bringo', 'Выбрать' );
-//     }
-//     if ( $_POST['bringo_lat']){
-//         WC()->session->set('bringo_lat', $_POST['bringo_lat'] );
-//     } else {
-//         WC()->session->set('bringo_lat', '' );
-//     }
-//     echo json_encode( WC()->session->get('bringo_lat' ) );
-//     if ( $_POST['bringo_lng']){
-//         WC()->session->set('bringo_lng', $_POST['bringo_lng'] );
-//     } else {
-//         WC()->session->set('bringo_lng', '' );
-//     }
-//     echo json_encode( WC()->session->get('bringo_lng' ) );
-//     die();
-// }
-
-add_action( 'wp_footer', 'custom_checkout_script' );
-function custom_checkout_script() {
-    ?>
+add_action( 'woocommerce_review_order_before_payment', 'bringo_script', 10, 0 );
+function bringo_script() { ?>
     <script type="text/javascript">
         jQuery( function($){
             var currentLang = $('#currentLang').data('lang');
-			const mediaQuery = window.matchMedia('(max-width: 768px)');
             let text1 = currentLang == 'uz' ? 'Manzilni kiriting' : 'Введите адрес';
             let text2 = currentLang == 'uz' ? 'Topish' : 'Найти';
             let text3 = currentLang == 'uz' ? 'Manzil topilmadi' : 'Адрес не найден';
@@ -132,7 +165,7 @@ function custom_checkout_script() {
             let text20 = currentLang == 'uz' ? 'Tanlash' : 'Выбрать';
             let text21 = currentLang == 'uz' ? 'Yetkazib berish manzilini tanlang' : 'Выберите адрес доставки';
             let text22 = currentLang == 'uz' ? 'Manzilni o\'zgartirish' : 'Поменять адрес';
-            let text23 = currentLang == 'uz' ? 'Yetkazib berish vaqti' : 'Время доставки';
+            let text23 = currentLang == 'uz' ? 'Sizga ma\'qul bo\'lgan yetkazib berish vaqti' : 'Предпочтительная время доставки';
             function loadingBtn(id){
                 $(id).addClass('the-loading');
                 $(id).prop('disabled', true);
@@ -196,7 +229,7 @@ function custom_checkout_script() {
             bringoModal.setContent('<div class="bringo-header"><input type="text" id="suggest" class="input" placeholder="' + text1 + '"><button type="submit" id="bringoBtn">' + text2 + '</button></div><div id="bringo-error"><p id="notice">' + text3 + '</p><button id="changeMap" style="display: none;">' + text4 + '</button></div><div id="map"></div><div class="bringo-footer"><button id="bringo-clear">' + text5 + '</button><button id="bringo-button-select">' + text6 + '</button></div>');
             bringoModal2.setContent('<div id="bringo-map"></div><div class="bringo-map-footer"><button id="back-map">' + text7 +'</button><button id="bringo-button-select2" data-active="0">' + text8 + '</button></div>');
             bringoModalAddress.setContent('<div id="bringo-text">' + text9 + '</div><button id="bringo-close-btn">' + text8 + '</button>');
-            bringoModalConfirm.setContent('<div id="bringo-text">' + text10 + '</div><div class="bringo-conf-box"><input type="text" class="bringo-confirm-input" id="bringo-home" placeholder="' + text11 +'"><input type="text" class="bringo-confirm-input" id="bringo-appartment" placeholder="' + text12 + '"></div><div class="bringo-conf-box"><input type="text" placeholder="' + text23 +'" id="bringo-time"></div><div class="bringo-conf-box"><textarea placeholder="' + text13 + '" id="bringo-confirm-textarea"></textarea></div><div class="bringo-conf-box"><button id="bringo-conform-btn">' + text14 + '</button></div>');
+            bringoModalConfirm.setContent('<div id="bringo-text">' + text10 + '</div><div class="bringo-conf-box"><input type="text" placeholder="' + text23 +'" id="bringo-time"></div><div class="bringo-conf-box"><input type="text" class="bringo-confirm-input" id="bringo-home" placeholder="' + text11 +'"><input type="text" class="bringo-confirm-input" id="bringo-appartment" placeholder="' + text12 + '"></div><div class="bringo-conf-box"><textarea placeholder="' + text13 + '" id="bringo-confirm-textarea"></textarea></div><div class="bringo-conf-box"><button id="bringo-conform-btn">' + text14 + '</button></div>');
             function initBringo() {
                 var suggestView = new ymaps.SuggestView('suggest'),map,placemark;
                 // При клике по кнопке запускаем верификацию введёных данных.
@@ -247,13 +280,8 @@ function custom_checkout_script() {
 
                 }
                 function showResult(obj) {
-					if (mediaQuery.matches) {
-						$('#map').css('height', '360px');
-						$('#map').css('margin', '10px 0');
-					} else {
-						$('#map').css('height', '400px');	
-						$('#map').css('margin', '20px 0');
-					}
+                    $('#map').css('height', '400px');
+                    $('#map').css('margin', '20px 0');
                     $('#suggest').removeClass('input_error');
                     $('#bringo-error').css('display', 'none');
                     var mapContainer = $('#map'),
@@ -508,7 +536,7 @@ function custom_checkout_script() {
                 var comment2 = $('#bringo-appartment').val();
                 var comment3 = $('#bringo-confirm-textarea').val();
                 var comment4 = $('#bringo-time').val();
-                var comment = 'Номер дома: ' + comment1 + ', номер квартиры: ' + comment2 + ', комментарий: ' + comment3 + ', предпочтительная время доставки: ' + comment4
+                var comment = 'Номер дома: ' + comment1 + ', номер квартиры: ' + comment2 + ', комментарий: ' + comment3 + ', предпочтительная время доставки: ' + comment4;
                 $('#bringo-button-select').attr('data-comment', comment);
                 $('#bringo-button-select2').attr('data-comment', comment);
                 $('#bringo_user_comment').val(comment);
@@ -533,7 +561,7 @@ function custom_checkout_script() {
             }
         });
     </script>
-    <?php
+   <?php
 }
 
 function bringo_register_status( $order_statuses ){
@@ -571,11 +599,6 @@ function bringo_checkout_add( $checkout) {
         'type'          => 'hidden',
         'class'         => array('bringo_user_lat'),
         ), $checkout->get_value( 'bringo_user_lat' ));
-
-    woocommerce_form_field( 'bringo_user_address', array(
-        'type'          => 'hidden',
-        'class'         => array('bringo_user_address'),
-        ), $checkout->get_value( 'bringo_user_address' ));
     
     woocommerce_form_field( 'bringo_user_comment', array(
         'type'          => 'hidden',
@@ -591,14 +614,47 @@ function bringo_checkout_update( $order_id ) {
     if ( ! empty( $_POST['bringo_user_lat'] ) ) {
         update_post_meta( $order_id, 'bringo_client_lat', sanitize_text_field( $_POST['bringo_user_lat'] ) );
     }
-    if ( ! empty( $_POST['bringo_user_address'] ) ) {
-        update_post_meta( $order_id, 'bringo_client_address', sanitize_text_field( $_POST['bringo_user_address'] ) );
-    }
     if ( ! empty( $_POST['bringo_user_comment'] ) ) {
         update_post_meta( $order_id, 'bringo_user_comment', sanitize_text_field( $_POST['bringo_user_comment'] ) );
     }
 }
 add_action( 'woocommerce_checkout_update_order_meta', 'bringo_checkout_update' );
+
+add_action( 'woocommerce_after_shipping_rate', 'bringo_custom_fields', 20, 2 );
+function bringo_custom_fields( $method, $index ) {
+    if( ! is_checkout()) return;
+
+    $clickbox_method_shipping = 'bringo';
+
+    if( $method->id != $clickbox_method_shipping ) return;
+
+    $chosen_method_id = WC()->session->chosen_shipping_methods[ $index ];
+
+    if($chosen_method_id == $clickbox_method_shipping ):
+
+        echo '<div class="clickbox-fields">';
+
+        woocommerce_form_field( 'bringo_user_address' , array(
+            'type'          => 'hidden',
+            'class'         => array(),
+            'required'      => true,
+        ), WC()->checkout->get_value( 'bringo_user_address' ));
+
+        echo '</div>';
+    endif;
+}
+
+add_action('woocommerce_checkout_process', 'bringo_checkout_process');
+function bringo_checkout_process() {
+    if( isset( $_POST['bringo_user_address'] ) && empty( $_POST['bringo_user_address'] ) )
+        wc_add_notice( esc_html__( 'Пожалуйста выберите адрес доставки', 'clickbox' ), "error" );
+}
+
+add_action( 'woocommerce_checkout_update_order_meta', 'bringo_update_order_meta', 30, 1 );
+function bringo_update_order_meta( $order_id ) {
+    if( isset( $_POST['bringo_user_address'] ))
+        update_post_meta( $order_id, 'bringo_client_address', sanitize_text_field( $_POST['bringo_user_address'] ) );
+}
 
 function bringo_order_sendpay( $order_id, $order ) {
     $order = new WC_Order( $order_id );
@@ -635,7 +691,7 @@ function bringo_order_sendpay( $order_id, $order ) {
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $dataSend = array(
             "bringo_merchant_id" => 10268,
-            "payment_id" => $order_id,
+            "payment_id" => 21,
             "merchant" => array(
                 "lng" => "69.31330",
                 "lat" => "41.32666",
@@ -661,9 +717,6 @@ function bringo_order_sendpay( $order_id, $order ) {
             "total_price" => $order->get_total(),
             "comment" => $bringo_user_comment
         );
-        foreach($dataSend['items'] as $item){
-            log_me($item);
-        }
         $data_string = json_encode($dataSend);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -691,11 +744,3 @@ function bringo_get_status($order){
     
 }
 add_action( 'woocommerce_admin_order_data_after_billing_address', 'bringo_get_status', 10, 1 );
-
-add_action('woocommerce_checkout_update_order_review', 'checkout_update_refresh_shipping_methods', 10, 1);
-function checkout_update_refresh_shipping_methods( $post_data ) {
-    $packages = WC()->cart->get_shipping_packages();
-    foreach ($packages as $package_key => $package ) {
-         WC()->session->set( 'shipping_for_package_' . $package_key, false ); // Or true
-    }
-}

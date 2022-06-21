@@ -37,14 +37,11 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
             add_action('wp_ajax_check_phone', array($this, 'check_phone'));
             add_action('wp_ajax_nopriv_check_phone', array($this, 'check_phone'));
 
-            add_action('wp_ajax_check_phone_reset', array($this, 'check_phone_reset'));
-            add_action('wp_ajax_nopriv_check_phone_reset', array($this, 'check_phone_reset'));
+            add_action('wp_ajax_check_reset_phone', array($this, 'check_reset_phone'));
+            add_action('wp_ajax_nopriv_check_reset_phone', array($this, 'check_reset_phone'));
 
             add_action('wp_ajax_check_otp', array($this, 'check_otp'));
-            add_action('wp_ajax_check_otp_reset', array($this, 'check_otp_reset'));
             add_action('wp_ajax_nopriv_check_otp', array($this, 'check_otp'));
-            add_action('wp_ajax_nopriv_check_otp_reset', array($this, 'check_otp_reset'));
-
 
             add_action('wp_ajax_nopriv_click_login_auth', array($this, 'authorize'));
             add_action('wp_ajax_nopriv_click_login_register', array($this, 'register'));
@@ -94,7 +91,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
                 $data = array(
                     'status' => 'not-registered',
-                    'result' => $response['result'],
+                    'result' => $response,
                 );
 
             } else {
@@ -104,8 +101,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
             wp_die();
         }
 
-
-        public function check_phone_reset()
+        public function check_reset_phone()
         {
             global $wpdb;
 
@@ -113,15 +109,17 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
             $user_id = $wpdb->get_var("Select ID From {$wpdb->users} Where user_login='{$phone}'");
 
-            if ($user_id) {
+            if (!$user_id) {
 
+                $data['status'] = 'not-registered';                
+
+            } else {
                 $payload = array(
                     "jsonrpc" => "2.0",
                     "method" => "device.register.request",
                     "params" => $_POST['params'],
                     "id" => 1
                 );
-
                 $ch = curl_init('https://api.click.uz/evo');
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -131,48 +129,17 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
                 curl_setopt($ch, CURLOPT_SSLVERSION, 6);
                 $response = curl_exec($ch);
-
                 $response = json_decode($response, true);
-
                 $data = array(
                     'status' => 'registered',
-                    'result' => $response['result'],
+                    'result' => $response,
                 );
-
-            } else {
-                $data['status'] = 'not-registered';
             }
             echo json_encode($data);
             wp_die();
         }
 
         public function check_otp()
-        {
-
-            $_POST['params']['confirm_token'] = hash('sha256', $_POST['params']['device_id'] . $_POST['sms_code'] . $_POST['params']['phone_number']);
-            $payload = array(
-                "jsonrpc" => "2.0",
-                "method" => "device.register.confirm",
-                "params" => $_POST['params'],
-                "id" => 1
-            );
-
-            $ch = curl_init('https://api.click.uz/evo');
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('content-type: application/json', 'accept: */*'));
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
-            curl_setopt($ch, CURLOPT_SSLVERSION, 6);
-            $response = curl_exec($ch);
-
-            echo $response;
-
-            wp_die();
-        }
-
-        public function check_otp_reset()
         {
 
             $_POST['params']['confirm_token'] = hash('sha256', $_POST['params']['device_id'] . $_POST['sms_code'] . $_POST['params']['phone_number']);
@@ -211,6 +178,15 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                     'code' => $user->get_error_code(),
                     'message' => $user->get_error_message()
                 ));
+                if($user->get_error_code() == 'incorrect_password') {
+                    $response['message'] =
+                        sprintf(
+                            __( '%s The password you entered is incorrect.', 'clickuz_login' ), '<strong>' . $creds['user_login'] . '</strong>'
+                        ) .
+                        ' <a href="' . wp_lostpassword_url() . '">' .
+                        __( 'Lost your password?', 'clickuz_login' ) .
+                        '</a>';
+                }
             } else {
                 $response = array('user_id' => $user->ID);
             }
@@ -240,18 +216,23 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
 
             wp_die();
         }
-        
+
         public function reset() {
             global $wpdb;
-            $user_data = array(
-                'user_login' => $_POST['params']['phone_number'],
-            );
-            $ID = wp_insert_user( $user_data);
             $phone = $_POST['params']['phone_number'];
             $user_id = $wpdb->get_var("Select ID From {$wpdb->users} Where user_login='{$phone}'");
             $password = trim( wp_unslash( $_POST['params']['password'] ) );;
-            wp_set_password( $password, $user_id );
-            echo json_encode($password);
+            $setPassword = wp_set_password( $password, $user_id );
+            if( is_wp_error($setPassword) ) {
+                $response = array('error' => array(
+                    'code' => $setPassword->get_error_code(),
+                    'message' => $setPassword->get_error_message()
+                ));
+            } else {
+                wc_set_customer_auth_cookie( $user_id );
+                $response = array('user_id' => $user_id);
+            }
+            echo json_encode($response);
             wp_die();
         }
     }

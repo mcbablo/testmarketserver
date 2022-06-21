@@ -5,41 +5,37 @@ jQuery(function ($) {
     $('.auth-sidebar-btn').removeClass('the4-loading');
     $('.click-login-btn').prop('disabled', false);
     $('.auth-sidebar-btn').prop('disabled', false);
-	$('.phone-reset').focus();
 	$('.the4-login-register').click(function(){
 		$('.click-login').find('#phone-number').focus();
 	});
-    var authModal = new tingle.modal({
-        footer: false,
-        closeMethods: ['overlay', 'escape'],
-        closeLabel: false,
-        cssClass: ['auth-modal']
-    });
-    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"></div></div><button id="auth-modal-done">' + translate.good + '</button>');
-    $('#auth-modal-done').click(function(){
-        authModal.close();
-    });
     var check_phone = function ($form) {
         var $phone = $form.find('#phone-number');
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
 
         if (phone.toString().trim() === '') {
-            $('#auth-modal-text').html('<h4 class="error">' + translate.req + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $phone.focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Введите номер телефона',
+                showHideTransition: 'slide',
+                icon: 'error'
             });
+            $phone.focus();
             return false;
         }
 
         var regex = new RegExp("^998([93]{1})([01345789]{1})([0-9]{7})$");
 
         if (!regex.test(phone.toString().trim())) {
-            $('#auth-modal-text').html('<h4 class="error">' + translate.phonefalse + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $phone.focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Номер телефона неверный',
+                showHideTransition: 'slide',
+                bgColor: '#E74C3C',
+                textColor: '#fff',
+                loaderBg: '#9A3328',
+                icon: 'error'
             });
+            $phone.focus();
             return false;
         }
 
@@ -73,25 +69,42 @@ jQuery(function ($) {
 
                     if (response['status'] == 'registered') {
                         $form.attr('data-step', 'check-password');
-                        $('#auth-modal-text').html('<h4 class="done">' + translate.pass + '</h4>');
-                        authModal.open();
-                        $('#auth-modal-done').click(function(){
-                            $('#password').focus();
+                        $.toast({
+                            heading: 'Пароль',
+                            text: 'Введите пароль',
+                            showHideTransition: 'slide',
+                            bgColor: '#7f8c8d',
+                            textColor: '#fff',
+                            loaderBg: '#3C4242',
+                            icon: 'info'
                         });
+                        $form.find('#password').focus();
                     } else {
                         if (!response['error']) {
-                            $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
-                            authModal.open();
-                            $('#auth-modal-done').click(function(){
-                                $('#confirmation-code').focus();
-                            });
                             $form.attr('data-step', 'check-otp');
-                            $form.find('#device_id').val(response['result']['device_id']);
+                            $.toast({
+                                heading: 'Код',
+                                text: 'Введите код подтверждения',
+                                showHideTransition: 'slide',
+                                bgColor: '#7f8c8d',
+                                textColor: '#fff',
+                                loaderBg: '#3C4242',
+                                icon: 'info'
+                            });
+                            $form.find('#confirmation-code').focus();
+                            $form.find('#device_id').val(response['result']['result']['device_id']);
                             $form.find('#phone-number').attr('readonly', 'readonly');
-                            $form.find('[type=submit]').text(translate.confirm);
+                            $form.find('[type=submit]').text('Подтвердить');
                         } else {
-                            $('#auth-modal-text').html('<h4 class="error">' + response.error.message + '</h4>');
-                            authModal.open();
+                            $.toast({
+                                heading: 'Ошибка',
+                                text: response.error.message,
+                                showHideTransition: 'slide',
+                                bgColor: '#E74C3C',
+                                textColor: '#fff',
+                                loaderBg: '#9A3328',
+                                icon: 'error'
+                            });
                         }
                     }
                 }, 'json');
@@ -99,40 +112,45 @@ jQuery(function ($) {
 
     };
 
-    var check_phone_reset = function ($form) {
+    var check_reset_phone = function ($form) {
         var $phone = $form.find('#phone-number');
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
 
         if (phone.toString().trim() === '') {
-            $('#auth-modal-text').html('<h4 class="error">' + translate.req + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $phone.focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Введите номер телефона',
+                showHideTransition: 'slide',
+                icon: 'error'
             });
+            $phone.focus();
             return false;
         }
 
         var regex = new RegExp("^998([93]{1})([01345789]{1})([0-9]{7})$");
 
         if (!regex.test(phone.toString().trim())) {
-            $('#auth-modal-text').html('<h4 class="error">' + translate.phonefalse + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $phone.focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Номер телефона неверный',
+                showHideTransition: 'slide',
+                bgColor: '#E74C3C',
+                textColor: '#fff',
+                loaderBg: '#9A3328',
+                icon: 'error'
             });
+            $phone.focus();
             return false;
         }
 
         if (phone.length === 12) {
             isLoading = true;
             $('.click-login-btn').addClass('the4-loading');
-            $('.auth-sidebar-btn').addClass('the4-loading');
             $('.click-login-btn').prop('disabled', true);
-            $('.auth-sidebar-btn').prop('disabled', true);
             $.post(
                 '/wp-admin/admin-ajax.php',
                 {
-                    'action': 'check_phone_reset',
+                    'action': 'check_reset_phone',
                     'params': {
                         'phone_number': phone,
                         'device_info': d.getBrowserName(),
@@ -152,26 +170,46 @@ jQuery(function ($) {
                     $form.addClass(response['status']);
 
                     if (response['status'] == 'registered') {
-                        $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
-                        authModal.open();
-                        $('#auth-modal-done').click(function(){
-                            $('#confirmation-code').focus();
+                        $form.attr('data-step', 'check-reset-otp');
+                        $.toast({
+                            heading: 'Код',
+                            text: 'Введите код подтверждения',
+                            showHideTransition: 'slide',
+                            bgColor: '#7f8c8d',
+                            textColor: '#fff',
+                            loaderBg: '#3C4242',
+                            icon: 'info'
                         });
-                        $form.attr('data-step', 'check-otp-reset');
-                        $form.find('#device_id').val(response['result']['device_id']);
+                        $form.find('#confirmation-code').focus();
+                        $form.find('#device_id').val(response['result']['result']['device_id']);
                         $form.find('#phone-number').attr('readonly', 'readonly');
-                        $form.find('[type=submit]').text(translate.confirm);
+                        $form.find('[type=submit]').text('Подтвердить');
                     } else {
                         if (!response['error']) {
-                            authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text">' + translate.phonenot + '</div></div><a href="' + translate.reqlink +'" class="auth-modal-btn">' + translate.reg +'</a>');
-                            authModal.open();
+                            $.toast({
+                                heading: 'Ошибка',
+                                text: 'Вы еще не зарегистрированы',
+                                showHideTransition: 'slide',
+                                bgColor: '#E74C3C',
+                                textColor: '#fff',
+                                loaderBg: '#9A3328',
+                                icon: 'error'
+                            });
                         } else {
-                            $('#auth-modal-text').html('<h4 class="error">' + response.error.message + '</h4>');
-                            authModal.open();
+                            $.toast({
+                                heading: 'Ошибка',
+                                text: response.error.message,
+                                showHideTransition: 'slide',
+                                bgColor: '#E74C3C',
+                                textColor: '#fff',
+                                loaderBg: '#9A3328',
+                                icon: 'error'
+                            });
                         }
                     }
                 }, 'json');
         }
+
     };
 
     var check_otp = function ($form) {
@@ -180,15 +218,18 @@ jQuery(function ($) {
         var device_id = $form.find('#device_id').val();
 
         if (sms_code.toString().trim() == '') {
-            $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $('#confirmation-code').focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Введите код подтверждения',
+                showHideTransition: 'slide',
+                bgColor: '#E74C3C',
+                textColor: '#fff',
+                loaderBg: '#9A3328',
+                icon: 'error'
             });
             $form.find('#confirmation-code').focus();
             return false;
         }
-
         isLoading = true;
         $('.click-login-btn').addClass('the4-loading');
         $('.auth-sidebar-btn').addClass('the4-loading');
@@ -205,11 +246,6 @@ jQuery(function ($) {
                 }
             },
             function (response) {
-                $('#auth-modal-text').html('<h4 class="done">Введите пароль и имя</h4>');
-                authModal.open();
-                $('#auth-modal-done').click(function(){
-                    $('#password').focus();
-                });
                 isLoading = false;
                 $('.click-login-btn').removeClass('the4-loading');
                 $('.auth-sidebar-btn').removeClass('the4-loading');
@@ -217,46 +253,56 @@ jQuery(function ($) {
                 $('.auth-sidebar-btn').prop('disabled', false);
                 if (!response['error']) {
                     $form.attr('data-step', 'register');
+                    $.toast({
+                        heading: 'Регистрация',
+                        text: 'Зарегистрируйте пароль и имя для вашего аккаунта',
+                        showHideTransition: 'slide',
+                        bgColor: '#7f8c8d',
+                        textColor: '#fff',
+                        loaderBg: '#3C4242',
+                        icon: 'info'
+                    });
+                    $form.find('#password').focus();
                     $form.find('[type=submit]').text('Зарегистрироваться');
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good + '</button>');
-                    authModal.open();
-                    $('#clear1').click(function(){
-                        authModal.close();
-                        $('#confirmation-code').val('');
-                        $('#confirmation-code').focus();
+                    $.toast({
+                        heading: 'Ошибка',
+                        text: response.error.message,
+                        showHideTransition: 'slide',
+                        bgColor: '#E74C3C',
+                        textColor: '#fff',
+                        loaderBg: '#9A3328',
+                        icon: 'error'
                     });
                 }
             },
             'json');
-
-
     };
 
-    var check_otp_reset = function ($form) {
+    var check_reset_otp = function ($form) {
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
         var sms_code = $form.find('#confirmation-code').val();
         var device_id = $form.find('#device_id').val();
-
         if (sms_code.toString().trim() == '') {
-            $('#auth-modal-text').html('<h4 class="done">' + translate.phonecode + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $('#confirmation-code').focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Введите код подтверждения',
+                showHideTransition: 'slide',
+                bgColor: '#E74C3C',
+                textColor: '#fff',
+                loaderBg: '#9A3328',
+                icon: 'error'
             });
             $form.find('#confirmation-code').focus();
             return false;
         }
-
         isLoading = true;
         $('.click-login-btn').addClass('the4-loading');
-        $('.auth-sidebar-btn').addClass('the4-loading');
         $('.click-login-btn').prop('disabled', true);
-        $('.auth-sidebar-btn').prop('disabled', true);
         $.post(
             '/wp-admin/admin-ajax.php',
             {
-                'action': 'check_otp_reset',
+                'action': 'check_otp',
                 'sms_code': sms_code,
                 'params': {
                     'phone_number': phone,
@@ -264,42 +310,49 @@ jQuery(function ($) {
                 }
             },
             function (response) {
-                $('#auth-modal-text').html('<h4 class="done">' + translate.pass + '</h4>');
-                authModal.open();
-                $('#auth-modal-done').click(function(){
-                    $('#password').focus();
-                });
                 isLoading = false;
                 $('.click-login-btn').removeClass('the4-loading');
-                $('.auth-sidebar-btn').removeClass('the4-loading');
                 $('.click-login-btn').prop('disabled', false);
-                $('.auth-sidebar-btn').prop('disabled', false);
                 if (!response['error']) {
                     $form.attr('data-step', 'reset');
-                    $form.find('[type=submit]').text(translate.passreset);
+                    $.toast({
+                        heading: 'Восстановление',
+                        text: 'Установите пароль',
+                        showHideTransition: 'slide',
+                        bgColor: '#7f8c8d',
+                        textColor: '#fff',
+                        loaderBg: '#3C4242',
+                        icon: 'info'
+                    });
+                    $form.find('#password').focus();
+                    $form.find('[type=submit]').text('Восстановить');
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good +'</button>');
-                    authModal.open();
-                    $('#clear1').click(function(){
-                        authModal.close();
-                        $('#confirmation-code').val('');
-                        $('#confirmation-code').focus();
+                    $.toast({
+                        heading: 'Ошибка',
+                        text: response.error.message,
+                        showHideTransition: 'slide',
+                        bgColor: '#E74C3C',
+                        textColor: '#fff',
+                        loaderBg: '#9A3328',
+                        icon: 'error'
                     });
                 }
             },
             'json');
-
-
     };
 
     var check_password = function ($form) {
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
         var password = $form.find('#password').val();
         if (password.toString().trim() == '') {
-            $('#auth-modal-text').html('<h4 class="done">' + translate.pass +'</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $('#password').focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Введите пароль',
+                showHideTransition: 'slide',
+                bgColor: '#E74C3C',
+                textColor: '#fff',
+                loaderBg: '#9A3328',
+                icon: 'error'
             });
             $form.find('#password').focus();
             return false;
@@ -328,12 +381,15 @@ jQuery(function ($) {
                 if (!response['error']) {
                     window.location.reload();
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good +'</button>');
-                    authModal.open();
-                    $('#clear1').click(function(){
-                        authModal.close();
-                        $('#password').val('');
-                        $('#password').focus();
+                    $.toast({
+                        heading: 'Ошибка',
+                        text: response.error.message,
+                        showHideTransition: 'slide',
+                        bgColor: '#E74C3C',
+                        textColor: '#fff',
+                        loaderBg: '#9A3328',
+                        icon: 'error',
+                        hideAfter: false
                     });
                 }
             },
@@ -346,16 +402,19 @@ jQuery(function ($) {
         var password = $form.find('#password').val();
         var confirmation = $form.find('#password_confirmation').val();
         var display_name = $form.find('#display_name').val();
-
         if (password !== confirmation) {
-            $('#auth-modal-text').html('<h4 class="error">' + translate.passdont + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $('#password').focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Пароли не соответствуют',
+                showHideTransition: 'slide',
+                bgColor: '#E74C3C',
+                textColor: '#fff',
+                loaderBg: '#9A3328',
+                icon: 'error'
             });
+            $form.find('#password').focus();
             return;
         }
-
         isLoading = true;
         $('.click-login-btn').addClass('the4-loading');
         $('.auth-sidebar-btn').addClass('the4-loading');
@@ -377,17 +436,17 @@ jQuery(function ($) {
                 $('.auth-sidebar-btn').removeClass('the4-loading');
                 $('.click-login-btn').prop('disabled', false);
                 $('.auth-sidebar-btn').prop('disabled', false);
-
                 if (!response['error']) {
                     window.location.reload();
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good + '</button>');
-                    authModal.open();
-                    $('#clear1').click(function(){
-                        authModal.close();
-                        $('#password').val('');
-                        $('#password_confirmation').val('');
-                        $('#password').focus();
+                    $.toast({
+                        heading: 'Ошибка',
+                        text: response.error.message,
+                        showHideTransition: 'slide',
+                        bgColor: '#E74C3C',
+                        textColor: '#fff',
+                        loaderBg: '#9A3328',
+                        icon: 'error'
                     });
                 }
             },
@@ -398,16 +457,20 @@ jQuery(function ($) {
         var phone = '998' + $form.find('#phone-number').inputmask('unmaskedvalue');
         var password = $form.find('#password').val();
         var confirmation = $form.find('#password_confirmation').val();
-
+        var display_name = $form.find('#display_name').val();
         if (password !== confirmation) {
-            $('#auth-modal-text').html('<h4 class="error">' + translate.passdont + '</h4>');
-            authModal.open();
-            $('#auth-modal-done').click(function(){
-                $('#password').focus();
+            $.toast({
+                heading: 'Ошибка',
+                text: 'Пароли не соответствуют',
+                showHideTransition: 'slide',
+                bgColor: '#E74C3C',
+                textColor: '#fff',
+                loaderBg: '#9A3328',
+                icon: 'error'
             });
+            $form.find('#password').focus();
             return;
         }
-
         isLoading = true;
         $('.click-login-btn').addClass('the4-loading');
         $('.auth-sidebar-btn').addClass('the4-loading');
@@ -420,6 +483,7 @@ jQuery(function ($) {
                 'params': {
                     'phone_number': phone,
                     'password': password,
+                    'display_name': display_name
                 }
             },
             function (response) {
@@ -429,16 +493,16 @@ jQuery(function ($) {
                 $('.click-login-btn').prop('disabled', false);
                 $('.auth-sidebar-btn').prop('disabled', false);
                 if (!response['error']) {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="done">' + translate.passsuccess + '</h4></div></div><a href="' + translate.reqlink + '" id="auth-modal-done">Авторизоваться</a>');
-                    authModal.open();
+                    window.location.replace("https://market.click.uz/");
                 } else {
-                    authModal.setContent('<div class="auth-modal-box"><div id="auth-modal-text"><h4 class="error">' + response.error.message + '</h4></div></div><button id="clear1" class="auth-modal-btn">' + translate.good + '</button>');
-                    authModal.open();
-                    $('#clear1').click(function(){
-                        authModal.close();
-                        $('#password').val('');
-                        $('#password_confirmation').val('');
-                        $('#password').focus();
+                    $.toast({
+                        heading: 'Ошибка',
+                        text: response.error.message,
+                        showHideTransition: 'slide',
+                        bgColor: '#E74C3C',
+                        textColor: '#fff',
+                        loaderBg: '#9A3328',
+                        icon: 'error'
                     });
                 }
             },
@@ -447,6 +511,7 @@ jQuery(function ($) {
 
     $(function () {
         $('.click-login #phone-number').inputmask('\\9\\9\\8 (99) 999-99-99');
+        $('.click-reset #phone-number').inputmask('\\9\\9\\8 (99) 999-99-99');
 		$('#change-number').click(function(){
             $('form.click-login').attr('data-step', 'check-phone');
         });
@@ -477,21 +542,18 @@ jQuery(function ($) {
             return false;
         });
 
-        $('.click-reset #phone-number').inputmask('\\9\\9\\8 (99) 999-99-99');
-
-
         $('form.click-reset').on('submit', function () {   
 
             var $form = $(this);
 
-            var stepR = $form.attr('data-step');
+            var stepReset = $form.attr('data-step');
 
-            switch (stepR) {
-                case 'check-phone-reset':
-                    check_phone_reset($form);
+            switch (stepReset) {
+                case 'check-reset-phone':
+                    check_reset_phone($form);
                     break;
-                case 'check-otp-reset':
-                    check_otp_reset($form);
+                case 'check-reset-otp':
+                    check_reset_otp($form);
                     break;
                 case 'reset':
                     reset($form);

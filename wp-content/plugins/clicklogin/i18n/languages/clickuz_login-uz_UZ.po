@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CLICK Login\n"
-"POT-Creation-Date: 2022-01-29 01:20+0500\n"
-"PO-Revision-Date: 2022-04-04 17:46+0500\n"
+"POT-Creation-Date: 2022-04-14 13:43+0500\n"
+"PO-Revision-Date: 2022-04-14 13:45+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uz_UZ@latin\n"
@@ -15,41 +15,57 @@ msgstr ""
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: wc-clickuz-login.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: templates/form-login.php:29
+#: templates/form-login.php:30
 msgid "Login / Register"
 msgstr "Kirish yoki ro'yxatdan o'tish"
 
-#: templates/form-login.php:42
+#: templates/form-login.php:35
 msgid "Phone number"
 msgstr "Telefon raqami"
 
-#: templates/form-login.php:47
+#: templates/form-login.php:40
 msgid "Confirmation code"
 msgstr "Tasdiqlash kodi"
 
-#: templates/form-login.php:52
+#: templates/form-login.php:45
 msgid "Password"
 msgstr "Parol"
 
-#: templates/form-login.php:57
+#: templates/form-login.php:50
 msgid "Password confirmation"
 msgstr "Parolni tasdiqlash"
 
+#: templates/form-login.php:54
+msgid "Name and surname"
+msgstr "Ism va familiya"
+
 #: templates/form-login.php:61
-msgid "Name"
-msgstr "Ism"
+msgid "Sign"
+msgstr "Kirish"
 
-#: templates/form-login.php:67
-msgid "Send"
-msgstr "Yuborsh"
+#: templates/form-login.php:64 templates/form-login.php:67
+msgid "Change number"
+msgstr "Raqamni o'zgartirish"
 
-#: templates/form-login.php:67
-msgid "Register"
-msgstr "Ro'yxatdan o'tish"
+#: wc-clickuz-login.php:61
+msgid "Close"
+msgstr "Yopish"
+
+#. translators: %s: User name.
+#: wc-clickuz-login.php:144
+#, php-format
+msgid "%s The password you entered is incorrect."
+msgstr "%s foydalanuvchi paroli noto’g’ri terildli."
+
+#: wc-clickuz-login.php:147
+msgid "Lost your password?"
+msgstr "Parolni unutdingizmi?"
 
 #. Plugin Name of the plugin/theme
 msgid "CLICK Login"
@@ -68,18 +84,14 @@ msgstr "CLICK Partner API orqali avtorizatsiyadan o'tish"
 msgid "OOO \"Click\""
 msgstr "OOO \"Click\""
 
-#. Author of the plugin/theme
-msgid "Sign"
-msgstr "Kirish"
+#~ msgid "Name"
+#~ msgstr "Ism"
 
-#. Author of the plugin/theme
-msgid "Change number"
-msgstr "Raqamni o'zgartirish"
+#~ msgid "Send"
+#~ msgstr "Yuborsh"
 
-#. Author of the plugin/theme
-msgid "Reset password"
-msgstr "Parolni tiklash"
+#~ msgid "Register"
+#~ msgstr "Ro'yxatdan o'tish"
 
-#. Author of the plugin/theme
-msgid "Reset"
-msgstr "Tiklash"
+#~ msgid "Reset"
+#~ msgstr "Tiklash"

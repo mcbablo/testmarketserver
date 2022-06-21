@@ -22,10 +22,10 @@ defined( 'ABSPATH' ) || exit;
 
 	<div class="cart1">
 		<div class="cart1-left">
-			<div class="cart1-title"><?php pll_e('carttotal2'); ?></div>
+			<div class="cart1-title">Подытог</div>
 		</div>
 		<div class="cart1-right">
-			<div class="cart1-title"><?php echo WC()->cart->get_cart_subtotal(); ?></div>
+			<div class="cart1-title"><?php echo WC()->cart->get_cart_total(); ?></div>
 		</div>
 	</div>
 
@@ -46,9 +46,19 @@ defined( 'ABSPATH' ) || exit;
 		<?php do_action( 'woocommerce_cart_totals_after_order_total' ); ?>
 
 		<?php global $woocommerce; ?>
+		<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
+			<div class="cart2">
+				<div class="cart2-left">
+					<div class="cart2-title"><?php wc_cart_totals_coupon_label( $coupon ); ?></div>
+				</div>
+				<div class="cart2-right">
+					<div class="cart1-title"><?php wc_cart_totals_coupon_html( $coupon ); ?></div>
+				</div>
+			</div>
+		<?php endforeach; ?>
 		<div class="cart2">
 			<div class="cart2-left">
-				<div class="cart2-title"><?php pll_e('cartweight2'); ?></div>
+				<div class="cart2-title">Общий вес</div>
 			</div>
 			<div class="cart2-right">
 				<div class="cart1-title"><?php $total_weight = $woocommerce->cart->cart_contents_weight;$total_weight .= ' '.get_option('woocommerce_weight_unit'); echo $total_weight; ?></div>

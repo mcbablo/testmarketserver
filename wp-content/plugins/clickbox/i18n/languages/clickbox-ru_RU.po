@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CLICKBox\n"
 "POT-Creation-Date: 2019-09-26 14:46+0500\n"
-"PO-Revision-Date: 2022-05-16 15:18+0500\n"
+"PO-Revision-Date: 2022-06-06 15:39+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -22,11 +22,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: clickbox.php:227
+#: clickbox.php:185
 msgid "Выберите пункт выдачи заказов"
 msgstr "Выберите пункт выдачи заказов"
 
-#: clickbox.php:227
+#: clickbox.php:185
 msgid "Выбрать"
 msgstr "Выбрать"
 
@@ -34,6 +34,14 @@ msgstr "Выбрать"
 msgid "Оплатить"
 msgstr "Оплатить"
 
-#: bringo.php:89
+#: bringo.php:136
 msgid "Выберите адрес доставки"
 msgstr "Выберите адрес доставки"
+
+#: bringo.php:650
+msgid "Пожалуйста выберите адрес доставки"
+msgstr "Пожалуйста выберите адрес доставки"
+
+#: clickbox.php:312
+msgid "Пожалуйста выберите почтомат"
+msgstr "Пожалуйста выберите почтомат"

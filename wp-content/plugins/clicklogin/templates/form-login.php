@@ -21,10 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 do_action( 'woocommerce_before_customer_login_form' ); ?>
+<link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.toast.min.css" />
 <link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />
 <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.device.detector.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.9/jquery.inputmask.bundle.min.js"></script>
-<script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.js?ver1"></script>
+<script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.toast.min.js"></script>
+<script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.js"></script>
 <div>
     <h2><?php esc_html_e( 'Login / Register', 'clickuz_login' ); ?></h2>
 

@@ -3,24 +3,13 @@
 add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
   
 function custom_override_checkout_fields( $fields ) {
-//   unset($fields['billing']['billing_first_name']);// имя
-  unset($fields['billing']['billing_last_name']);// фамилия
-  unset($fields['billing']['billing_company']); // компания
-//   unset($fields['billing']['billing_address_1']);//
-  unset($fields['billing']['billing_address_2']);//
-  unset($fields['billing']['billing_city']);
-  unset($fields['billing']['billing_postcode']);
-  // unset($fields['billing']['billing_country']);
-  // unset($fields['billing']['billing_state']);
-  //unset($fields['billing']['billing_phone']);
-  unset($fields['order']['order_comments']);
-  unset($fields['billing']['billing_email']);
-  unset($fields['account']['account_username']);
-  unset($fields['account']['account_password']);
-  unset($fields['account']['account_password-2']);
-  unset($fields['billing']['billing_company']);// компания
-  unset($fields['billing']['billing_postcode']);// индекс 
-  // unset($fields['shipping']['shipping_country']); ////удаляем! тут хранится значение страны доставки
+    unset($fields['billing']['billing_last_name']);
+    unset($fields['order']['order_comments']);
+    unset($fields['billing']['billing_email']);
+    unset($fields['account']['account_password']);
+    unset($fields['account']['account_password-2']);
+    unset($fields['billing']['billing_company']);
+    unset($fields['billing']['billing_postcode']); 
     return $fields;
 }
 
@@ -74,29 +63,13 @@ if ( ! function_exists( 't4_woo_login_register_form' ) ) {
 		} else if (is_page( 'mening-akkauntim' )) {
 		} else if (is_page('lost-password')){
 		} else {
-			wp_register_script( 'clickloginjs',  CLICK_LOGIN_PLUGIN_DIR_URL . 'assets/click-login.js?ver1' );
-			$translation_array = array(
-				'good' => pll__('logingood2'),
-				'confirm' => pll__('loginconfirm2'),
-				'req' => pll__('loginphonereq2'),
-				'phonefalse' => pll__('loginphonefalse2'),		
-				'pass' => pll__('loginpass2'),		
-				'phonecode' => pll__('logincode2'),		
-				'phonenot' => pll__('loginphonenot2'),		
-				'reg' => pll__('loginreg2'),		
-				'reqlink' => pll__('loginreglink2'),		
-				'passname' => pll__('loginpassname2'),
-				'passreset' => pll__('loginreset2'),
-				'passdont' => pll__('loginpassdont2'),
-				'passsuccess' => pll__('loginsuccess2'),
-				'auth' => pll__('loginauth2'),
-			);
-			wp_localize_script( 'clickloginjs', 'translate', $translation_array );
-			wp_enqueue_script( 'clickloginjs' );
 		?>
-			<link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />
+			<link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.toast.min.css" />
+            <link rel="stylesheet" href="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.css" />
             <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.device.detector.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.9/jquery.inputmask.bundle.min.js"></script>
+            <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/jquery.toast.min.js"></script>
+            <script src="<?php echo CLICK_LOGIN_PLUGIN_DIR_URL; ?>assets/click-login.js"></script>
             <div class="auth-sidebar">
                 <h2><?php esc_html_e( 'Login / Register', 'clickuz_login' ); ?></h2>
 
@@ -250,8 +223,11 @@ pll_register_string('clickboxLimit1', 'clickboxLimit2');
 pll_register_string('bringo1', 'bringo2');
 pll_register_string('carttotal1', 'carttotal2');
 pll_register_string('cartweight1', 'cartweight2');
-pll_register_string('cartall2', 'cartall2');
-pll_register_string('cartsale2', 'cartsale2');
+pll_register_string('cartall1', 'cartall2');
+pll_register_string('cartsale1', 'cartsale2');
+pll_register_string('dpd1', 'dpd2');
+pll_register_string('delhome1', 'delhome2');
+pll_register_string('delkv1', 'delkv2');
 
 add_action('admin_head', 'operator_css');
 function operator_css() {
@@ -377,7 +353,18 @@ function new_order_send_tg( $order_id ) {
 	$order_billing_first_name = $order_data['billing']['first_name'];
 	$order_billing_phone = $order_data['billing']['phone'];
 	$order_payment_method_title = $order_data['payment_method_title'];
-	$txt2 = '<b>Поступил заказ</b> #номер' . $order_id . ' от <b>' . $order_billing_first_name . '</b> (' . $order_date_created . ')' . "\n\nОбщая сумма: " . $order_total . " сум \nНомер телефона: " . $order_billing_phone . "\nСпособ оплаты: " . $order_payment_method_title;
+	$rate_table = array();
+    $shipping_methods = WC()->shipping->get_shipping_methods();
+    foreach($shipping_methods as $shipping_method){
+        $shipping_method->init();
+        foreach($shipping_method->rates as $key=>$val)
+            $rate_table[$key] = $val->label;
+    }
+    $get_shipping_method_title = $rate_table[WC()->session->get( 'chosen_shipping_methods' )[0]];
+	if($get_shipping_method_title == ''){
+		$get_shipping_method_title = 'Региональная доставка';
+	}
+	$txt2 = '<b>Поступил заказ</b> #номер' . $order_id . ' от <b>' . $order_billing_first_name . '</b> (' . $order_date_created . ')' . "\n\nОбщая сумма: " . $order_total . " сум \nНомер телефона: " . $order_billing_phone . "\nСпособ оплаты: " . $order_payment_method_title . "\nСпособ доставки: " . $get_shipping_method_title;
 	$mur = wp_remote_fopen('https://api.telegram.org/bot5294372773:AAFpC0zbOFVx1xg6A5UuLVhzCb3O0g-FSYg/sendMessage?parse_mode=html&chat_id=-1001487230607&text=' . urlencode($txt2));
 }
 
@@ -401,9 +388,6 @@ function my_user_profile_update_errors($errors, $update, $user) {
     $errors->remove('empty_email');
 }
 
-// This will remove javascript required validation for email input
-// It will also remove the '(required)' text in the label
-// Works for new user, user profile and edit user forms
 add_action('user_new_form', 'my_user_new_form', 10, 1);
 add_action('show_user_profile', 'my_user_new_form', 10, 1);
 add_action('edit_user_profile', 'my_user_new_form', 10, 1);
@@ -565,4 +549,51 @@ function wpamit_action_after_variations_form_callback() {
     });
     </script>
     <?php
+}
+
+add_filter( 'woocommerce_default_address_fields', 'custom_override_default_locale_fields' );
+function custom_override_default_locale_fields( $fields ) {
+    $fields['first_name']['priority'] = 1;
+    $fields['state']['priority'] = 3;
+    $fields['city']['priority'] = 4;
+    $fields['address_1']['priority'] = 5;
+    $fields['address_2']['priority'] = 6;
+    return $fields;
+}
+
+add_filter( 'woocommerce_form_field_text', 'true_fields', 25, 4 );
+ 
+function true_fields( $field, $key, $args, $value ) {
+ 
+	if( 'billing_address_2' === $key ) {
+		$field = '<p class="form-row address-field form-row-wide" data-priority="60" id="dopadress">
+			<span class="woocommerce-input-wrapper true-wrapper dop-address">
+				<input type="text" name="billing_address_2" id="billing_address_2" placeholder="Дом" class="input-text">
+				<input type="text" name="billing_address_5" id="billing_address_5" placeholder="Квартира" class="input-text">
+			</span>
+		</p>';
+	}
+	return $field;
+ 
+}
+
+add_action('wp_footer', 'get_current_lang');
+function get_current_lang(){
+    if (get_locale() == 'ru_RU') {
+        echo '<div id="currentLang" data-lang="ru"></div>';
+    } else if(get_locale() == 'uz_UZ'){
+        echo '<div id="currentLang" data-lang="uz"></div>';
+    }
+}
+
+add_action( 'woocommerce_admin_order_data_after_shipping_address', 'edit_woocommerce_checkout_page', 10, 1 );
+function edit_woocommerce_checkout_page($order){
+    global $post_id;
+    $order = new WC_Order( $post_id );
+    $country = $order->get_billing_country();   
+    $state = $order->get_billing_state();
+    echo '<p><strong>'.__('Область').':</strong> ' . WC()->countries->get_states( $country )[$state] . '</p>';
+    echo '<p><strong>'.__('Город').':</strong> ' . get_post_meta($order->get_id(), '_shipping_city', true ) . '</p>';
+    echo '<p><strong>'.__('Адрес').':</strong> ' . get_post_meta($order->get_id(), '_shipping_address_1', true ) . '</p>';
+    echo '<p><strong>'.__('Дом или квартира').':</strong> ' . get_post_meta($order->get_id(), '_shipping_address_2', true ) . '</p>';
 }

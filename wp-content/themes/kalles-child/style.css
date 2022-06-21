@@ -8,6 +8,32 @@ Template:    kalles
 Version:     1.0.0
 */
 
+.dop-address{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dop-address>.input-text{
+    width: 48% !important;
+    margin: 0 2% 15px !important;
+}
+
+.dop-address>.input-text:first-child{
+    margin-left: 0 !important;
+}
+
+.dop-address>.input-text:nth-child(2){
+    margin-right: 0 !important;
+}
+
+.dop-address>.input-text:nth-child(3){
+    margin-left: 0 !important;
+}
+
+.dop-address>.input-text:last-child{
+    margin-right: 0 !important;
+}
+
 ins .woocommerce-Price-amount.amount{
     font-weight: 700;
 }
