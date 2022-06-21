@@ -13,6 +13,7 @@
 /wp-content/updraft/
 /wp-content/debug.log
 /wp-includes/
+/wp-content/cache/
 /index.php
 /license.txt
 /readme.html
